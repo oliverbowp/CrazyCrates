@@ -20,7 +20,7 @@ public class JsonStorage extends FileExtension {
     }
 
     @Expose
-    protected static final ConcurrentHashMap<UUID, UserData> userData = new ConcurrentHashMap<>();
+    protected final ConcurrentHashMap<UUID, UserData> userData = new ConcurrentHashMap<>();
 
     public static void load(FileManager fileManager, Path path) {
         fileManager.addFile(new JsonStorage(path).setData(true));
