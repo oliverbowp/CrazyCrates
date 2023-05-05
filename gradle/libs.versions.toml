@@ -15,7 +15,7 @@ turtle = { module = "com.lordcodes.turtle:turtle", version = "0.8.0" }
 triumph_cmds = { module = "dev.triumphteam:triumph-cmd-bukkit", version = "2.0.0-SNAPSHOT" }
 
 # CrazyCrew
-crazycore = { module = "us.crazycrew.crazycore:crazycore-api", version = "2.0.0.4" }
+crazycore = { module = "us.crazycrew.crazycore:crazycore-api", version = "2.0.0.8" }
 
 # Misc
 nbt_api = { module = "de.tr7zw:item-nbt-api", version = "2.11.2" }
@@ -34,3 +34,5 @@ placeholder_api = { module = "me.clip:placeholderapi", version = "2.11.3" }
 
 # Item Plugins
 itemsadder_api = { module = "com.github.LoneDev6:api-itemsadder", version = "3.0.0" }
+
+kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version = "1.8.21" }

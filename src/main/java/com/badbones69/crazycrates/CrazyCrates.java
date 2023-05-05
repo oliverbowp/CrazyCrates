@@ -1,5 +1,6 @@
 package com.badbones69.crazycrates;
 
+import com.badbones69.crazycrates.api.v2.ApiManager;
 import com.badbones69.crazycrates.api.FileManager.Files;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.managers.quadcrates.SessionManager;
@@ -22,6 +23,7 @@ import com.badbones69.crazycrates.listeners.ItemsAdderListener;
 import com.badbones69.crazycrates.listeners.MenuListener;
 import com.badbones69.crazycrates.listeners.MiscListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
+import com.badbones69.crazycrates.listeners.v2.DataListener;
 import com.badbones69.crazycrates.support.MetricsHandler;
 import com.badbones69.crazycrates.support.libraries.PluginSupport;
 import com.badbones69.crazycrates.support.libraries.UpdateChecker;
@@ -46,6 +48,8 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     private static CrazyCrates plugin;
 
+    private ApiManager apiManager;
+
     private Starter starter;
 
     BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
@@ -53,6 +57,9 @@ public class CrazyCrates extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
+
+        apiManager = new ApiManager(getDataFolder().toPath());
+        apiManager.build();
 
         starter = new Starter();
 
@@ -215,6 +222,8 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new CrateControlListener(), this);
         pluginManager.registerEvents(new MiscListener(), this);
 
+        pluginManager.registerEvents(new DataListener(), this);
+
         pluginManager.registerEvents(new War(), this);
         pluginManager.registerEvents(new CSGO(), this);
         pluginManager.registerEvents(new Wheel(), this);
@@ -349,6 +358,10 @@ public class CrazyCrates extends JavaPlugin implements Listener {
                 plugin.getLogger().info(Methods.color("&6&l" + value.name() + " &c&lNOT FOUND"));
             }
         }
+    }
+
+    public ApiManager getApiManager() {
+        return this.apiManager;
     }
 
     public Starter getStarter() {

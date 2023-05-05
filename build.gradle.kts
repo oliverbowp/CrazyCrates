@@ -33,6 +33,13 @@ tasks {
         outputJar.set(layout.buildDirectory.file("$file/${rootProject.name}-${rootProject.version}.jar"))
     }
 
+    shadowJar {
+        listOf(
+            "de.tr7zw.changeme.nbtapi",
+            "org.bstats"
+        ).forEach { pack -> relocate(pack, "${rootProject.group}.$pack") }
+    }
+
     runServer {
         minecraftVersion("1.19.4")
     }
