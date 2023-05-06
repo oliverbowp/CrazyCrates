@@ -1,1 +1,6 @@
-Locations: { }
+Locations:
+  Crate:
+    world: 'your-world'
+    X: 1
+    Y: 1
+    Z: 1

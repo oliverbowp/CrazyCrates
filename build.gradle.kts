@@ -14,14 +14,16 @@ dependencies {
     compileOnly(libs.placeholder.api)
     compileOnly(libs.itemsadder.api)
 
+    compileOnly(libs.cmi.api)
+    compileOnly(libs.cmi.lib)
+
     implementation(libs.bstats.bukkit)
 
     implementation(libs.triumph.cmds)
 
-    implementation(libs.nbt.api)
+    implementation(libs.configme)
 
-    compileOnly(libs.cmi.api)
-    compileOnly(libs.cmi.lib)
+    implementation(libs.nbt.api)
 }
 
 tasks {
@@ -36,7 +38,9 @@ tasks {
     shadowJar {
         listOf(
             "de.tr7zw.changeme.nbtapi",
-            "org.bstats"
+            "dev.triumphteam",
+            "org.bstats",
+            "ch.jalu"
         ).forEach { pack -> relocate(pack, "${rootProject.group}.$pack") }
     }
 

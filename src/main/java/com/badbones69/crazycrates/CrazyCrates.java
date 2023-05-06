@@ -59,9 +59,9 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         plugin = this;
 
         apiManager = new ApiManager(getDataFolder().toPath());
-        apiManager.build();
+        apiManager.load();
 
-        starter = new Starter();
+        /*starter = new Starter();
 
         starter.run();
 
@@ -157,48 +157,22 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         checkUpdate();
 
         enable();
+         */
     }
 
     @Override
     public void onDisable() {
-        SessionManager.endCrates();
+        //SessionManager.endCrates();
 
-        QuickCrate.removeAllRewards();
+        //QuickCrate.removeAllRewards();
 
-        if (starter.getCrazyManager().getHologramController() != null) starter.getCrazyManager().getHologramController().removeAllHolograms();
+        //if (starter.getCrazyManager().getHologramController() != null) starter.getCrazyManager().getHologramController().removeAllHolograms();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        starter.getCrazyManager().setNewPlayerKeys(e.getPlayer());
-        starter.getCrazyManager().loadOfflinePlayersKeys(e.getPlayer());
-    }
-
-    private void checkUpdate() {
-        FileConfiguration config = Files.CONFIG.getFile();
-
-        boolean updaterEnabled = config.getBoolean("Settings.Update-Checker");
-
-        if (!updaterEnabled) return;
-
-        getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            UpdateChecker updateChecker = new UpdateChecker(17599);
-
-            try {
-                if (updateChecker.hasUpdate() && !getDescription().getVersion().contains("Beta")) {
-                    getLogger().warning("CrazyCrates has a new update available! New version: " + updateChecker.getNewVersion());
-                    getLogger().warning("Current Version: v" + getDescription().getVersion());
-                    getLogger().warning("Download: " + updateChecker.getResourcePage());
-
-                    return;
-                }
-
-                getLogger().info("Plugin is up to date! - " + updateChecker.getNewVersion());
-            } catch (Exception exception) {
-                getLogger().warning("Could not check for updates! Perhaps the call failed or you are using a snapshot build:");
-                getLogger().warning("You can turn off the update checker in config.yml if on a snapshot build.");
-            }
-        });
+        //starter.getCrazyManager().setNewPlayerKeys(e.getPlayer());
+        //starter.getCrazyManager().loadOfflinePlayersKeys(e.getPlayer());
     }
 
     public void cleanFiles() {

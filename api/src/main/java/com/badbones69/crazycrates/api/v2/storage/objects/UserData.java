@@ -22,11 +22,11 @@ public class UserData {
     public void addKey(String crateName, int amount) {
         if (getKeys().containsKey(crateName)) {
 
-            this.keys.put(crateName, this.keys.get(crateName) + amount);
+            keys.put(crateName, keys.get(crateName) + amount);
             return;
         }
 
-        this.keys.put(crateName, amount);
+        keys.put(crateName, amount);
     }
 
     public void removeKey(String crateName, int amount) {
@@ -35,7 +35,7 @@ public class UserData {
             return;
         }
 
-        this.keys.remove(crateName, this.keys.get(crateName) - amount);
+        keys.remove(crateName, keys.get(crateName) - amount);
     }
 
     public int getKey(String crateName) {
@@ -44,11 +44,11 @@ public class UserData {
             return 0;
         }
 
-        return this.keys.get(crateName);
+        return keys.get(crateName);
     }
 
     public Map<String, Integer> getKeys() {
-        return Collections.unmodifiableMap(this.keys);
+        return Collections.unmodifiableMap(keys);
     }
 
     public Player getPlayer() {
