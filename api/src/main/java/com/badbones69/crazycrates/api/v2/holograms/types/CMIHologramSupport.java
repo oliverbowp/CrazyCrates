@@ -23,7 +23,7 @@ public class CMIHologramSupport implements Holograms {
 
         AtomicInteger size = new AtomicInteger(CMI.getInstance().getHologramManager().getHolograms().size());
 
-        CMIHologram hologram = new CMIHologram(String.valueOf(size.incrementAndGet()), cmiLocation);
+        CMIHologram hologram = new CMIHologram("CrazyCrates-" + size.incrementAndGet(), cmiLocation);
 
         CMI.getInstance().getHologramManager().addHologram(hologram);
 

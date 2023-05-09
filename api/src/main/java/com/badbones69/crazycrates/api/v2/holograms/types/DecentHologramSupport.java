@@ -20,7 +20,7 @@ public class DecentHologramSupport implements Holograms {
 
         AtomicInteger size = new AtomicInteger(Hologram.getCachedHolograms().size());
 
-        Hologram hologram = DHAPI.createHologram(String.valueOf(size.incrementAndGet()), location.add(.5, height, .5));
+        Hologram hologram = DHAPI.createHologram("CrazyCrates-" + size.incrementAndGet(), location.add(.5, height, .5));
 
         crateHologram.getMessages().forEach(line -> DHAPI.addHologramLine(hologram, line));
 
