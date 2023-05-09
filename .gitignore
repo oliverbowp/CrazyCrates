@@ -1,8 +1,8 @@
 .gradle
 .idea
 
-build
 jars
+build
 
 api/build
 api/.gradle
