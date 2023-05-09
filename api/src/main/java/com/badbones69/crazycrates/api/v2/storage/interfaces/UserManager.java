@@ -2,15 +2,14 @@ package com.badbones69.crazycrates.api.v2.storage.interfaces;
 
 import com.badbones69.crazycrates.api.v2.storage.objects.UserData;
 import us.crazycrew.crazycore.paper.CrazyCore;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 
 public interface UserManager {
 
-    void load(CrazyCore crazyCore, Path path);
+    void load(CrazyCore crazyCore);
 
-    void save(CrazyCore crazyCore, Path path);
+    void save(CrazyCore crazyCore);
 
     void addUser(UUID uuid);
 

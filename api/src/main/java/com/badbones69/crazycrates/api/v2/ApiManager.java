@@ -41,9 +41,9 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildConfigurationData())
                 .create();
 
-        this.userManager = new JsonManager();
+        this.userManager = new JsonManager(this.path);
 
-        this.userManager.load(this.crazyCore, this.path);
+        this.userManager.load(this.crazyCore);
 
         UUID uuid = UUID.fromString("64ccbf4e-87d2-490f-9370-8c4e53df9013");
 
@@ -52,14 +52,14 @@ public class ApiManager {
         this.userManager.addKey(uuid, "test", 5);
         this.userManager.addKey(uuid, "test2", 6);
 
-        //this.locationsData = new LocationsData(this.path);
-        //this.locationsData.load(this.crazyCore, this.path);
+        this.locationsData = new LocationsData(this.path);
+        this.locationsData.load(this.crazyCore, this.path);
 
-        //this.locationsData.addLocation("test", new Location(Bukkit.getWorld("second"), 1, 1, 1, 1, 1));
-        //this.locationsData.addLocation("test2", new Location(Bukkit.getWorld("other"), 3, 4, 5, 6, 1));
+        this.locationsData.addLocation("test", new Location(Bukkit.getWorld("world"), 1, 1, 1, 1, 1));
+        this.locationsData.addLocation("test2", new Location(Bukkit.getWorld("world"), 3, 4, 5, 6, 1));
 
-        //this.locationsData.save(this.crazyCore, this.path);
-        this.userManager.save(this.crazyCore, this.path);
+        this.locationsData.save(this.crazyCore, this.path);
+        this.userManager.save(this.crazyCore);
 
         return this;
     }

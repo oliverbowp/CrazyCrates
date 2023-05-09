@@ -14,10 +14,6 @@ public class JsonStorage extends FileExtension {
         super("users.json", path, FileType.JSON);
     }
 
-    public JsonStorage() {
-        super(null, null, null);
-    }
-
     @Expose
-    protected final ConcurrentHashMap<UUID, UserData> userData = new ConcurrentHashMap<>();
+    protected static ConcurrentHashMap<UUID, UserData> userData = new ConcurrentHashMap<>();
 }

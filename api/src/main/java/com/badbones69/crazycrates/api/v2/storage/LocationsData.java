@@ -17,7 +17,7 @@ public class LocationsData extends FileExtension {
     }
 
     @Expose
-    private static final ConcurrentHashMap<String, Location> crates = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, Location> crates = new ConcurrentHashMap<>();
 
     public void load(CrazyCore crazyCore, Path path) {
         crazyCore.getFileHandler().addFile(new LocationsData(path).setData(true));
@@ -29,7 +29,9 @@ public class LocationsData extends FileExtension {
 
     public void addLocation(String crateName, Location location) {
         //crates.putIfAbsent(crateName, location);
-        if (!hasLocation(crateName)) crates.put(crateName, location);
+        crates.put(crateName, location);
+
+        System.out.println(crates.size());
     }
 
     public void removeLocation(String crateName) {

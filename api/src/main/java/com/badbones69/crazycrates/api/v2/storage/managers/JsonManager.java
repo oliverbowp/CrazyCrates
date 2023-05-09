@@ -11,15 +11,21 @@ import java.util.UUID;
 
 public class JsonManager extends JsonStorage implements UserManager {
 
-    public JsonManager() {}
+    private final Path path;
+
+    public JsonManager(Path path) {
+        super(path);
+
+        this.path = path;
+    }
 
     @Override
-    public void load(CrazyCore crazyCore, Path path) {
+    public void load(CrazyCore crazyCore) {
         crazyCore.getFileHandler().addFile(new JsonStorage(path).setData(true));
     }
 
     @Override
-    public void save(CrazyCore crazyCore, Path path) {
+    public void save(CrazyCore crazyCore) {
         crazyCore.getFileHandler().saveFile(new JsonStorage(path).setData(true));
     }
 

@@ -13,7 +13,7 @@ public class UserData {
     private final UUID uuid;
 
     @Expose
-    private final ConcurrentHashMap<String, Integer> keys = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Integer> keys = new ConcurrentHashMap<>();
 
     public UserData(UUID uuid) {
         this.uuid = uuid;
@@ -22,7 +22,7 @@ public class UserData {
     public void addKey(String crateName, int amount) {
         if (getKeys().containsKey(crateName)) {
 
-            keys.put(crateName, keys.get(crateName) + amount);
+            keys.put(crateName, getKey(crateName) + amount);
             return;
         }
 
@@ -44,7 +44,7 @@ public class UserData {
             return 0;
         }
 
-        return keys.get(crateName);
+        return getKeys().get(crateName);
     }
 
     public Map<String, Integer> getKeys() {

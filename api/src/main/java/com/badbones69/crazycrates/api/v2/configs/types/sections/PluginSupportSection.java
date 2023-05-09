@@ -5,8 +5,6 @@ import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
 import com.badbones69.crazycrates.api.v2.holograms.enums.HologramSupport;
-import com.badbones69.crazycrates.api.v2.holograms.interfaces.Hologram;
-
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public class PluginSupportSection implements SettingsHolder {
