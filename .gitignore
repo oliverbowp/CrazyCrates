@@ -6,3 +6,7 @@ jars
 
 api/build
 api/.gradle
+
+!run/eula.txt
+
+run
