@@ -15,7 +15,7 @@ turtle = { module = "com.lordcodes.turtle:turtle", version = "0.8.0" }
 triumph_cmds = { module = "dev.triumphteam:triumph-cmd-bukkit", version = "2.0.0-SNAPSHOT" }
 
 # CrazyCrew
-crazycore = { module = "us.crazycrew.crazycore:crazycore-api", version = "2.0.0.9" }
+crazycore = { module = "us.crazycrew.crazycore:crazycore-api", version = "2.0.0.11" }
 
 configme = { module = "ch.jalu:configme", version = "1.3.0" }
 
