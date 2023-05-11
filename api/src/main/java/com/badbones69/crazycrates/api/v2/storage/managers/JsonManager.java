@@ -3,10 +3,15 @@ package com.badbones69.crazycrates.api.v2.storage.managers;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.v2.storage.objects.UserData;
 import com.badbones69.crazycrates.api.v2.storage.types.JsonStorage;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import us.crazycrew.crazycore.paper.CrazyCore;
+
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class JsonManager extends JsonStorage implements UserManager {
@@ -30,7 +35,27 @@ public class JsonManager extends JsonStorage implements UserManager {
     }
 
     @Override
+    public void convert(File file, UUID uuid) {
+        if (!file.exists()) return;
+
+        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+
+        String path = configuration.getString("Players." + uuid);
+
+        if (path != null) {
+            configuration.getConfigurationSection(path).getKeys(true).forEach(crate -> {
+                //String player = configuration.getString("Players." + uuid + "." + crate);
+
+                System.out.println(crate);
+
+            });
+        }
+    }
+
+    @Override
     public void addUser(UUID uuid) {
+        convert(new File("data.yml"), uuid);
+
         if (!userData.containsKey(uuid)) userData.put(uuid, new UserData(uuid));
     }
 
