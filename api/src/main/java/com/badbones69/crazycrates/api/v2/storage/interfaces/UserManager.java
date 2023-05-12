@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface UserManager {
 
-    void load(CrazyCore crazyCore);
+    void load();
 
-    void save(CrazyCore crazyCore);
+    void save();
 
     void convert(File file, UUID uuid);
 

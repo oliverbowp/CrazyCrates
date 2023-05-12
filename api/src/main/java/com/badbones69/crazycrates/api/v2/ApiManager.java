@@ -6,8 +6,6 @@ import com.badbones69.crazycrates.api.v2.configs.ConfigBuilder;
 import com.badbones69.crazycrates.api.v2.storage.LocationsData;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.v2.storage.managers.JsonManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import us.crazycrew.crazycore.paper.CrazyCore;
 import java.io.File;
 import java.nio.file.Path;
@@ -15,7 +13,7 @@ import java.util.UUID;
 
 public class ApiManager {
 
-    private CrazyCore crazyCore;
+    private static CrazyCore crazyCore;
 
     private UserManager userManager;
 
@@ -28,7 +26,8 @@ public class ApiManager {
     }
 
     public ApiManager load() {
-        this.crazyCore = new CrazyCore(this.path, "CrazyCrates");
+        // This must go first.
+        crazyCore = new CrazyCore(this.path, "CrazyCrates");
 
         File pluginSettings = new File(this.path.toFile(), "plugin-settings.yml");
 
@@ -40,10 +39,14 @@ public class ApiManager {
 
         this.userManager = new JsonManager(this.path);
 
-        this.userManager.load(this.crazyCore);
-        LocationsData.load(this.crazyCore, this.path);
+        this.userManager.load();
+        LocationsData.load(crazyCore, this.path);
 
-        //UUID uuid = UUID.fromString("64ccbf4e-87d2-490f-9370-8c4e53df9013");
+        UUID uuid = UUID.fromString("64ccbf4e-87d2-490f-9370-8c4e53df9013");
+
+        this.userManager.addUser(uuid);
+
+        this.userManager.save();
 
         //this.userManager.addUser(uuid);
 
@@ -65,8 +68,8 @@ public class ApiManager {
         return this;
     }
 
-    public CrazyCore getCrazyCore() {
-        return this.crazyCore;
+    public static CrazyCore getCrazyCore() {
+        return crazyCore;
     }
 
     public UserManager getUserManager() {

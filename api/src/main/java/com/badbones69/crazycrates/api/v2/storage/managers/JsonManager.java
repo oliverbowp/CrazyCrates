@@ -1,17 +1,15 @@
 package com.badbones69.crazycrates.api.v2.storage.managers;
 
+import com.badbones69.crazycrates.api.v2.ApiManager;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.v2.storage.objects.UserData;
 import com.badbones69.crazycrates.api.v2.storage.types.JsonStorage;
-import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import us.crazycrew.crazycore.paper.CrazyCore;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 public class JsonManager extends JsonStorage implements UserManager {
@@ -25,13 +23,13 @@ public class JsonManager extends JsonStorage implements UserManager {
     }
 
     @Override
-    public void load(CrazyCore crazyCore) {
-        crazyCore.getFileHandler().addFile(new JsonStorage(path).setData(true));
+    public void load() {
+        ApiManager.getCrazyCore().getFileHandler().addFile(new JsonStorage(path).setData(true));
     }
 
     @Override
-    public void save(CrazyCore crazyCore) {
-        crazyCore.getFileHandler().saveFile(new JsonStorage(path).setData(true));
+    public void save() {
+        ApiManager.getCrazyCore().getFileHandler().saveFile(new JsonStorage(path).setData(true));
     }
 
     @Override
@@ -40,21 +38,30 @@ public class JsonManager extends JsonStorage implements UserManager {
 
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        String path = configuration.getString("Players." + uuid);
+        ConfigurationSection section = configuration.getConfigurationSection("Players");
 
-        if (path != null) {
-            configuration.getConfigurationSection(path).getKeys(true).forEach(crate -> {
-                //String player = configuration.getString("Players." + uuid + "." + crate);
+        if (section != null) {
+            UserData data = new UserData(uuid);
 
-                System.out.println(crate);
+            if (!userData.containsKey(uuid)) userData.put(uuid, data);
 
+            section.getConfigurationSection("." + uuid).getKeys(true).forEach(value -> {
+                if (!value.equals("Name")) {
+                    String amount = section.getString("." + uuid + "." + value);
+
+                    if (amount != null) {
+                        data.addKey(value, Integer.parseInt(amount));
+
+                        save();
+                    }
+                }
             });
         }
     }
 
     @Override
     public void addUser(UUID uuid) {
-        convert(new File("data.yml"), uuid);
+        convert(new File(this.path.toFile(), "data.yml"), uuid);
 
         if (!userData.containsKey(uuid)) userData.put(uuid, new UserData(uuid));
     }
