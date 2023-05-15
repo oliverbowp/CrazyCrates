@@ -6,7 +6,7 @@ import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 public class DecentHologramSupport implements Holograms {
 
@@ -18,9 +18,7 @@ public class DecentHologramSupport implements Holograms {
 
         double height = crateHologram.getHeight();
 
-        AtomicInteger size = new AtomicInteger(Hologram.getCachedHolograms().size());
-
-        Hologram hologram = DHAPI.createHologram("CrazyCrates-" + size.incrementAndGet(), location.add(.5, height, .5));
+        Hologram hologram = DHAPI.createHologram("CrazyCrates-" + UUID.randomUUID(), location.add(.5, height, .5));
 
         crateHologram.getMessages().forEach(line -> DHAPI.addHologramLine(hologram, line));
 

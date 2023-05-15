@@ -7,7 +7,7 @@ import com.badbones69.crazycrates.objects.CrateHologram;
 import net.Zrips.CMILib.Container.CMILocation;
 import org.bukkit.Location;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 public class CMIHologramSupport implements Holograms {
 
@@ -21,9 +21,7 @@ public class CMIHologramSupport implements Holograms {
 
         CMILocation cmiLocation = new CMILocation(location.add(0.5, height, 0.5));
 
-        AtomicInteger size = new AtomicInteger(CMI.getInstance().getHologramManager().getHolograms().size());
-
-        CMIHologram hologram = new CMIHologram("CrazyCrates-" + size.incrementAndGet(), cmiLocation);
+        CMIHologram hologram = new CMIHologram("CrazyCrates-" + UUID.randomUUID(), cmiLocation);
 
         CMI.getInstance().getHologramManager().addHologram(hologram);
 
