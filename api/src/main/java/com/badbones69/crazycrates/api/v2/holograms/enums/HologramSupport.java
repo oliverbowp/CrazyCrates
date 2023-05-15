@@ -3,12 +3,13 @@ package com.badbones69.crazycrates.api.v2.holograms.enums;
 import com.badbones69.crazycrates.api.v2.holograms.interfaces.Holograms;
 import com.badbones69.crazycrates.api.v2.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.v2.holograms.types.DecentHologramSupport;
+import com.badbones69.crazycrates.api.v2.holograms.types.FancyHologramsSupport;
 
 public enum HologramSupport {
 
     decent_holograms(DecentHologramSupport.class),
-    cmi_holograms(CMIHologramSupport.class);
-    //fancy_holograms(FancyHologram.class);
+    cmi_holograms(CMIHologramSupport.class),
+    fancy_holograms(FancyHologramsSupport .class);
 
     private final Class<? extends Holograms> classObject;
 
