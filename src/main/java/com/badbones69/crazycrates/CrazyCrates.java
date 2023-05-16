@@ -3,7 +3,6 @@ package com.badbones69.crazycrates;
 import com.badbones69.crazycrates.api.v2.ApiManager;
 import com.badbones69.crazycrates.api.FileManager.Files;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
-import com.badbones69.crazycrates.api.managers.quadcrates.SessionManager;
 import com.badbones69.crazycrates.api.objects.CrateLocation;
 import com.badbones69.crazycrates.commands.subs.CrateBaseCommand;
 import com.badbones69.crazycrates.commands.subs.player.BaseKeyCommand;
@@ -24,16 +23,13 @@ import com.badbones69.crazycrates.listeners.MenuListener;
 import com.badbones69.crazycrates.listeners.MiscListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
-import com.badbones69.crazycrates.support.MetricsHandler;
 import com.badbones69.crazycrates.support.libraries.PluginSupport;
-import com.badbones69.crazycrates.support.libraries.UpdateChecker;
 import com.badbones69.crazycrates.support.placeholders.PlaceholderAPISupport;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
 import dev.triumphteam.cmd.core.message.MessageKey;
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -58,7 +54,7 @@ public class CrazyCrates extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
 
-        apiManager = new ApiManager(getDataFolder().toPath());
+        apiManager = new ApiManager(getDataFolder().toPath(), plugin);
         apiManager.load();
 
         /*starter = new Starter();

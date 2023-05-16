@@ -24,12 +24,12 @@ public class JsonManager extends JsonStorage implements UserManager {
 
     @Override
     public void load() {
-        ApiManager.getCrazyCore().getFileHandler().addFile(new JsonStorage(path).setData(true));
+        ApiManager.getStickCore().getFileHandler().addFile(new JsonStorage(this.path));
     }
 
     @Override
     public void save() {
-        ApiManager.getCrazyCore().getFileHandler().saveFile(new JsonStorage(path).setData(true));
+        ApiManager.getStickCore().getFileHandler().saveFile(new JsonStorage(this.path));
     }
 
     @Override

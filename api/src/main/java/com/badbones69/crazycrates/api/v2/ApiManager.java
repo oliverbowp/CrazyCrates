@@ -3,31 +3,32 @@ package com.badbones69.crazycrates.api.v2;
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.badbones69.crazycrates.api.v2.configs.ConfigBuilder;
-import com.badbones69.crazycrates.api.v2.storage.LocationsData;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
-import com.badbones69.crazycrates.api.v2.storage.managers.JsonManager;
-import us.crazycrew.crazycore.paper.CrazyCore;
+import com.ryderbelserion.stick.paper.Stick;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.nio.file.Path;
-import java.util.UUID;
 
 public class ApiManager {
 
-    private static CrazyCore crazyCore;
+    private static Stick stick;
 
     private UserManager userManager;
 
     private SettingsManager pluginSettings;
 
     private final Path path;
+    private final JavaPlugin plugin;
 
-    public ApiManager(Path path) {
+    public ApiManager(Path path, JavaPlugin plugin) {
         this.path = path;
+
+        this.plugin = plugin;
     }
 
     public ApiManager load() {
         // This must go first.
-        crazyCore = new CrazyCore(this.path, "CrazyCrates");
+        stick = new Stick(this.path, plugin.getName());
 
         File pluginSettings = new File(this.path.toFile(), "plugin-settings.yml");
 
@@ -37,16 +38,16 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildConfigurationData())
                 .create();
 
-        this.userManager = new JsonManager(this.path);
+        //this.userManager = new JsonManager(this.path);
 
-        this.userManager.load();
-        LocationsData.load(crazyCore, this.path);
+        //this.userManager.load();
+        //LocationsData.load(stick, this.path);
 
-        UUID uuid = UUID.fromString("64ccbf4e-87d2-490f-9370-8c4e53df9013");
+        //UUID uuid = UUID.fromString("64ccbf4e-87d2-490f-9370-8c4e53df9013");
 
-        this.userManager.addUser(uuid);
+        //this.userManager.addUser(uuid);
 
-        this.userManager.save();
+        //this.userManager.save();
 
         //this.userManager.addUser(uuid);
 
@@ -64,12 +65,8 @@ public class ApiManager {
         return this;
     }
 
-    public ApiManager save() {
-        return this;
-    }
-
-    public static CrazyCore getCrazyCore() {
-        return crazyCore;
+    public static Stick getStickCore() {
+        return stick;
     }
 
     public UserManager getUserManager() {

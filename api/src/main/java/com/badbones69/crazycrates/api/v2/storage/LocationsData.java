@@ -1,10 +1,11 @@
 package com.badbones69.crazycrates.api.v2.storage;
 
 import com.google.gson.annotations.Expose;
+import com.ryderbelserion.stick.paper.Stick;
+import com.ryderbelserion.stick.paper.storage.FileExtension;
+import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.Location;
-import us.crazycrew.crazycore.paper.CrazyCore;
-import us.crazycrew.crazycore.paper.files.FileExtension;
-import us.crazycrew.crazycore.paper.files.enums.FileType;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
@@ -13,18 +14,18 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocationsData extends FileExtension {
 
     public LocationsData(Path path) {
-        super("locations.json", path, FileType.JSON);
+        super("locations.json", path, StorageType.JSON);
     }
 
     @Expose
     private static ConcurrentHashMap<String, Location> crates = new ConcurrentHashMap<>();
 
-    public static void load(CrazyCore crazyCore, Path path) {
-        crazyCore.getFileHandler().addFile(new LocationsData(path).setData(true));
+    public static void load(Stick stick, Path path) {
+        stick.getFileHandler().addFile(new LocationsData(path));
     }
 
-    public static void save(CrazyCore crazyCore, Path path) {
-        crazyCore.getFileHandler().saveFile(new LocationsData(path).setData(true));
+    public static void save(Stick stick, Path path) {
+        stick.getFileHandler().saveFile(new LocationsData(path));
     }
 
     public static void addLocation(String crateName, Location location) {

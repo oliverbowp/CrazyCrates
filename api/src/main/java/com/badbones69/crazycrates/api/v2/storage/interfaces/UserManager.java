@@ -1,8 +1,6 @@
 package com.badbones69.crazycrates.api.v2.storage.interfaces;
 
 import com.badbones69.crazycrates.api.v2.storage.objects.UserData;
-import us.crazycrew.crazycore.paper.CrazyCore;
-
 import java.io.File;
 import java.util.Map;
 import java.util.UUID;

@@ -40,6 +40,7 @@ tasks {
             "de.tr7zw.changeme.nbtapi",
             "dev.triumphteam",
             "org.bstats",
+            "com.zaxxer",
             "ch.jalu"
         ).forEach { pack -> relocate(pack, "${rootProject.group}.$pack") }
     }

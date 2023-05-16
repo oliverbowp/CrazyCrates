@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api("ch.jalu:configme:1.3.0")
+    api(libs.configme)
 
     compileOnly(libs.holographic.displays)
     compileOnly(libs.decent.holograms)
@@ -13,5 +13,7 @@ dependencies {
     compileOnly(libs.cmi.api)
     compileOnly(libs.cmi.lib)
 
-    api(libs.crazycore)
+    //api(libs.crazycore)
+
+    implementation("com.ryderbelserion.stick:stick-api:2.1.0.14")
 }
