@@ -4,6 +4,7 @@ import com.badbones69.crazycrates.api.v2.ApiManager;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.v2.storage.objects.UserData;
 import com.badbones69.crazycrates.api.v2.storage.types.JsonStorage;
+import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
@@ -33,7 +34,7 @@ public class JsonManager extends JsonStorage implements UserManager {
     }
 
     @Override
-    public void convert(File file, UUID uuid) {
+    public void convert(File file, UUID uuid, StorageType storageType) {
         if (!file.exists()) return;
 
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
@@ -61,7 +62,7 @@ public class JsonManager extends JsonStorage implements UserManager {
 
     @Override
     public void addUser(UUID uuid) {
-        convert(new File(this.path.toFile(), "data.yml"), uuid);
+        convert(new File(this.path.toFile(), "data.yml"), uuid, StorageType.JSON);
 
         if (!userData.containsKey(uuid)) userData.put(uuid, new UserData(uuid));
     }

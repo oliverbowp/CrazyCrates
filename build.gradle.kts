@@ -8,20 +8,12 @@ plugins {
 dependencies {
     api(project(":crazycrates-api"))
 
-    compileOnly(libs.holographic.displays)
-    compileOnly(libs.decent.holograms)
-
     compileOnly(libs.placeholder.api)
     compileOnly(libs.itemsadder.api)
-
-    compileOnly(libs.cmi.api)
-    compileOnly(libs.cmi.lib)
 
     implementation(libs.bstats.bukkit)
 
     implementation(libs.triumph.cmds)
-
-    implementation(libs.configme)
 
     implementation(libs.nbt.api)
 }

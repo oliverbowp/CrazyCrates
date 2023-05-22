@@ -13,7 +13,5 @@ dependencies {
     compileOnly(libs.cmi.api)
     compileOnly(libs.cmi.lib)
 
-    //api(libs.crazycore)
-
-    implementation("com.ryderbelserion.stick:stick-api:2.1.0.14")
+    implementation("com.ryderbelserion.stick:stick-api:2.1.0.15")
 }

@@ -4,6 +4,7 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.badbones69.crazycrates.api.v2.configs.ConfigBuilder;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
+import com.badbones69.crazycrates.api.v2.storage.managers.JsonManager;
 import com.ryderbelserion.stick.paper.Stick;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
@@ -38,9 +39,10 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildConfigurationData())
                 .create();
 
-        //this.userManager = new JsonManager(this.path);
+        this.userManager = new JsonManager(this.path);
 
-        //this.userManager.load();
+        this.userManager.load();
+
         //LocationsData.load(stick, this.path);
 
         //UUID uuid = UUID.fromString("64ccbf4e-87d2-490f-9370-8c4e53df9013");

@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.UUID;
 
-public class SqliteManager implements UserManager {
+public class YamlManager implements UserManager {
 
     @Override
     public void load() {
