@@ -35,6 +35,11 @@ public class JsonManager extends JsonStorage implements UserManager {
 
     @Override
     public void convert(File file, UUID uuid, StorageType storageType) {
+
+    }
+
+    @Override
+    public void convertLegacy(File file, UUID uuid, StorageType storageType) {
         if (!file.exists()) return;
 
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);

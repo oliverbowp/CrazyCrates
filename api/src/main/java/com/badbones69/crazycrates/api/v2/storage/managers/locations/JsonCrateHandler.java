@@ -3,6 +3,7 @@ package com.badbones69.crazycrates.api.v2.storage.managers.locations;
 import com.badbones69.crazycrates.api.v2.ApiManager;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.LocationManager;
 import com.badbones69.crazycrates.api.v2.storage.types.locations.JsonCrateData;
+import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.Location;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -29,8 +30,13 @@ public class JsonCrateHandler extends JsonCrateData implements LocationManager {
     }
 
     @Override
-    public void convert() {
-        // TODO() Convert old shit
+    public void convert(StorageType storageType) {
+        // TODO() Switch between data types
+    }
+
+    @Override
+    public void convertLegacy() {
+        // TODO() Convert legacy data types
     }
 
     @Override

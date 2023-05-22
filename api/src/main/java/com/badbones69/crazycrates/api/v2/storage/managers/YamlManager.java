@@ -3,6 +3,8 @@ package com.badbones69.crazycrates.api.v2.storage.managers;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.v2.storage.objects.UserData;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.Map;
 import java.util.UUID;
@@ -22,6 +24,33 @@ public class YamlManager implements UserManager {
     @Override
     public void convert(File file, UUID uuid, StorageType storageType) {
 
+    }
+
+    @Override
+    public void convertLegacy(File file, UUID uuid, StorageType storageType) {
+        if (!file.exists()) return;
+
+        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+
+        ConfigurationSection section = configuration.getConfigurationSection("Players");
+
+        if (section != null) {
+            UserData data = new UserData(uuid);
+
+            //if (!userData.containsKey(uuid)) userData.put(uuid, data);
+
+            section.getConfigurationSection("." + uuid).getKeys(true).forEach(value -> {
+                if (!value.equals("Name")) {
+                    String amount = section.getString("." + uuid + "." + value);
+
+                    if (amount != null) {
+                        data.addKey(value, Integer.parseInt(amount));
+
+                        save();
+                    }
+                }
+            });
+        }
     }
 
     @Override

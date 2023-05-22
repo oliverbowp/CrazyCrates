@@ -2,10 +2,12 @@ package com.badbones69.crazycrates.api.v2.holograms.enums;
 
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.v2.storage.managers.JsonManager;
+import com.badbones69.crazycrates.api.v2.storage.managers.YamlManager;
 
 public enum DataSupport {
 
-    json(JsonManager.class);
+    json(JsonManager.class),
+    yaml(YamlManager.class);
 
     private final Class<? extends UserManager> classObject;
 

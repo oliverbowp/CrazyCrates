@@ -25,6 +25,11 @@ public class SqliteManager implements UserManager {
     }
 
     @Override
+    public void convertLegacy(File file, UUID uuid, StorageType storageType) {
+
+    }
+
+    @Override
     public void addUser(UUID uuid) {
 
     }

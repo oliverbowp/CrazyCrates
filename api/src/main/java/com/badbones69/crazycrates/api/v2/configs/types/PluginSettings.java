@@ -4,8 +4,7 @@ import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
-import com.badbones69.crazycrates.api.v2.holograms.enums.HologramSupport;
-
+import com.badbones69.crazycrates.api.v2.holograms.enums.DataSupport;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 /**
@@ -52,8 +51,8 @@ public class PluginSettings implements SettingsHolder {
     public static final Property<Boolean> TOGGLE_METRICS = newProperty("settings.toggle-metrics", true);
 
     @Comment({
-            "Available Values: json",
+            "Available Values: json / yaml",
             "The data type you want for the server."
     })
-    public static final Property<HologramSupport> HOLOGRAMS_SUPPORT_TYPE = newProperty(HologramSupport.class, "data.type", HologramSupport.decent_holograms);
+    public static final Property<DataSupport> DATA_TYPE = newProperty(DataSupport.class, "data.type", DataSupport.json);
 }

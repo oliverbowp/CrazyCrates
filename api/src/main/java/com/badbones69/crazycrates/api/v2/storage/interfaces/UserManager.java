@@ -15,6 +15,8 @@ public interface UserManager {
 
     void convert(File file, UUID uuid, StorageType storageType);
 
+    void convertLegacy(File file, UUID uuid, StorageType storageType);
+
     void addUser(UUID uuid);
 
     UserData getUser(UUID uuid);
