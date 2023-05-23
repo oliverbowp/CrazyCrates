@@ -6,6 +6,7 @@ import com.badbones69.crazycrates.api.v2.holograms.interfaces.Holograms;
 import com.badbones69.crazycrates.objects.CrateHologram;
 import net.Zrips.CMILib.Container.CMILocation;
 import org.bukkit.Location;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ public class CMIHologramSupport implements Holograms {
     private final HashMap<Location, CMIHologram> holograms = new HashMap<>();
 
     @Override
-    public void create(Location location, CrateHologram crateHologram) {
+    public void create(Location location, CrateHologram crateHologram, JavaPlugin plugin) {
         if (!crateHologram.isEnabled()) return;
 
         double height = crateHologram.getHeight();
@@ -31,7 +32,7 @@ public class CMIHologramSupport implements Holograms {
     }
 
     @Override
-    public void remove(Location location) {
+    public void remove(Location location, JavaPlugin plugin) {
         if (!holograms.containsKey(location)) return;
 
         CMIHologram hologram = holograms.get(location);
@@ -41,7 +42,7 @@ public class CMIHologramSupport implements Holograms {
     }
 
     @Override
-    public void purge() {
+    public void purge(JavaPlugin plugin) {
         holograms.forEach((Key, value) -> value.remove());
         holograms.clear();
     }

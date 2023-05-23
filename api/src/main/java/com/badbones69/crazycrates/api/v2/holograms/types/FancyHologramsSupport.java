@@ -5,8 +5,8 @@ import com.badbones69.crazycrates.objects.CrateHologram;
 import de.oliver.fancyholograms.Hologram;
 import de.oliver.fancyholograms.utils.HologramSpigotAdapter;
 import net.minecraft.world.entity.Display;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ public class FancyHologramsSupport implements Holograms {
     private final HashMap<Location, Hologram> holograms = new HashMap<>();
 
     @Override
-    public void create(Location location, CrateHologram crateHologram) {
+    public void create(Location location, CrateHologram crateHologram, JavaPlugin plugin) {
         if (!crateHologram.isEnabled()) return;
 
         double height = crateHologram.getHeight();
@@ -26,20 +26,20 @@ public class FancyHologramsSupport implements Holograms {
 
         HologramSpigotAdapter spigotAdapter = HologramSpigotAdapter.fromHologram(hologram);
 
-        Bukkit.getOnlinePlayers().forEach(spigotAdapter::spawn);
+        plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::spawn);
 
         holograms.put(location, hologram);
     }
 
     @Override
-    public void remove(Location location) {
+    public void remove(Location location, JavaPlugin plugin) {
         if (!holograms.containsKey(location)) return;
 
         Hologram hologram = holograms.get(location);
 
         HologramSpigotAdapter spigotAdapter = HologramSpigotAdapter.fromHologram(hologram);
 
-        Bukkit.getOnlinePlayers().forEach(spigotAdapter::remove);
+        plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::remove);
 
         hologram.delete();
 
@@ -47,11 +47,11 @@ public class FancyHologramsSupport implements Holograms {
     }
 
     @Override
-    public void purge() {
+    public void purge(JavaPlugin plugin) {
         holograms.forEach((key, value) -> {
             HologramSpigotAdapter spigotAdapter = HologramSpigotAdapter.fromHologram(value);
 
-            Bukkit.getOnlinePlayers().forEach(spigotAdapter::remove);
+            plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::remove);
 
             value.delete();
         });
