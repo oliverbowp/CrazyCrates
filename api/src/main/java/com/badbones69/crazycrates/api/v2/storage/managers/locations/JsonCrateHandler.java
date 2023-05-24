@@ -35,7 +35,7 @@ public class JsonCrateHandler extends JsonCrateData implements LocationManager {
     }
 
     @Override
-    public void convertLegacy() {
+    public void convertLegacy(StorageType storageType) {
         // TODO() Convert legacy data types
     }
 

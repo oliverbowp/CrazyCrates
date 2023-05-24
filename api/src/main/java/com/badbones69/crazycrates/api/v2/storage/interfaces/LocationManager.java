@@ -12,7 +12,7 @@ public interface LocationManager {
 
     void convert(StorageType storageType);
 
-    void convertLegacy();
+    void convertLegacy(StorageType storageType);
 
     void addLocation(String crateName, Location location);
 
