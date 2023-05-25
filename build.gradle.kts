@@ -1,74 +1,55 @@
-import com.lordcodes.turtle.shellRun
-import task.WebhookExtension
-import java.awt.Color
-
 plugins {
-    id("crazycrates.root-plugin")
+    id("paper-plugin")
+    id("library-plugin")
 
-    id("featherpatcher") version "0.0.0.2"
+    id("xyz.jpenilla.run-paper") version "2.0.1"
 }
 
-val releaseUpdate = Color(27, 217, 106)
-val betaUpdate = Color(255, 163, 71)
-val changeLogs = Color(37, 137, 204)
+dependencies {
+    api(project(":crazycrates-api"))
 
-val beta = settings.versions.beta.get().toBoolean()
-val extension = settings.versions.extension.get()
+    compileOnly(libs.placeholder.api)
+    compileOnly(libs.itemsadder.api)
 
-val color = if (beta) betaUpdate else releaseUpdate
-val repo = if (beta) "beta" else "releases"
+    implementation(libs.bstats.bukkit)
 
-val download = if (beta) "https://ci.crazycrew.us/job/${rootProject.name}/" else "https://modrinth.com/$extension/${rootProject.name.lowercase()}/version/${rootProject.version}"
+    implementation(libs.triumph.cmds)
 
-val msg = if (beta) "New version of ${rootProject.name} is ready!" else "New version of ${rootProject.name} is ready! <@&929463441159254066>"
+    implementation(libs.nbt.api)
+}
 
-val hash = shellRun("git", listOf("rev-parse", "--short", "HEAD"))
+tasks {
+    reobfJar {
+        val file = File("$rootDir/jars")
 
-rootProject.version = if (beta) hash else "1.11.14.4"
+        if (!file.exists()) file.mkdirs()
 
-val desc = if (beta) """
-    Bug Fix:
-    » Fixed a bug where starter keys weren't applying correctly.
-""".trimIndent() else "https://modrinth.com/$extension/${rootProject.name.lowercase()}/version/${rootProject.version}"
-
-webhook {
-    this.avatar("https://en.gravatar.com/avatar/${WebhookExtension.Gravatar().md5Hex("no-reply@ryderbelserion.com")}.jpeg")
-
-    this.username("Ryder Belserion")
-
-    this.content(msg)
-
-    this.embeds {
-        this.embed {
-            this.color(color)
-
-            this.fields {
-                this.field(
-                    "Download: ",
-                    download
-                )
-
-                this.field(
-                    "API: ",
-                    "https://repo.crazycrew.us/#/$repo/${rootProject.group.toString().replace(".", "/")}/${rootProject.name.lowercase()}-api/${rootProject.version}"
-                )
-            }
-
-            this.author(
-                "${rootProject.name} | Version ${rootProject.version}",
-                download,
-                "https://raw.githubusercontent.com/RyderBelserion/assets/main/crazycrew/png/${rootProject.name}Website.png"
-            )
-        }
-
-        this.embed {
-            this.color(changeLogs)
-
-            this.title("What changed?")
-
-            this.description(desc)
-        }
+        outputJar.set(layout.buildDirectory.file("$file/${rootProject.name}-${rootProject.version}.jar"))
     }
 
-    this.url("DISCORD_WEBHOOK")
+    shadowJar {
+        listOf(
+            "de.tr7zw.changeme.nbtapi",
+            "dev.triumphteam",
+            "org.bstats",
+            "com.zaxxer",
+            "ch.jalu"
+        ).forEach { pack -> relocate(pack, "${rootProject.group}.$pack") }
+    }
+
+    runServer {
+        minecraftVersion("1.19.4")
+    }
+
+    processResources {
+        filesMatching("plugin.yml") {
+            expand(
+                "name" to rootProject.name,
+                "group" to rootProject.group,
+                "version" to rootProject.version,
+                "description" to rootProject.description,
+                "website" to "https://modrinth.com/plugin/${rootProject.name.lowercase()}"
+            )
+        }
+    }
 }

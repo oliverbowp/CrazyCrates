@@ -1,14 +1,12 @@
 .gradle
 .idea
 
-buildSrc/.gradle
-buildSrc/build
-
-platforms/paper/build
-platforms/paper/run/*
-
-!platforms/paper/run/eula.txt
-
+jars
 build
 
-jars
+api/build
+api/.gradle
+
+!run/eula.txt
+
+run
