@@ -2,9 +2,15 @@ package com.badbones69.crazycrates.api.v2;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
+import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.api.v2.configs.ConfigBuilder;
+import com.badbones69.crazycrates.api.v2.configs.types.sections.PluginSupportSection;
+import com.badbones69.crazycrates.api.v2.enums.HologramSupport;
+import com.badbones69.crazycrates.api.v2.holograms.interfaces.HologramManager;
+import com.badbones69.crazycrates.api.v2.holograms.types.CMIHologramSupport;
+import com.badbones69.crazycrates.api.v2.holograms.types.DecentHologramSupport;
+import com.badbones69.crazycrates.api.v2.holograms.types.FancyHologramSupport;
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
-import com.badbones69.crazycrates.api.v2.storage.managers.JsonManager;
 import com.ryderbelserion.stick.paper.Stick;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
@@ -13,10 +19,6 @@ import java.nio.file.Path;
 public class ApiManager {
 
     private static Stick stick;
-
-    private UserManager userManager;
-
-    private SettingsManager pluginSettings;
 
     private final Path path;
     private final JavaPlugin plugin;
@@ -27,6 +29,13 @@ public class ApiManager {
         this.plugin = plugin;
     }
 
+    private UserManager userManager;
+
+    private SettingsManager pluginSettings;
+    private SettingsManager configSettings;
+
+    private HologramManager hologramManager;
+
     public ApiManager load() {
         // This must go first.
         stick = new Stick(this.path, plugin.getName());
@@ -36,35 +45,64 @@ public class ApiManager {
         this.pluginSettings = SettingsManagerBuilder
                 .withYamlFile(pluginSettings)
                 .useDefaultMigrationService()
-                .configurationData(ConfigBuilder.buildConfigurationData())
+                .configurationData(ConfigBuilder.buildPluginSettings())
                 .create();
 
-        this.userManager = new JsonManager(this.path);
+        File configSettings = new File(this.path.toFile(), "config.yml");
 
-        this.userManager.load();
+        this.configSettings = SettingsManagerBuilder
+                .withYamlFile(configSettings)
+                .useDefaultMigrationService()
+                .configurationData(ConfigBuilder.buildConfigSettings())
+                .create();
 
-        //LocationsData.load(stick, this.path);
+        reload(false);
 
-        //UUID uuid = UUID.fromString("64ccbf4e-87d2-490f-9370-8c4e53df9013");
+        //this.userManager = new JsonManager(this.path);
 
-        //this.userManager.addUser(uuid);
-
-        //this.userManager.save();
-
-        //this.userManager.addUser(uuid);
-
-        //this.userManager.addKey(uuid, "test", 5);
-        //this.userManager.addKey(uuid, "test2", 6);
-
-        //LocationsData.load(this.crazyCore, this.path);
-
-        //LocationsData.addLocation("test", new Location(Bukkit.getWorld("world"), 1, 1, 1, 1, 1));
-        //LocationsData.addLocation("test2", new Location(Bukkit.getWorld("world"), 3, 4, 5, 6, 1));
-
-        //LocationsData.save(this.crazyCore, this.path);
-        //this.userManager.save(this.crazyCore);
+        //this.userManager.load();
 
         return this;
+    }
+
+    public void reload(boolean reloadCommand) {
+        boolean hologramsToggle = this.pluginSettings.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_ENABLED);
+
+        if (hologramsToggle) {
+            if (this.hologramManager != null) this.hologramManager.purge(this.plugin);
+
+            HologramSupport hologramType = this.pluginSettings.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_TYPE);
+
+            switch (hologramType) {
+                case cmi_holograms -> {
+                    if (CMIModule.holograms.isEnabled()) {
+                        this.hologramManager = new CMIHologramSupport();
+                        this.plugin.getLogger().warning("CMI Hologram Support is enabled.");
+
+                        return;
+                    }
+
+                    this.plugin.getLogger().warning("CMI support is enabled by you but the CMI Hologram Module is not enabled.");
+                    this.plugin.getLogger().warning("Please go to Modules.yml in CMI & turn on the hologram module: Restart is required.");
+                }
+
+                case fancy_holograms -> {
+                    this.hologramManager = new DecentHologramSupport();
+                    this.plugin.getLogger().warning("DecentHologram Support is enabled.");
+                }
+
+                case decent_holograms -> {
+                    this.hologramManager = new FancyHologramSupport();
+                    this.plugin.getLogger().warning("FancyHologram Support is enabled.");
+                }
+            }
+        }
+
+        if (reloadCommand) {
+            this.pluginSettings.reload();
+            
+            this.configSettings.reload();
+        }
     }
 
     public static Stick getStickCore() {
@@ -77,5 +115,13 @@ public class ApiManager {
 
     public SettingsManager getPluginSettings() {
         return this.pluginSettings;
+    }
+
+    public SettingsManager getConfigSettings() {
+        return this.configSettings;
+    }
+
+    public HologramManager getHolograms() {
+        return this.hologramManager;
     }
 }
