@@ -1,9 +1,10 @@
 package com.badbones69.crazycrates;
 
+import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.api.v2.ApiManager;
-import com.badbones69.crazycrates.api.FileManager.Files;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.objects.CrateLocation;
+import com.badbones69.crazycrates.api.v2.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.commands.subs.CrateBaseCommand;
 import com.badbones69.crazycrates.commands.subs.player.BaseKeyCommand;
 import com.badbones69.crazycrates.cratetypes.CSGO;
@@ -18,13 +19,10 @@ import com.badbones69.crazycrates.cratetypes.Wonder;
 import com.badbones69.crazycrates.listeners.BrokeLocationsListener;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
 import com.badbones69.crazycrates.listeners.FireworkDamageListener;
-import com.badbones69.crazycrates.listeners.ItemsAdderListener;
 import com.badbones69.crazycrates.listeners.MenuListener;
 import com.badbones69.crazycrates.listeners.MiscListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
-import com.badbones69.crazycrates.support.libraries.PluginSupport;
-import com.badbones69.crazycrates.support.placeholders.PlaceholderAPISupport;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
 import dev.triumphteam.cmd.core.message.MessageKey;
@@ -82,68 +80,6 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         // Add extra messages.
         Messages.addMissingMessages();
 
-        FileConfiguration config = Files.CONFIG.getFile();
-
-        boolean metricsEnabled = config.getBoolean("Settings.Toggle-Metrics");
-
-        String updater = config.getString("Settings.Update-Checker");
-        String version = config.getString("Settings.Config-Version");
-
-        String menu = config.getString("Settings.Enable-Crate-Menu");
-
-        String full = config.getString("Settings.Give-Virtual-Keys-When-Inventory-Full-Message");
-
-        String phys = config.getString("Settings.Physical-Accepts-Physical-Keys");
-
-        if (phys == null) {
-            config.set("Settings.Physical-Accepts-Physical-Keys", true);
-
-            Files.CONFIG.saveFile();
-        }
-
-        if (full == null) {
-            config.set("Settings.Give-Virtual-Keys-When-Inventory-Full-Message", false);
-
-            Files.CONFIG.saveFile();
-        }
-
-        if (version == null) {
-            config.set("Settings.Config-Version", 1);
-
-            Files.CONFIG.saveFile();
-        }
-
-        if (menu == null) {
-            String oldBoolean = config.getString("Settings.Disable-Crate-Menu");
-            boolean switchBoolean = config.getBoolean("Settings.Disable-Crate-Menu");
-
-            if (oldBoolean != null) {
-                config.set("Settings.Enable-Crate-Menu", switchBoolean);
-                config.set("Settings.Disable-Crate-Menu", null);
-            } else {
-                config.set("Settings.Enable-Crate-Menu", true);
-            }
-
-            Files.CONFIG.saveFile();
-        }
-
-        if (updater == null) {
-            config.set("Settings.Update-Checker", true);
-
-            Files.CONFIG.saveFile();
-        }
-
-        int configVersion = 1;
-        if (configVersion != config.getInt("Settings.Config-Version") && version != null) {
-            plugin.getLogger().warning("========================================================================");
-            plugin.getLogger().warning("You have an outdated config, Please run the command /crates update!");
-            plugin.getLogger().warning("This will take a backup of your entire folder & update your configs.");
-            plugin.getLogger().warning("Default values will be used in place of missing options!");
-            plugin.getLogger().warning("If you have any issues, Please contact Discord Support.");
-            plugin.getLogger().warning("https://discord.gg/crazycrew");
-            plugin.getLogger().warning("========================================================================");
-        }
-
         if (metricsEnabled) {
             MetricsHandler metricsHandler = new MetricsHandler();
 
@@ -171,18 +107,6 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         //starter.getCrazyManager().loadOfflinePlayersKeys(e.getPlayer());
     }
 
-    public void cleanFiles() {
-        if (!Files.LOCATIONS.getFile().contains("Locations")) {
-            Files.LOCATIONS.getFile().set("Locations.Clear", null);
-            Files.LOCATIONS.saveFile();
-        }
-
-        if (!Files.DATA.getFile().contains("Players")) {
-            Files.DATA.getFile().set("Players.Clear", null);
-            Files.DATA.saveFile();
-        }
-    }
-
     private void enable() {
         PluginManager pluginManager = getServer().getPluginManager();
 
@@ -206,15 +130,15 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
         pluginManager.registerEvents(this, this);
 
-        if (PluginSupport.ITEMS_ADDER.isPluginEnabled()) {
-            getServer().getPluginManager().registerEvents(new ItemsAdderListener(), this);
-        } else {
-            starter.getCrazyManager().loadCrates();
-        }
+        //if (PluginSupport.ITEMS_ADDER.isPluginEnabled()) {
+        //    getServer().getPluginManager().registerEvents(new ItemsAdderListener(), this);
+        //} else {
+        //    starter.getCrazyManager().loadCrates();
+        //}
 
         if (!starter.getCrazyManager().getBrokeCrateLocations().isEmpty()) pluginManager.registerEvents(new BrokeLocationsListener(), this);
 
-        if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) new PlaceholderAPISupport().register();
+        //if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) new PlaceholderAPISupport().register();
 
         manager.registerMessage(MessageKey.UNKNOWN_COMMAND, (sender, context) -> sender.sendMessage(Messages.UNKNOWN_COMMAND.getMessage()));
 
@@ -286,14 +210,10 @@ public class CrazyCrates extends JavaPlugin implements Listener {
             return numbers;
         });
 
-        manager.registerArgument(CrateBaseCommand.CustomPlayer.class, (sender, context) -> {
-            return new CrateBaseCommand.CustomPlayer(context);
-        });
+        manager.registerArgument(CrateBaseCommand.CustomPlayer.class, (sender, context) -> new CrateBaseCommand.CustomPlayer(context));
 
         manager.registerCommand(new BaseKeyCommand());
         manager.registerCommand(new CrateBaseCommand());
-
-        printHooks();
     }
 
     private String getString(String subCommand, String commandOrder) {
