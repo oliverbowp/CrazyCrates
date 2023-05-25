@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.v2.holograms.enums;
+package com.badbones69.crazycrates.api.v2.enums;
 
 import com.badbones69.crazycrates.api.v2.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.v2.storage.managers.JsonManager;

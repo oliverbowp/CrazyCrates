@@ -1,6 +1,6 @@
 package com.badbones69.crazycrates.api.v2.holograms.types;
 
-import com.badbones69.crazycrates.api.v2.holograms.interfaces.Holograms;
+import com.badbones69.crazycrates.api.v2.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.objects.CrateHologram;
 import de.oliver.fancyholograms.Hologram;
 import de.oliver.fancyholograms.utils.HologramSpigotAdapter;
@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class FancyHologramsSupport implements Holograms {
+public class FancyHologramSupport implements HologramManager {
 
     private final HashMap<Location, Hologram> holograms = new HashMap<>();
 
@@ -20,7 +20,7 @@ public class FancyHologramsSupport implements Holograms {
 
         double height = crateHologram.getHeight();
 
-        Hologram hologram = new Hologram(UUID.randomUUID().toString(), location.add(0.5, height, 0.5), crateHologram.getMessages(), Display.BillboardConstraints.CENTER, 1f, null, 0, 1, -1, null);
+        Hologram hologram = new Hologram("CrazyCrates-" + UUID.randomUUID(), location.add(0.5, height, 0.5), crateHologram.getMessages(), Display.BillboardConstraints.CENTER, 1f, null, 0, 1, -1, null);
 
         hologram.create();
 

@@ -2,7 +2,7 @@ package com.badbones69.crazycrates.api.v2.holograms.types;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
-import com.badbones69.crazycrates.api.v2.holograms.interfaces.Holograms;
+import com.badbones69.crazycrates.api.v2.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.objects.CrateHologram;
 import net.Zrips.CMILib.Container.CMILocation;
 import org.bukkit.Location;
@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class CMIHologramSupport implements Holograms {
+public class CMIHologramSupport implements HologramManager {
 
     private final HashMap<Location, CMIHologram> holograms = new HashMap<>();
 

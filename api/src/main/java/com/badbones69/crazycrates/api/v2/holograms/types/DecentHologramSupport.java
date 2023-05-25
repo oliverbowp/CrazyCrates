@@ -1,6 +1,6 @@
 package com.badbones69.crazycrates.api.v2.holograms.types;
 
-import com.badbones69.crazycrates.api.v2.holograms.interfaces.Holograms;
+import com.badbones69.crazycrates.api.v2.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.objects.CrateHologram;
 import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class DecentHologramSupport implements Holograms {
+public class DecentHologramSupport implements HologramManager {
 
     private final HashMap<Location, Hologram> holograms = new HashMap<>();
 

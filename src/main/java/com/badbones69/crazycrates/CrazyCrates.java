@@ -320,18 +320,20 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         return plugin;
     }
 
-    public void printHooks() {
-        for (PluginSupport value : PluginSupport.values()) {
-            if (value.isPluginEnabled()) {
-                plugin.getLogger().info(Methods.color("&6&l" + value.name() + " &a&lFOUND"));
-            } else {
-                plugin.getLogger().info(Methods.color("&6&l" + value.name() + " &c&lNOT FOUND"));
-            }
-        }
-    }
-
     public ApiManager getApiManager() {
         return this.apiManager;
+    }
+
+    public HologramManager getHolograms() {
+        return getApiManager().getHolograms();
+    }
+
+    public SettingsManager getConfigSettings() {
+        return getApiManager().getConfigSettings();
+    }
+
+    public SettingsManager getPluginSettings() {
+        return getApiManager().getPluginSettings();
     }
 
     public Starter getStarter() {
