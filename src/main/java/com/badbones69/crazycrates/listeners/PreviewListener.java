@@ -1,19 +1,20 @@
 package com.badbones69.crazycrates.listeners;
 
-import com.badbones69.crazycrates.api.FileManager.Files;
+import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.ItemBuilder;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.badbones69.crazycrates.api.v2.configs.types.ConfigSettings;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class PreviewListener implements Listener {
+
+    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
     
     private static final HashMap<UUID, Integer> playerPage = new HashMap<>();
     private static final HashMap<UUID, Crate> playerCrate = new HashMap<>();
@@ -23,21 +24,19 @@ public class PreviewListener implements Listener {
     private static ItemBuilder backButton;
 
     public static void loadButtons() {
-        FileConfiguration config = Files.CONFIG.getFile();
-        String path = "Settings.Preview.Buttons.";
         menuButton = new ItemBuilder()
-        .setMaterial(config.getString(path + "Menu.Item", "COMPASS"))
-        .setName(config.getString(path + "Menu.Name", "&7&l>> &c&lMenu &7&l<<"))
-        .setLore(config.contains(path + "Menu.Lore") ? config.getStringList(path + "Menu.Lore") : Collections.singletonList("&7Return to the menu."))
-        .build();
+                .setMaterial(plugin.getConfigSettings().getProperty(ConfigSettings.MENU_ITEM))
+                .setName(plugin.getConfigSettings().getProperty(ConfigSettings.MENU_NAME))
+                .setLore(plugin.getConfigSettings().getProperty(ConfigSettings.MENU_LORE))
+                .build();
         nextButton = new ItemBuilder()
-        .setMaterial(config.getString(path + "Next.Item", "FEATHER"))
-        .setName(config.getString(path + "Next.Name", "&6&lNext >>"))
-        .setLore(config.contains(path + "Next.Lore") ? config.getStringList(path + "Next.Lore") : Collections.singletonList("&7&lPage: &b%page%"));
+                .setMaterial(plugin.getConfigSettings().getProperty(ConfigSettings.NEXT_ITEM))
+                .setName(plugin.getConfigSettings().getProperty(ConfigSettings.NEXT_NAME))
+                .setLore(plugin.getConfigSettings().getProperty(ConfigSettings.NEXT_LORE));
         backButton = new ItemBuilder()
-        .setMaterial(config.getString(path + "Back.Item", "FEATHER"))
-        .setName(config.getString(path + "Back.Name", "&6&l<< Back"))
-        .setLore(config.contains(path + "Back.Lore") ? config.getStringList(path + "Back.Lore") : Collections.singletonList("&7&lPage: &b%page%"));
+                .setMaterial(plugin.getConfigSettings().getProperty(ConfigSettings.BACK_ITEM))
+                .setName(plugin.getConfigSettings().getProperty(ConfigSettings.BACK_NAME))
+                .setLore(plugin.getConfigSettings().getProperty(ConfigSettings.BACK_LORE));
     }
     
     public static void openNewPreview(Player player, Crate crate) {

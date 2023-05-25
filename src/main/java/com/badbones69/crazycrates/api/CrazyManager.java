@@ -11,6 +11,7 @@ import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent.KeyReceiveRea
 import com.badbones69.crazycrates.api.interfaces.HologramController;
 import com.badbones69.crazycrates.api.managers.QuadCrateManager;
 import com.badbones69.crazycrates.api.objects.*;
+import com.badbones69.crazycrates.api.v2.configs.types.ConfigSettings;
 import com.badbones69.crazycrates.cratetypes.*;
 import com.badbones69.crazycrates.enums.types.CrateType;
 import com.badbones69.crazycrates.enums.types.KeyType;
@@ -343,11 +344,9 @@ public class CrazyManager {
 
         if (crate.getFile() != null) Methods.broadCastMessage(crate.getFile(), player);
 
-        FileConfiguration config = Files.CONFIG.getFile();
-
         switch (crate.getCrateType()) {
             case MENU -> {
-                boolean openMenu = config.getBoolean("Settings.Enable-Crate-Menu");
+                boolean openMenu = plugin.getConfigSettings().getProperty(ConfigSettings.ENABLE_CRATE_MENU);
 
                 if (openMenu) MenuListener.openGUI(player); else player.sendMessage(Messages.FEATURE_DISABLED.getMessage());
             }
@@ -419,10 +418,7 @@ public class CrazyManager {
             }
         }
 
-        boolean logFile = FileManager.Files.CONFIG.getFile().getBoolean("Settings.Crate-Actions.Log-File");
-        boolean logConsole = FileManager.Files.CONFIG.getFile().getBoolean("Settings.Crate-Actions.Log-Console");
-
-        plugin.getStarter().getEventLogger().logCrateEvent(player, crate, keyType, logFile, logConsole);
+        plugin.getStarter().getEventLogger().logCrateEvent(player, crate, keyType, plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_FILE), plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_CONSOLE));
     }
 
     /**
@@ -652,7 +648,7 @@ public class CrazyManager {
      * @return The time in seconds till kick.
      */
     public Integer getQuadCrateTimer() {
-        return quadCrateTimer;
+        return plugin.getConfigSettings().getProperty(ConfigSettings.QUAD_CRATE_TIMER);
     }
 
     /**
@@ -1233,12 +1229,10 @@ public class CrazyManager {
         switch (keyType) {
             case PHYSICAL_KEY -> {
                 if (Methods.isInventoryFull(player)) {
-                    if (giveVirtualKeysWhenInventoryFull) {
+                    if (plugin.getConfigSettings().getProperty(ConfigSettings.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL)) {
                         addVirtualKeys(amount, player, crate);
 
-                        boolean fullMessage = Files.CONFIG.getFile().getBoolean("Settings.Give-Virtual-Keys-When-Inventory-Full-Message");
-
-                        if (fullMessage) player.sendMessage(Messages.CANNOT_GIVE_PLAYER_KEYS.getMessage().replaceAll("%amount%", String.valueOf(amount)).replaceAll("%key%", crate.getName()));
+                        if (plugin.getConfigSettings().getProperty(ConfigSettings.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL_MESSAGE)) player.sendMessage(Messages.CANNOT_GIVE_PLAYER_KEYS.getMessage().replaceAll("%amount%", String.valueOf(amount)).replaceAll("%key%", crate.getName()));
                     } else {
                         player.getWorld().dropItem(player.getLocation(), crate.getKey(amount));
                     }

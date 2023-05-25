@@ -3,12 +3,12 @@ package com.badbones69.crazycrates.listeners;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
+import com.badbones69.crazycrates.api.v2.configs.types.ConfigSettings;
 import com.badbones69.crazycrates.enums.types.CrateType;
 import com.badbones69.crazycrates.enums.types.KeyType;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.ItemBuilder;
-import com.badbones69.crazycrates.api.FileManager.Files;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,7 +20,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MenuListener implements Listener {
@@ -30,24 +29,23 @@ public class MenuListener implements Listener {
     private static final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
     
     public static void openGUI(Player player) {
-        int size = Files.CONFIG.getFile().getInt("Settings.InventorySize");
-        Inventory inv = player.getServer().createInventory(null, size, Methods.sanitizeColor(Files.CONFIG.getFile().getString("Settings.InventoryName")));
+        int size = plugin.getConfigSettings().getProperty(ConfigSettings.INVENTORY_SIZE);
+        Inventory inv = player.getServer().createInventory(null, size, Methods.sanitizeColor(plugin.getConfigSettings().getProperty(ConfigSettings.INVENTORY_NAME)));
 
-        if (Files.CONFIG.getFile().contains("Settings.Filler.Toggle")) {
-            if (Files.CONFIG.getFile().getBoolean("Settings.Filler.Toggle")) {
-                String id = Files.CONFIG.getFile().getString("Settings.Filler.Item");
-                String name = Files.CONFIG.getFile().getString("Settings.Filler.Name");
-                List<String> lore = Files.CONFIG.getFile().getStringList("Settings.Filler.Lore");
-                ItemStack item = new ItemBuilder().setMaterial(id).setName(name).setLore(lore).build();
+        if (plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_TOGGLE)) {
+            String id = plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_ITEM);
+            String name = plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_NAME);
+            List<String> lore = plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_LORE);
 
-                for (int i = 0; i < size; i++) {
-                    inv.setItem(i, item.clone());
-                }
+            ItemStack item = new ItemBuilder().setMaterial(id).setName(name).setLore(lore).build();
+
+            for (int i = 0; i < size; i++) {
+                inv.setItem(i, item.clone());
             }
         }
 
-        if (Files.CONFIG.getFile().contains("Settings.GUI-Customizer")) {
-            for (String custom : Files.CONFIG.getFile().getStringList("Settings.GUI-Customizer")) {
+        if (plugin.getConfigSettings().getProperty(ConfigSettings.CUSTOMIZER_TOGGLE)) {
+            for (String custom : plugin.getConfigSettings().getProperty(ConfigSettings.CUSTOMIZER)) {
                 int slot = 0;
                 ItemBuilder item = new ItemBuilder();
                 String[] split = custom.split(", ");
@@ -139,15 +137,13 @@ public class MenuListener implements Listener {
     public void onInvClick(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
         Inventory inv = e.getInventory();
-        FileConfiguration config = Files.CONFIG.getFile();
 
         if (inv != null) {
-
             for (Crate crate : crazyManager.getCrates()) {
                 if (crate.getCrateType() != CrateType.MENU && crate.isCrateMenu(e.getView())) return;
             }
 
-            if (e.getView().getTitle().equals(Methods.sanitizeColor(config.getString("Settings.InventoryName")))) {
+            if (e.getView().getTitle().equals(Methods.sanitizeColor(plugin.getConfigSettings().getProperty(ConfigSettings.INVENTORY_NAME)))) {
                 e.setCancelled(true);
 
                 if (e.getCurrentItem() != null) {
@@ -184,24 +180,24 @@ public class MenuListener implements Listener {
                                 if (crazyManager.getVirtualKeys(player, crate) >= 1) {
                                     hasKey = true;
                                 } else {
-                                    if (Files.CONFIG.getFile().getBoolean("Settings.Virtual-Accepts-Physical-Keys") && crazyManager.hasPhysicalKey(player, crate, false)) {
+                                    if (plugin.getConfigSettings().getProperty(ConfigSettings.VIRTUAL_ACCEPTS_PHYSICAL_KEYS) && crazyManager.hasPhysicalKey(player, crate, false)) {
                                         hasKey = true;
                                         keyType = KeyType.PHYSICAL_KEY;
                                     }
                                 }
 
                                 if (!hasKey) {
-                                    if (config.contains("Settings.Need-Key-Sound")) {
-                                        Sound sound = Sound.valueOf(config.getString("Settings.Need-Key-Sound"));
+                                    if (plugin.getConfigSettings().getProperty(ConfigSettings.NEED_KEY_SOUND_TOGGLE)) {
+                                        Sound sound = Sound.valueOf(plugin.getConfigSettings().getProperty(ConfigSettings.NEED_KEY_SOUND));
 
-                                        if (sound != null) player.playSound(player.getLocation(), sound, 1f, 1f);
+                                        player.playSound(player.getLocation(), sound, 1f, 1f);
                                     }
 
                                     player.sendMessage(Messages.NO_VIRTUAL_KEY.getMessage());
                                     return;
                                 }
 
-                                for (String world : getDisabledWorlds()) {
+                                for (String world : plugin.getConfigSettings().getProperty(ConfigSettings.DISABLED_WORLDS)) {
                                     if (world.equalsIgnoreCase(player.getWorld().getName())) {
                                         player.sendMessage(Messages.WORLD_DISABLED.getMessage("%World%", player.getWorld().getName()));
                                         return;
@@ -220,9 +216,5 @@ public class MenuListener implements Listener {
                 }
             }
         }
-    }
-    
-    private ArrayList<String> getDisabledWorlds() {
-        return new ArrayList<>(Files.CONFIG.getFile().getStringList("Settings.DisabledWorlds"));
     }
 }
