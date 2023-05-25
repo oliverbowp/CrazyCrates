@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 
 public class MiscListener implements Listener {
 
-    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private static final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
+    private final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
 
     @EventHandler
     public void onPlayerPickUp(PlayerAttemptPickupItemEvent event) {
