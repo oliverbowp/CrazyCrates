@@ -4,7 +4,7 @@ import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
-import com.badbones69.crazycrates.api.v2.holograms.enums.DataSupport;
+import com.badbones69.crazycrates.api.v2.enums.DataSupport;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 /**
@@ -22,7 +22,8 @@ public class PluginSettings implements SettingsHolder {
         String[] header = {
                 "Github: https://github.com/Crazy-Crew",
                 "",
-                "Issues/Features: https://github.com/Crazy-Crew/CrazyCrates/issues"
+                "Issues: https://github.com/Crazy-Crew/CrazyCrates/issues",
+                "Features: https://github.com/Crazy-Crew/CrazyCrates/discussions/categories/features"
         };
 
         conf.setComment("settings", header);
