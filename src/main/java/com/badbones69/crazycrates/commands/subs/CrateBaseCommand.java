@@ -11,7 +11,7 @@ import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.CrateLocation;
 import com.badbones69.crazycrates.api.objects.Prize;
-import com.badbones69.crazycrates.api.v2.configs.types.ConfigSettings;
+import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
 import com.badbones69.crazycrates.enums.Permissions;
 import com.badbones69.crazycrates.enums.types.CrateType;
 import com.badbones69.crazycrates.enums.types.KeyType;

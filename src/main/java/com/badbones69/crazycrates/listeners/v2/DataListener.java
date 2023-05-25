@@ -1,7 +1,7 @@
 package com.badbones69.crazycrates.listeners.v2;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.api.v2.ApiManager;
+import com.badbones69.crazycrates.api.ApiManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

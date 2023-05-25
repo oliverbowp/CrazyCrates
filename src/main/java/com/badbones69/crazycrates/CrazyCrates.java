@@ -1,10 +1,10 @@
 package com.badbones69.crazycrates;
 
 import ch.jalu.configme.SettingsManager;
-import com.badbones69.crazycrates.api.v2.ApiManager;
+import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.objects.CrateLocation;
-import com.badbones69.crazycrates.api.v2.holograms.interfaces.HologramManager;
+import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.commands.subs.CrateBaseCommand;
 import com.badbones69.crazycrates.commands.subs.player.BaseKeyCommand;
 import com.badbones69.crazycrates.cratetypes.CSGO;
