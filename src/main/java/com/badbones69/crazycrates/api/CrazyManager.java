@@ -1,6 +1,5 @@
 package com.badbones69.crazycrates.api;
 
-import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager.Files;
@@ -8,10 +7,10 @@ import com.badbones69.crazycrates.api.enums.BrokeLocation;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
 import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent.KeyReceiveReason;
-import com.badbones69.crazycrates.api.interfaces.HologramController;
 import com.badbones69.crazycrates.api.managers.QuadCrateManager;
 import com.badbones69.crazycrates.api.objects.*;
 import com.badbones69.crazycrates.api.v2.configs.types.ConfigSettings;
+import com.badbones69.crazycrates.api.v2.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.cratetypes.*;
 import com.badbones69.crazycrates.enums.types.CrateType;
 import com.badbones69.crazycrates.enums.types.KeyType;
@@ -20,10 +19,6 @@ import com.badbones69.crazycrates.listeners.MenuListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
 import com.badbones69.crazycrates.objects.CrateHologram;
 import com.badbones69.crazycrates.quadcrates.CrateSchematic;
-import com.badbones69.crazycrates.support.holograms.CMIHologramsSupport;
-import com.badbones69.crazycrates.support.holograms.DecentHologramsSupport;
-import com.badbones69.crazycrates.support.holograms.HolographicDisplaysSupport;
-import com.badbones69.crazycrates.support.libraries.PluginSupport;
 import com.badbones69.crazycrates.support.structures.StructureHandler;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -79,14 +74,8 @@ public class CrazyManager {
     // A list of current crate schematics for Quad Crate.
     private final List<CrateSchematic> crateSchematics = new ArrayList<>();
 
-    // If the player's inventory is full when given a physical key it will instead give them virtual keys. If false it will drop the keys on the ground.
-    private boolean giveVirtualKeysWhenInventoryFull;
-
     // True if at least one crate gives new players keys and false if none give new players keys.
     private boolean giveNewPlayersKeys;
-
-    // The hologram api that is being hooked into.
-    private HologramController hologramController;
 
     // Schematic locations for 1.13+.
     private final HashMap<UUID, Location[]> schemLocations = new HashMap<>();
@@ -98,23 +87,6 @@ public class CrazyManager {
         brokecrates.clear();
         crateLocations.clear();
         crateSchematics.clear();
-
-        quadCrateTimer = Files.CONFIG.getFile().getInt("Settings.QuadCrate.Timer") * 20;
-        giveVirtualKeysWhenInventoryFull = Files.CONFIG.getFile().getBoolean("Settings.Give-Virtual-Keys-When-Inventory-Full");
-
-        // Removes all holograms so that they can be replaced.
-        if (hologramController != null) hologramController.removeAllHolograms();
-
-        if (PluginSupport.HOLOGRAPHIC_DISPLAYS.isPluginEnabled()) {
-            hologramController = new HolographicDisplaysSupport();
-            plugin.getLogger().info("HolographicDisplays support has been enabled.");
-        } else if (PluginSupport.DECENT_HOLOGRAMS.isPluginEnabled()) {
-            hologramController = new DecentHologramsSupport();
-            plugin.getLogger().info("DecentHolograms support has been enabled.");
-        } else if (PluginSupport.CMI.isPluginEnabled() && CMIModule.holograms.isEnabled()) {
-            hologramController = new CMIHologramsSupport();
-            plugin.getLogger().info("CMI Hologram support has been enabled.");
-        } else plugin.getLogger().warning("No holograms plugin were found. If using CMI, make sure holograms module is enabled.");
 
         if (fileManager.isLogging()) plugin.getLogger().info("Loading all crate information...");
 
@@ -223,9 +195,7 @@ public class CrazyManager {
                     if (world != null && crate != null) {
                         crateLocations.add(new CrateLocation(locationName, crate, location));
 
-                        if (hologramController != null) {
-                            hologramController.createHologram(location.getBlock(), crate);
-                        }
+                        if (this.plugin.getHolograms() != null) this.plugin.getHolograms().create(location, crate.getHologram(), this.plugin);
 
                         loadedAmount++;
                     } else {
@@ -268,15 +238,6 @@ public class CrazyManager {
 
         cleanDataFile();
         PreviewListener.loadButtons();
-    }
-
-    /**
-     * If the player's inventory is full when given a physical key it will instead give them virtual keys. If false it will drop the keys on the ground.
-     *
-     * @return True if the player will get a virtual key and false if it drops on the floor.
-     */
-    public boolean getGiveVirtualKeysWhenInventoryFull() {
-        return giveVirtualKeysWhenInventoryFull;
     }
 
     // This method is deigned to help clean the data.yml file of any unless info that it may have.
@@ -378,7 +339,7 @@ public class CrazyManager {
                         return;
                     } else {
                         CrateControlListener.inUse.put(player, location);
-                        FireCracker.startFireCracker(player, crate, keyType, location, hologramController);
+                        FireCracker.startFireCracker(player, crate, keyType, location, this.plugin.getHolograms());
                     }
                 }
             }
@@ -394,7 +355,7 @@ public class CrazyManager {
                         return;
                     } else {
                         CrateControlListener.inUse.put(player, location);
-                        QuickCrate.openCrate(player, location, crate, keyType, hologramController);
+                        QuickCrate.openCrate(player, location, crate, keyType, this.plugin.getHolograms());
                     }
                 }
             }
@@ -518,9 +479,7 @@ public class CrazyManager {
      */
     public boolean isCrateLocation(Location loc) {
         for (CrateLocation crateLocation : getCrateLocations()) {
-            if (crateLocation.getLocation().equals(loc)) {
-                return true;
-            }
+            if (crateLocation.getLocation().equals(loc)) return true;
         }
 
         return false;
@@ -534,9 +493,7 @@ public class CrazyManager {
      */
     public CrateLocation getCrateLocation(Location loc) {
         for (CrateLocation crateLocation : getCrateLocations()) {
-            if (crateLocation.getLocation().equals(loc)) {
-                return crateLocation;
-            }
+            if (crateLocation.getLocation().equals(loc)) return crateLocation;
         }
 
         return null;
@@ -581,7 +538,7 @@ public class CrazyManager {
 
         crateLocations.add(new CrateLocation(id, crate, location));
 
-        if (hologramController != null) hologramController.createHologram(location.getBlock(), crate);
+        if (this.plugin.getHolograms() != null) this.plugin.getHolograms().create(location, crate.getHologram(), this.plugin);
     }
 
     /**
@@ -604,7 +561,7 @@ public class CrazyManager {
         if (location != null) {
             crateLocations.remove(location);
 
-            if (hologramController != null) hologramController.removeHologram(location.getLocation().getBlock());
+            if (this.plugin.getHolograms() != null) this.plugin.getHolograms().remove(location.getLocation(), this.plugin);
         }
     }
 
@@ -634,9 +591,7 @@ public class CrazyManager {
      */
     public Crate getCrateFromName(String name) {
         for (Crate crate : getCrates()) {
-            if (crate.getName().equalsIgnoreCase(name)) {
-                return crate;
-            }
+            if (crate.getName().equalsIgnoreCase(name)) return crate;
         }
 
         return null;
@@ -726,7 +681,7 @@ public class CrazyManager {
             for (ItemBuilder item : prize.getItemBuilders()) {
                 ItemBuilder clone = new ItemBuilder(item);
 
-                if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) {
+                if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) {
                     clone.setName(PlaceholderAPI.setPlaceholders(player, clone.getName()));
                     clone.setLore(PlaceholderAPI.setPlaceholders(player, clone.getLore()));
                 }
@@ -765,15 +720,13 @@ public class CrazyManager {
                     command = command.substring(0, command.length() - 1);
                 }
 
-                if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) command = PlaceholderAPI.setPlaceholders(player, command);
+                if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) command = PlaceholderAPI.setPlaceholders(player, command);
 
                 Methods.sendCommand(command.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getUpdatedName())));
             }
 
             for (String message : prize.getMessages()) {
-                if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) {
-                    message = PlaceholderAPI.setPlaceholders(player, message);
-                }
+                if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) message = PlaceholderAPI.setPlaceholders(player, message);
 
                 Methods.sendMessage(player, message.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getName())), false);
             }
@@ -922,9 +875,7 @@ public class CrazyManager {
         if (item != null && item.getType() != Material.AIR) {
             for (Crate crate : getCrates()) {
                 if (crate.getCrateType() != CrateType.MENU) {
-                    if (isKeyFromCrate(item, crate)) {
-                        return crate;
-                    }
+                    if (isKeyFromCrate(item, crate)) return crate;
                 }
             }
         }
@@ -941,9 +892,7 @@ public class CrazyManager {
      */
     public boolean isKeyFromCrate(ItemStack item, Crate crate) {
         if (crate.getCrateType() != CrateType.MENU) {
-            if (item != null && item.getType() != Material.AIR) {
-                return Methods.isSimilar(item, crate);
-            }
+            if (item != null && item.getType() != Material.AIR) return Methods.isSimilar(item, crate);
         }
 
         return false;
@@ -1011,9 +960,7 @@ public class CrazyManager {
 
         for (ItemStack item : items) {
             if (item != null) {
-                if (isKeyFromCrate(item, crate)) {
-                    return true;
-                }
+                if (isKeyFromCrate(item, crate)) return true;
             }
         }
 
@@ -1031,9 +978,7 @@ public class CrazyManager {
         for (ItemStack item : player.getOpenInventory().getBottomInventory().getContents()) {
             if (item == null || item.getType() == Material.AIR) continue;
 
-            if (Methods.isSimilar(item, crate)) {
-                return item;
-            }
+            if (Methods.isSimilar(item, crate)) return item;
         }
 
         return null;
@@ -1100,9 +1045,7 @@ public class CrazyManager {
         for (ItemStack item : player.getOpenInventory().getBottomInventory().getContents()) {
             if (item == null || item.getType() == Material.AIR) continue;
 
-            if (Methods.isSimilar(item, crate)) {
-                keys += item.getAmount();
-            }
+            if (Methods.isSimilar(item, crate)) keys += item.getAmount();
         }
 
         return keys;
@@ -1192,11 +1135,13 @@ public class CrazyManager {
                 int keys = getVirtualKeys(player, crate);
                 Files.DATA.getFile().set("Players." + uuid + ".Name", player.getName());
                 int newAmount = Math.max((keys - amount), 0);
+
                 if (newAmount == 0) {
                     Files.DATA.getFile().set("Players." + uuid + "." + crate.getName(), null);
                 } else {
                     Files.DATA.getFile().set("Players." + uuid + "." + crate.getName(), newAmount);
                 }
+
                 Files.DATA.saveFile();
                 return true;
             }
@@ -1279,15 +1224,6 @@ public class CrazyManager {
     }
 
     /**
-     * Get the hologram plugin settings that is being used.
-     *
-     * @return The hologram controller for the holograms.
-     */
-    public HologramController getHologramController() {
-        return hologramController;
-    }
-
-    /**
      * Load all the schematics inside the Schematics folder.
      */
     public void loadSchematics() {
@@ -1319,9 +1255,7 @@ public class CrazyManager {
      */
     public CrateSchematic getCrateSchematic(String name) {
         for (CrateSchematic schematic : crateSchematics) {
-            if (schematic.schematicName().equalsIgnoreCase(name)) {
-                return schematic;
-            }
+            if (schematic.schematicName().equalsIgnoreCase(name)) return schematic;
         }
 
         return null;
@@ -1337,9 +1271,7 @@ public class CrazyManager {
         if (entity instanceof Item) {
             ItemStack item = ((Item) entity).getItemStack();
 
-            if (item.getType() != Material.AIR) {
-                return new NBTItem(item).hasKey("crazycrates-item");
-            }
+            if (item.getType() != Material.AIR) return new NBTItem(item).hasKey("crazycrates-item");
         }
 
         return false;
@@ -1351,9 +1283,7 @@ public class CrazyManager {
         String id = file.getString("Crate.PhysicalKey.Item");
         boolean glowing = false;
 
-        if (file.contains("Crate.PhysicalKey.Glowing")) {
-            glowing = file.getBoolean("Crate.PhysicalKey.Glowing");
-        }
+        if (file.contains("Crate.PhysicalKey.Glowing")) glowing = file.getBoolean("Crate.PhysicalKey.Glowing");
 
         return new ItemBuilder().setMaterial(id).setName(name).setLore(lore).setGlow(glowing).build();
     }
@@ -1378,9 +1308,7 @@ public class CrazyManager {
                 for (String enchantmentName : file.getStringList(path + "DisplayEnchantments")) {
                     Enchantment enchantment = Methods.getEnchantment(enchantmentName.split(":")[0]);
 
-                    if (enchantment != null) {
-                        itemBuilder.addEnchantments(enchantment, Integer.parseInt(enchantmentName.split(":")[1]));
-                    }
+                    if (enchantment != null) itemBuilder.addEnchantments(enchantment, Integer.parseInt(enchantmentName.split(":")[1]));
                 }
             }
 

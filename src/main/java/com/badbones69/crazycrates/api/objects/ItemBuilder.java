@@ -1,8 +1,9 @@
 package com.badbones69.crazycrates.api.objects;
 
+import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.Methods;
+import com.badbones69.crazycrates.api.v2.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.support.SkullCreator;
-import com.badbones69.crazycrates.support.libraries.PluginSupport;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import dev.lone.itemsadder.api.CustomStack;
 import org.bukkit.Color;
@@ -16,6 +17,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -23,6 +25,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ItemBuilder {
+
+    private final CrazyCrates plugin = CrazyCrates.getPlugin();
     
     private NBTItem nbtItem;
     
@@ -334,7 +338,7 @@ public class ItemBuilder {
 
         //If item is null, Check if the iaNamespace (material from config file) is a ItemsAdder CustomStack
         //otherwise, normal behaviour
-        if (item == null && PluginSupport.ITEMS_ADDER.isPluginEnabled()) {
+        if (item == null && this.plugin.getPluginSettings().getProperty(PluginSupportSection.ITEMS_ADDER_SUPPORT)) {
             CustomStack customStack = CustomStack.getInstance(this.iaNamespace);
 
             if (customStack != null) item = customStack.getItemStack();

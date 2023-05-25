@@ -24,7 +24,6 @@ import dev.triumphteam.cmd.core.annotation.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -109,7 +108,6 @@ public class CrateBaseCommand extends BaseCommand {
         fileManager.reloadAllFiles();
         fileManager.setup();
 
-        plugin.cleanFiles();
         crazyManager.loadCrates();
 
         sender.sendMessage(Messages.RELOAD.getMessage());

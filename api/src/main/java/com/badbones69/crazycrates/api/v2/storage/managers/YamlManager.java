@@ -50,7 +50,7 @@ public class YamlManager extends YamlStorage implements UserManager {
 
             if (!userData.containsKey(uuid)) userData.put(uuid, data);
 
-            Objects.requireNonNull(section.getConfigurationSection("." + uuid)).getKeys(true).forEach(value -> {
+            section.getConfigurationSection("." + uuid).getKeys(true).forEach(value -> {
                 if (!value.equals("Name")) {
                     String amount = section.getString("." + uuid + "." + value);
 
