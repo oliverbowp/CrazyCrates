@@ -29,8 +29,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionDefault;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Command(value = "crates", alias = {"crazycrates", "cc", "crate", "crazycrate"})
 public class CrateBaseCommand extends BaseCommand {
@@ -482,10 +482,10 @@ public class CrateBaseCommand extends BaseCommand {
     public record CustomPlayer(String name) {
         private static final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-        public UUID getUUID() {
+        public CompletableFuture<UUID> getUUID() {
             Player player = plugin.getServer().getPlayer(name);
 
-            return (player != null && player.isOnline()) ? player.getUniqueId() : Objects.requireNonNull(Bukkit.getOfflinePlayerIfCached(name)).getUniqueId();
+            return CompletableFuture.supplyAsync(() -> (player != null && player.isOnline()) ? player.getUniqueId() : Bukkit.getOfflinePlayer(name).getUniqueId());
         }
     }
 
@@ -495,14 +495,12 @@ public class CrateBaseCommand extends BaseCommand {
         KeyType type = KeyType.getFromName(keyType);
         Crate crate = crazyManager.getCrateFromName(crateName);
 
-        Player player = plugin.getServer().getPlayer(target.getUUID());
-        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(target.getUUID());
+        Player player = plugin.getServer().getPlayer(target.getUUID().join());
+        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(target.getUUID().join());
 
         Player person;
 
         if (player != null) person = player; else person = offlinePlayer.getPlayer();
-
-        String name;
 
         if (type == null || type == KeyType.FREE_KEY) {
             sender.sendMessage(Methods.color(Methods.getPrefix() + "&cPlease use Virtual/V or Physical/P for a Key type."));
@@ -614,7 +612,7 @@ public class CrateBaseCommand extends BaseCommand {
             if (crate.getCrateType() != CrateType.MENU) {
                 HashMap<String, String> placeholders = new HashMap<>();
 
-                placeholders.put("%Amount%", amount + "");
+                placeholders.put("%Amount%", String.valueOf(amount));
                 placeholders.put("%Key%", crate.getKey().getItemMeta().getDisplayName());
 
                 sender.sendMessage(Messages.GIVEN_EVERYONE_KEYS.getMessage(placeholders));
