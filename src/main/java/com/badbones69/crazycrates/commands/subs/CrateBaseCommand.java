@@ -74,7 +74,7 @@ public class CrateBaseCommand extends BaseCommand {
                         HashMap<String, String> placeholders = new HashMap<>();
 
                         placeholders.put("%Crate%", crate.getName());
-                        placeholders.put("%Amount%", amount + "");
+                        placeholders.put("%Amount%", String.valueOf(amount));
                         placeholders.put("%Player%", player.getName());
 
                         sender.sendMessage(Messages.TRANSFERRED_KEYS.getMessage(placeholders));
@@ -531,7 +531,7 @@ public class CrateBaseCommand extends BaseCommand {
                         } else {
                             HashMap<String, String> placeholders = new HashMap<>();
 
-                            placeholders.put("%Amount%", amount + "");
+                            placeholders.put("%Amount%", String.valueOf(amount));
                             placeholders.put("%Player%", offlinePlayer.getName());
 
                             sender.sendMessage(Messages.GIVEN_OFFLINE_PLAYER_KEYS.getMessage(placeholders));
@@ -543,7 +543,7 @@ public class CrateBaseCommand extends BaseCommand {
 
                 HashMap<String, String> placeholders = new HashMap<>();
 
-                placeholders.put("%Amount%", amount + "");
+                placeholders.put("%Amount%", String.valueOf(amount));
                 placeholders.put("%Player%", player.getName());
                 placeholders.put("%Key%", crate.getKey().getItemMeta().getDisplayName());
 
