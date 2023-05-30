@@ -11,7 +11,9 @@ import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.FancyHologramSupport;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
+import com.badbones69.crazycrates.api.storage.managers.locations.JsonCrateHandler;
 import com.ryderbelserion.stick.paper.Stick;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.nio.file.Path;
@@ -38,8 +40,10 @@ public class ApiManager {
 
     public ApiManager load() {
         // This must go first.
+        // This handles everything related to my personal plugin core.
         stick = new Stick(this.path, plugin.getName());
 
+        // Create plugin-settings.yml
         File pluginSettings = new File(this.path.toFile(), "plugin-settings.yml");
 
         this.pluginSettings = SettingsManagerBuilder
@@ -48,6 +52,7 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildPluginSettings())
                 .create();
 
+        // Create config.yml
         File configSettings = new File(this.path.toFile(), "config.yml");
 
         this.configSettings = SettingsManagerBuilder
@@ -56,11 +61,26 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildConfigSettings())
                 .create();
 
-        reload(false);
+        // Initialize any misc options like holograms.
+        //reload(false);
 
-        //this.userManager = new JsonManager(this.path);
+        // Initialize user manager.
+        // TODO() Write a convertor.
+        /*
+        this.userManager = new JsonManager(this.path);
+        this.userManager.load();
+        */
 
-        //this.userManager.load();
+        JsonCrateHandler jsonCrateHandler = new JsonCrateHandler(
+                this.path,
+                this.plugin.getServer()
+        );
+
+        jsonCrateHandler.load();
+
+        jsonCrateHandler.addLocation("testCrate", new Location(this.plugin.getServer().getWorld("world"), 1.0, 1.0, 1.0));
+
+        jsonCrateHandler.save();
 
         return this;
     }
@@ -98,6 +118,7 @@ public class ApiManager {
             }
         }
 
+        // If the command is /crazycrates reload.
         if (reloadCommand) {
             this.pluginSettings.reload();
             

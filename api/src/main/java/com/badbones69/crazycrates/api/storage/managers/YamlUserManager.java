@@ -11,11 +11,11 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 
-public class YamlManager extends YamlStorage implements UserManager {
+public class YamlUserManager extends YamlStorage implements UserManager {
 
     private final Path path;
 
-    public YamlManager(Path path) {
+    public YamlUserManager(Path path) {
         super(path);
 
         this.path = path;

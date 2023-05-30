@@ -1,7 +1,10 @@
 package com.badbones69.crazycrates.api.storage.interfaces;
 
+import com.badbones69.crazycrates.api.storage.types.locations.CrateLocation;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.Location;
+
+import java.io.File;
 import java.util.Map;
 
 public interface LocationManager {
@@ -10,18 +13,18 @@ public interface LocationManager {
 
     void save();
 
-    void convert(StorageType storageType);
+    void convert(File file, StorageType storageType);
 
-    void convertLegacy(StorageType storageType);
+    void convertLegacy(File file, StorageType storageType);
 
     void addLocation(String crateName, Location location);
 
     boolean hasLocation(String crateName);
 
-    Location getLocation(String crateName);
+    CrateLocation getLocation(String crateName);
 
     void removeLocation(String crateName);
 
-    Map<String, Location> getCrates();
+    Map<String, CrateLocation> getCrates();
 
 }

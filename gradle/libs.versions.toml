@@ -40,4 +40,4 @@ itemsadder_api = { module = "com.github.LoneDev6:api-itemsadder", version = "3.0
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version = "1.8.21" }
 
 # Stick
-stick = { module = "com.ryderbelserion.stick:stick-api", version = "2.1.0.15"}
+stick = { module = "com.ryderbelserion.stick:stick-api", version = "2.2.0.18"}

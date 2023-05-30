@@ -4,28 +4,45 @@ import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.badbones69.crazycrates.api.storage.types.JsonStorage;
+import com.badbones69.crazycrates.api.storage.types.locations.CrateLocation;
+import com.badbones69.crazycrates.api.storage.types.locations.adapters.CustomTypeAdapter;
+import com.google.gson.GsonBuilder;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
+import com.ryderbelserion.stick.paper.storage.types.file.json.adapters.LocationTypeAdapter;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-public class JsonManager extends JsonStorage implements UserManager {
+public class JsonUserManager extends JsonStorage implements UserManager {
 
     private final Path path;
 
-    public JsonManager(Path path) {
+    public JsonUserManager(Path path) {
         super(path);
 
+        // Assign the path.
         this.path = path;
     }
 
+    GsonBuilder builder = new GsonBuilder().disableHtmlEscaping()
+            .excludeFieldsWithModifiers(Modifier.TRANSIENT)
+            .excludeFieldsWithoutExposeAnnotation()
+            .registerTypeAdapter(Location.class, new LocationTypeAdapter())
+            .registerTypeAdapter(CrateLocation.class, new CustomTypeAdapter());
+
     @Override
     public void load() {
-        ApiManager.getStickCore().getFileHandler().addFile(new JsonStorage(this.path));
+        JsonStorage jsonStorage = new JsonStorage(this.path);
+
+        //jsonStorage.setAdapters(CustomTypeAdapter.class, new CustomTypeAdapter());
+
+        ApiManager.getStickCore().getFileHandler().addFile(jsonStorage);
     }
 
     @Override
@@ -46,23 +63,23 @@ public class JsonManager extends JsonStorage implements UserManager {
 
         ConfigurationSection section = configuration.getConfigurationSection("Players");
 
-        if (section != null) {
-            UserData data = new UserData(uuid);
+        if (section == null) return;
 
-            if (!userData.containsKey(uuid)) userData.put(uuid, data);
+        UserData data = new UserData(uuid);
 
-            section.getConfigurationSection("." + uuid).getKeys(true).forEach(value -> {
-                if (!value.equals("Name")) {
-                    String amount = section.getString("." + uuid + "." + value);
+        if (!userData.containsKey(uuid)) userData.put(uuid, data);
 
-                    if (amount != null) {
-                        data.addKey(value, Integer.parseInt(amount));
+        section.getConfigurationSection("." + uuid).getKeys(true).forEach(value -> {
+            if (!value.equals("Name")) {
+                String amount = section.getString("." + uuid + "." + value);
 
-                        save();
-                    }
+                if (amount != null) {
+                    data.addKey(value, Integer.parseInt(amount));
+
+                    save();
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override
