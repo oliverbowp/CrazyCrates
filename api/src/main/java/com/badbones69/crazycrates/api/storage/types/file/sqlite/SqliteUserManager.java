@@ -4,10 +4,19 @@ import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 
-public final class SqliteUserManager extends SqliteStorage implements UserManager {
+public non-sealed class SqliteUserManager extends SqliteStorage implements UserManager {
+
+    private final Path path;
+
+    public SqliteUserManager(Path path) {
+        super(path);
+
+        this.path = path;
+    }
 
     @Override
     public void load() {
