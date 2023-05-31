@@ -11,7 +11,7 @@ import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.FancyHologramSupport;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
-import com.badbones69.crazycrates.api.storage.managers.locations.JsonCrateHandler;
+import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateHandler;
 import com.ryderbelserion.stick.paper.Stick;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;

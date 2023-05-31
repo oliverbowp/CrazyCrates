@@ -1,22 +1,20 @@
-package com.badbones69.crazycrates.api.storage.managers.locations;
+package com.badbones69.crazycrates.api.storage.types.file.json.crates;
 
 import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.storage.interfaces.LocationManager;
-import com.badbones69.crazycrates.api.storage.types.locations.CrateLocation;
-import com.badbones69.crazycrates.api.storage.types.locations.JsonCrateData;
+import com.badbones69.crazycrates.api.storage.CrateLocation;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 
-public class JsonCrateHandler extends JsonCrateData implements LocationManager {
+public non-sealed class JsonCrateHandler extends JsonCrateData implements LocationManager {
 
     private final Path path;
     private final Server server;
@@ -75,7 +73,7 @@ public class JsonCrateHandler extends JsonCrateData implements LocationManager {
 
     @Override
     public void addLocation(String crateName, Location location) {
-        CrateLocation crateLocation = new CrateLocation(location.getWorld().getUID(), crateName, location);
+        CrateLocation crateLocation = new CrateLocation(crateName, location);
 
         // Check if the crate name already exists.
         if (!hasLocation(crateName)) {

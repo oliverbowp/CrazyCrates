@@ -1,11 +1,8 @@
-package com.badbones69.crazycrates.api.storage.managers;
+package com.badbones69.crazycrates.api.storage.types.file.json;
 
 import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
-import com.badbones69.crazycrates.api.storage.types.JsonStorage;
-import com.badbones69.crazycrates.api.storage.types.locations.CrateLocation;
-import com.badbones69.crazycrates.api.storage.types.locations.adapters.CustomTypeAdapter;
 import com.google.gson.GsonBuilder;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import com.ryderbelserion.stick.paper.storage.types.file.json.adapters.LocationTypeAdapter;
@@ -19,7 +16,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-public class JsonUserManager extends JsonStorage implements UserManager {
+public non-sealed class JsonUserManager extends JsonStorage implements UserManager {
 
     private final Path path;
 
@@ -33,14 +30,13 @@ public class JsonUserManager extends JsonStorage implements UserManager {
     GsonBuilder builder = new GsonBuilder().disableHtmlEscaping()
             .excludeFieldsWithModifiers(Modifier.TRANSIENT)
             .excludeFieldsWithoutExposeAnnotation()
-            .registerTypeAdapter(Location.class, new LocationTypeAdapter())
-            .registerTypeAdapter(CrateLocation.class, new CustomTypeAdapter());
+            .registerTypeAdapter(Location.class, new LocationTypeAdapter());
 
     @Override
     public void load() {
         JsonStorage jsonStorage = new JsonStorage(this.path);
 
-        //jsonStorage.setAdapters(CustomTypeAdapter.class, new CustomTypeAdapter());
+        jsonStorage.setGsonBuilder(builder);
 
         ApiManager.getStickCore().getFileHandler().addFile(jsonStorage);
     }

@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.types;
+package com.badbones69.crazycrates.api.storage.types.file.yaml;
 
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.ryderbelserion.stick.paper.storage.FileExtension;
@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class YamlStorage extends FileExtension {
+public sealed class YamlStorage extends FileExtension permits YamlUserManager {
 
     public YamlStorage(Path path) {
         super("users.yml", path, StorageType.YAML);

@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.types;
+package com.badbones69.crazycrates.api.storage.types.file.json;
 
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.google.gson.annotations.Expose;
@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class JsonStorage extends FileExtension {
+public sealed class JsonStorage extends FileExtension permits JsonUserManager {
 
     public JsonStorage(Path path) {
         super("users.json", path, StorageType.JSON);

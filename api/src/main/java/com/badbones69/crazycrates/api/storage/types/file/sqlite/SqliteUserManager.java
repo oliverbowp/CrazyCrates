@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.managers;
+package com.badbones69.crazycrates.api.storage.types.file.sqlite;
 
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.UUID;
 
-public class SqliteUserManager implements UserManager {
+public final class SqliteUserManager extends SqliteStorage implements UserManager {
 
     @Override
     public void load() {

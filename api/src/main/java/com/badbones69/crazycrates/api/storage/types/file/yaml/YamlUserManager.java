@@ -1,8 +1,7 @@
-package com.badbones69.crazycrates.api.storage.managers;
+package com.badbones69.crazycrates.api.storage.types.file.yaml;
 
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
-import com.badbones69.crazycrates.api.storage.types.YamlStorage;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,7 +10,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 
-public class YamlUserManager extends YamlStorage implements UserManager {
+public non-sealed class YamlUserManager extends YamlStorage implements UserManager {
 
     private final Path path;
 

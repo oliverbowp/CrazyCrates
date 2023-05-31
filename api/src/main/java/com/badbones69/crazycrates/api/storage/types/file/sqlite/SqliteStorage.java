@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.types;
+package com.badbones69.crazycrates.api.storage.types.file.sqlite;
 
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.ryderbelserion.stick.paper.storage.FileExtension;
@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SqliteStorage extends FileExtension {
+public sealed class SqliteStorage extends FileExtension permits SqliteUserManager {
 
     public SqliteStorage(Path path) {
         super("users.db", path, StorageType.SQLITE);

@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.types.locations;
+package com.badbones69.crazycrates.api.storage;
 
 import com.google.gson.annotations.Expose;
 import org.bukkit.Bukkit;
@@ -46,6 +46,10 @@ public class CrateLocation {
 
         // If it does not have it at all.
         locations.put(id+1, customLocation);
+    }
+
+    public Location getLocation() {
+        return this.location;
     }
 }
 

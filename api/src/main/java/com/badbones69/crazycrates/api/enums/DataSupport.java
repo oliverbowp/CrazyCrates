@@ -1,8 +1,8 @@
 package com.badbones69.crazycrates.api.enums;
 
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
-import com.badbones69.crazycrates.api.storage.managers.JsonUserManager;
-import com.badbones69.crazycrates.api.storage.managers.YamlUserManager;
+import com.badbones69.crazycrates.api.storage.types.file.json.JsonUserManager;
+import com.badbones69.crazycrates.api.storage.types.file.yaml.YamlUserManager;
 
 public enum DataSupport {
 
