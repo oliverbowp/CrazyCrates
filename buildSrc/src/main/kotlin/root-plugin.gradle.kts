@@ -14,6 +14,8 @@ repositories {
 
     maven("https://repo.triumphteam.dev/snapshots/")
 
+    maven("https://repo.fancyplugins.de/releases/")
+
     maven("https://repo.crazycrew.us/api/")
 
     maven("https://jitpack.io/")
