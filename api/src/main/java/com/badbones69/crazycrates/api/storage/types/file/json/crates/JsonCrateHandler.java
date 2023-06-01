@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates.api.storage.types.file.json.crates;
 
 import com.badbones69.crazycrates.api.ApiManager;
+import com.badbones69.crazycrates.api.storage.CustomLocation;
 import com.badbones69.crazycrates.api.storage.interfaces.LocationManager;
 import com.badbones69.crazycrates.api.storage.CrateLocation;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
@@ -73,7 +74,7 @@ public non-sealed class JsonCrateHandler extends JsonCrateData implements Locati
 
     @Override
     public void addLocation(String crateName, Location location) {
-        CrateLocation crateLocation = new CrateLocation(crateName, location);
+        CrateLocation crateLocation = new CrateLocation();
 
         // Check if the crate name already exists.
         if (!hasLocation(crateName)) {
@@ -81,7 +82,7 @@ public non-sealed class JsonCrateHandler extends JsonCrateData implements Locati
 
             crates.put(crateName, crateLocation);
 
-            crateLocation.addLocation();
+            crateLocation.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
 
             return;
         }
