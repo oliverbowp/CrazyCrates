@@ -44,7 +44,7 @@ public class PluginSupportSection implements SettingsHolder {
     public static final Property<Boolean> HOLOGRAMS_SUPPORT_ENABLED = newProperty("support.holograms.toggle", false);
 
     @Comment({
-            "Available Values: decent_holograms, cmi_holograms, fancy_holograms",
+            "Available Values: decent_holograms, cmi_holograms, fancy_holograms, internal_holograms",
             "You must have at least one of these plugins on your server in order for this to work!"
     })
     public static final Property<HologramSupport> HOLOGRAMS_SUPPORT_TYPE = newProperty(HologramSupport.class, "support.holograms.type", HologramSupport.decent_holograms);

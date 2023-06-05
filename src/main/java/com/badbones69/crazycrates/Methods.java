@@ -24,8 +24,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static com.badbones69.crazycrates.ColorUtils.color;
 import static java.util.regex.Matcher.quoteReplacement;
 
 @SuppressWarnings("deprecation")
@@ -35,19 +34,6 @@ public class Methods {
 
     private static final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
     private static final Random random = new Random();
-
-    public final static Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F\\d]{6}");
-
-    public static String color(String message) {
-        Matcher matcher = HEX_PATTERN.matcher(message);
-        StringBuilder buffer = new StringBuilder();
-
-        while (matcher.find()) {
-            matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
-        }
-
-        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
-    }
 
     public static void broadCastMessage(FileConfiguration crateFile, Player player) {
         String crateBroadcast = crateFile.getString("Crate.BroadCast");
@@ -403,11 +389,11 @@ public class Methods {
         if (prize != null) {
             crazyManager.givePrize(player, prize, crate);
 
-            if (prize.useFireworks()) Methods.firework(player.getLocation().add(0, 1, 0));
+            if (prize.useFireworks()) firework(player.getLocation().add(0, 1, 0));
 
             plugin.getServer().getPluginManager().callEvent(new PlayerPrizeEvent(player, crate, crate.getName(), prize));
         } else {
-            player.sendMessage(Methods.getPrefix("&cNo prize was found, please report this issue if you think this is an error."));
+            player.sendMessage(getPrefix("&cNo prize was found, please report this issue if you think this is an error."));
         }
     }
 
@@ -416,8 +402,8 @@ public class Methods {
         plugin.getServer().getLogger().warning("Player: " + player.getName());
         plugin.getServer().getLogger().warning("Crate: " + crate.getName());
 
-        player.sendMessage(Methods.getPrefix("&cAn issue has occurred when trying to take a key."));
-        player.sendMessage(Methods.getPrefix("&cCommon reasons includes not having enough keys."));
+        player.sendMessage(getPrefix("&cAn issue has occurred when trying to take a key."));
+        player.sendMessage(getPrefix("&cCommon reasons includes not having enough keys."));
     }
 
     public static String sanitizeFormat(String string) {

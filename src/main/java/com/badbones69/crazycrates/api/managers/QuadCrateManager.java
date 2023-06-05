@@ -1,7 +1,7 @@
 package com.badbones69.crazycrates.api.managers;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.Methods;
+import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.objects.Crate;
@@ -172,7 +172,7 @@ public class QuadCrateManager {
         }
 
         if (!crazyManager.takeKeys(1, player, crate, keyType, checkHand)) {
-            Methods.failedToTakeKey(player, crate);
+            ColorUtils.failedToTakeKey(player, crate);
 
             crazyManager.removePlayerFromOpeningList(player);
             crateSessions.remove(instance);
