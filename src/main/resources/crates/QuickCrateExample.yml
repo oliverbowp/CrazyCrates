@@ -38,6 +38,9 @@ Crate:
     Height: 1.5
     Message:
       - '&e&lClassic Chest'
+    # These values only work if using the `internal_holograms` option in the plugin-settings.yml
+    Text-Display:
+      View-Scale: 1
   Prizes:
     1:
       DisplayName: '&a&lFancy Pants'

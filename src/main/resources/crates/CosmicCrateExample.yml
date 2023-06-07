@@ -48,6 +48,10 @@ Crate:
     Height: 1.5
     Message:
       - '&d&lCosmic Chest'
+    # These values only work if using the `internal_holograms` option in the plugin-settings.yml
+    Text-Display:
+      View-Scale: 1
+
   # Tiers are available in Cosmic crates only
   #The tiers in the Crate
   Tiers:

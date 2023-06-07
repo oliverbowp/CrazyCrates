@@ -66,6 +66,9 @@ Crate:
     # The message that will be displayed.
     Message:
       - '&7&lBasic Chest'
+    # These values only work if using the `internal_holograms` option in the plugin-settings.yml
+    Text-Display:
+      View-Scale: 1
   # All the prizes that can be gotten in the Crate.
   Prizes:
     1:
