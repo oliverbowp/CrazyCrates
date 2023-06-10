@@ -1,12 +1,12 @@
 package com.badbones69.crazycrates;
 
 import com.badbones69.crazycrates.api.CrazyManager;
+import com.badbones69.crazycrates.api.configs.types.PluginSettings;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.ItemBuilder;
 import com.badbones69.crazycrates.api.objects.Prize;
-import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
 import com.badbones69.crazycrates.enums.Permissions;
 import com.badbones69.crazycrates.listeners.FireworkDamageListener;
 import de.tr7zw.changeme.nbtapi.NBTItem;
@@ -32,7 +32,7 @@ public class Methods {
 
     private static final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private static final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
+    private static final CrazyManager crazyManager = plugin.getCrazyManager();
     private static final Random random = new Random();
 
     public static void broadCastMessage(FileConfiguration crateFile, Player player) {
@@ -178,11 +178,11 @@ public class Methods {
     }
 
     public static String getPrefix() {
-        return color(plugin.getConfigSettings().getProperty(ConfigSettings.PREFIX));
+        return color(plugin.getPluginSettings().getProperty(PluginSettings.COMMAND_PREFIX));
     }
 
     public static String getPrefix(String msg) {
-        return color(plugin.getConfigSettings().getProperty(ConfigSettings.PREFIX) + msg);
+        return color(plugin.getPluginSettings().getProperty(PluginSettings.COMMAND_PREFIX) + msg);
     }
 
     public static boolean isInventoryFull(Player player) {

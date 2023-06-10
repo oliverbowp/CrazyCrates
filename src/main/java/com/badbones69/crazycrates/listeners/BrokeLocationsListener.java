@@ -17,9 +17,9 @@ public class BrokeLocationsListener implements Listener {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
+    private final CrazyManager crazyManager = plugin.getCrazyManager();
 
-    private final FileManager fileManager = plugin.getStarter().getFileManager();
+    private final FileManager fileManager = plugin.getFileManager();
     
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {

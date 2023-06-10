@@ -337,7 +337,7 @@ public class FileManager {
 
         private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-        private final FileManager fileManager = plugin.getStarter().getFileManager();
+        private final FileManager fileManager = plugin.getFileManager();
 
         /**
          * The files that the server will try and load.

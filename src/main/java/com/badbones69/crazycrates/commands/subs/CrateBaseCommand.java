@@ -38,11 +38,11 @@ public class CrateBaseCommand extends BaseCommand {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
+    private final CrazyManager crazyManager = plugin.getCrazyManager();
 
-    private final FileManager fileManager = plugin.getStarter().getFileManager();
+    private final FileManager fileManager = plugin.getFileManager();
 
-    private final EventLogger eventLogger = plugin.getStarter().getEventLogger();
+    private final EventLogger eventLogger = plugin.getEventLogger();
 
     @Default
     @Permission(value = "crazycrates.command.player.menu", def = PermissionDefault.TRUE)

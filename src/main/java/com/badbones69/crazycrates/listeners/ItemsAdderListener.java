@@ -10,7 +10,7 @@ public class ItemsAdderListener implements Listener {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
+    private final CrazyManager crazyManager = plugin.getCrazyManager();
 
     @EventHandler(ignoreCancelled = true)
     public void onItemsRegistered(ItemsAdderLoadDataEvent event) {

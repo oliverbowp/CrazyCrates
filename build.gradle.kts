@@ -1,15 +1,19 @@
 plugins {
     id("paper-plugin")
-    id("library-plugin")
 
-    id("xyz.jpenilla.run-paper") version "2.0.1"
+    id("xyz.jpenilla.run-paper") version "2.1.0"
 }
 
 dependencies {
     api(project(":crazycrates-api"))
 
     compileOnly(libs.placeholder.api)
+
     compileOnly(libs.itemsadder.api)
+
+    compileOnly(libs.config.me)
+
+    compileOnly(libs.stick.api)
 
     implementation(libs.bstats.bukkit)
 
@@ -38,7 +42,7 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.19.4")
+        minecraftVersion("1.20")
     }
 
     processResources {

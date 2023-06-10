@@ -11,7 +11,7 @@ public class MiscListener implements Listener {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
+    private final CrazyManager crazyManager = plugin.getCrazyManager();
 
     @EventHandler
     public void onPlayerPickUp(PlayerAttemptPickupItemEvent event) {

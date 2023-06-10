@@ -2,6 +2,7 @@ package com.badbones69.crazycrates.api.managers;
 
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.ColorUtils;
+import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.objects.Crate;
@@ -31,9 +32,9 @@ public class QuadCrateManager {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private final ChestStateHandler chestStateHandler = plugin.getStarter().getChestStateHandler();
+    private final ChestStateHandler chestStateHandler = plugin.getChestStateHandler();
 
-    private final CrazyManager crazyManager = plugin.getStarter().getCrazyManager();
+    private final CrazyManager crazyManager = plugin.getCrazyManager();
 
     private static final List<QuadCrateManager> crateSessions = new ArrayList<>();
 
@@ -172,7 +173,7 @@ public class QuadCrateManager {
         }
 
         if (!crazyManager.takeKeys(1, player, crate, keyType, checkHand)) {
-            ColorUtils.failedToTakeKey(player, crate);
+            //Methods.failedToTakeKey(player, crate);
 
             crazyManager.removePlayerFromOpeningList(player);
             crateSessions.remove(instance);

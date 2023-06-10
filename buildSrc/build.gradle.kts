@@ -5,7 +5,9 @@ plugins {
 repositories {
     gradlePluginPortal()
 
-    maven("https://repo.crazycrew.us/api/")
+    maven("https://repo.crazycrew.us/first-party/")
+
+    maven("https://repo.crazycrew.us/third-party/")
 }
 
 dependencies {
@@ -18,6 +20,4 @@ dependencies {
     implementation(libs.shadow)
 
     implementation(libs.turtle)
-
-    implementation(libs.kotlin)
 }

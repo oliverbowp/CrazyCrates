@@ -2,7 +2,13 @@ package com.badbones69.crazycrates;
 
 import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.api.ApiManager;
+import com.badbones69.crazycrates.api.CrazyManager;
+import com.badbones69.crazycrates.api.EventLogger;
+import com.badbones69.crazycrates.api.FileManager;
+import com.badbones69.crazycrates.api.configs.types.PluginSettings;
+import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
+import com.badbones69.crazycrates.api.managers.quadcrates.SessionManager;
 import com.badbones69.crazycrates.api.objects.CrateLocation;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.commands.subs.CrateBaseCommand;
@@ -16,13 +22,10 @@ import com.badbones69.crazycrates.cratetypes.Roulette;
 import com.badbones69.crazycrates.cratetypes.War;
 import com.badbones69.crazycrates.cratetypes.Wheel;
 import com.badbones69.crazycrates.cratetypes.Wonder;
-import com.badbones69.crazycrates.listeners.BrokeLocationsListener;
-import com.badbones69.crazycrates.listeners.CrateControlListener;
-import com.badbones69.crazycrates.listeners.FireworkDamageListener;
-import com.badbones69.crazycrates.listeners.MenuListener;
-import com.badbones69.crazycrates.listeners.MiscListener;
-import com.badbones69.crazycrates.listeners.PreviewListener;
+import com.badbones69.crazycrates.listeners.*;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
+import com.badbones69.crazycrates.support.placeholders.PlaceholderAPISupport;
+import com.badbones69.crazycrates.support.structures.blocks.ChestStateHandler;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
 import dev.triumphteam.cmd.core.message.MessageKey;
@@ -44,22 +47,26 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     private ApiManager apiManager;
 
-    private Starter starter;
+    private FileManager fileManager;
+    private CrazyManager crazyManager;
+    private ChestStateHandler chestStateHandler;
+    private EventLogger eventLogger;
 
-    BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
+    private final BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
 
     @Override
     public void onEnable() {
         plugin = this;
 
-        apiManager = new ApiManager(getDataFolder().toPath(), plugin);
-        apiManager.load();
+        this.apiManager = new ApiManager(getDataFolder().toPath(), plugin);
+        this.apiManager.load();
 
-        /*starter = new Starter();
+        this.fileManager = new FileManager();
+        this.crazyManager = new CrazyManager();
+        this.chestStateHandler = new ChestStateHandler();
+        this.eventLogger = new EventLogger();
 
-        starter.run();
-
-        starter.getFileManager().setLog(true)
+        fileManager.setLog(true)
                 .registerDefaultGenerateFiles("CrateExample.yml", "/crates", "/crates")
                 .registerDefaultGenerateFiles("QuadCrateExample.yml", "/crates", "/crates")
                 .registerDefaultGenerateFiles("CosmicCrateExample.yml", "/crates", "/crates")
@@ -74,31 +81,16 @@ public class CrazyCrates extends JavaPlugin implements Listener {
                 .registerCustomFilesFolder("/schematics")
                 .setup();
 
-        // Clean files if we have to.
-        cleanFiles();
-
-        // Add extra messages.
-        Messages.addMissingMessages();
-
-        if (metricsEnabled) {
-            MetricsHandler metricsHandler = new MetricsHandler();
-
-            metricsHandler.start();
-        }
-
-        checkUpdate();
-
         enable();
-         */
     }
 
     @Override
     public void onDisable() {
-        //SessionManager.endCrates();
+        SessionManager.endCrates();
 
-        //QuickCrate.removeAllRewards();
+        QuickCrate.removeAllRewards();
 
-        //if (starter.getCrazyManager().getHologramController() != null) starter.getCrazyManager().getHologramController().removeAllHolograms();
+        if (this.apiManager.getHolograms() != null) this.apiManager.getHolograms().purge(this);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -130,15 +122,13 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
         pluginManager.registerEvents(this, this);
 
-        //if (PluginSupport.ITEMS_ADDER.isPluginEnabled()) {
-        //    getServer().getPluginManager().registerEvents(new ItemsAdderListener(), this);
-        //} else {
-        //    starter.getCrazyManager().loadCrates();
-        //}
+        if (this.apiManager.getPluginSettings().getProperty(PluginSupportSection.ITEMS_ADDER_SUPPORT)) {
+            pluginManager.registerEvents(new ItemsAdderListener(), this);
+        } else {
+            this.crazyManager.loadCrates();
+        }
 
-        if (!starter.getCrazyManager().getBrokeCrateLocations().isEmpty()) pluginManager.registerEvents(new BrokeLocationsListener(), this);
-
-        //if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) new PlaceholderAPISupport().register();
+        if (this.apiManager.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) new PlaceholderAPISupport().register();
 
         manager.registerMessage(MessageKey.UNKNOWN_COMMAND, (sender, context) -> sender.sendMessage(Messages.UNKNOWN_COMMAND.getMessage()));
 
@@ -186,18 +176,18 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
         manager.registerMessage(BukkitMessageKey.CONSOLE_ONLY, (sender, context) -> sender.sendMessage(Messages.MUST_BE_A_CONSOLE_SENDER.getMessage()));
 
-        manager.registerSuggestion(SuggestionKey.of("crates"), (sender, context) -> starter.getFileManager().getAllCratesNames(plugin).stream().toList());
+        manager.registerSuggestion(SuggestionKey.of("crates"), (sender, context) -> this.fileManager.getAllCratesNames(plugin).stream().toList());
 
         manager.registerSuggestion(SuggestionKey.of("key-types"), (sender, context) -> KEYS);
 
         manager.registerSuggestion(SuggestionKey.of("online-players"), (sender, context) -> getServer().getOnlinePlayers().stream().map(Player::getName).toList());
 
-        manager.registerSuggestion(SuggestionKey.of("locations"), (sender, context) -> starter.getCrazyManager().getCrateLocations().stream().map(CrateLocation::getID).toList());
+        manager.registerSuggestion(SuggestionKey.of("locations"), (sender, context) -> this.crazyManager.getCrateLocations().stream().map(CrateLocation::getID).toList());
 
         manager.registerSuggestion(SuggestionKey.of("prizes"), (sender, context) -> {
             List<String> numbers = new ArrayList<>();
 
-            starter.getCrazyManager().getCrateFromName(context.getArgs().get(0)).getPrizes().forEach(prize -> numbers.add(prize.getName()));
+            this.crazyManager.getCrateFromName(context.getArgs().get(0)).getPrizes().forEach(prize -> numbers.add(prize.getName()));
 
             return numbers;
         });
@@ -244,6 +234,22 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         return this.apiManager;
     }
 
+    public FileManager getFileManager() {
+        return this.fileManager;
+    }
+
+    public CrazyManager getCrazyManager() {
+        return this.crazyManager;
+    }
+
+    public ChestStateHandler getChestStateHandler() {
+        return this.chestStateHandler;
+    }
+
+    public EventLogger getEventLogger() {
+        return this.eventLogger;
+    }
+
     public HologramManager getHolograms() {
         return getApiManager().getHolograms();
     }
@@ -254,9 +260,5 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     public SettingsManager getPluginSettings() {
         return getApiManager().getPluginSettings();
-    }
-
-    public Starter getStarter() {
-        return starter;
     }
 }

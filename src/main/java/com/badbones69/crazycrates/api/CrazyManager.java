@@ -2,6 +2,7 @@ package com.badbones69.crazycrates.api;
 
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.ColorUtils;
+import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager.Files;
 import com.badbones69.crazycrates.api.enums.BrokeLocation;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
@@ -42,7 +43,7 @@ public class CrazyManager {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-    private final FileManager fileManager = plugin.getStarter().getFileManager();
+    private final FileManager fileManager = plugin.getFileManager();
 
     // All the crates that have been loaded.
     private final ArrayList<Crate> crates = new ArrayList<>();
@@ -303,7 +304,7 @@ public class CrazyManager {
 
         addPlayerToOpeningList(player, crate);
 
-        if (crate.getFile() != null) ColorUtils.broadCastMessage(crate.getFile(), player);
+        if (crate.getFile() != null) Methods.broadCastMessage(crate.getFile(), player);
 
         switch (crate.getCrateType()) {
             case MENU -> {
@@ -369,17 +370,17 @@ public class CrazyManager {
                         Prize prize = crate.pickPrize(player);
                         givePrize(player, prize, crate);
 
-                        if (prize.useFireworks()) ColorUtils.firework(player.getLocation().add(0, 1, 0));
+                        if (prize.useFireworks()) Methods.firework(player.getLocation().add(0, 1, 0));
 
                         removePlayerFromOpeningList(player);
                     } else {
-                        ColorUtils.failedToTakeKey(player, crate);
+                        Methods.failedToTakeKey(player, crate);
                     }
                 }
             }
         }
 
-        plugin.getStarter().getEventLogger().logCrateEvent(player, crate, keyType, plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_FILE), plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_CONSOLE));
+        plugin.getEventLogger().logCrateEvent(player, crate, keyType, plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_FILE), plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_CONSOLE));
     }
 
     /**
@@ -620,7 +621,7 @@ public class CrazyManager {
             slots += 9;
         }
 
-        Inventory inv = plugin.getServer().createInventory(null, slots, ColorUtils.sanitizeColor(file.getString("Crate.Name")));
+        Inventory inv = plugin.getServer().createInventory(null, slots, Methods.sanitizeColor(file.getString("Crate.Name")));
 
         for (String reward : file.getConfigurationSection("Crate.Prizes").getKeys(false)) {
             String id = file.getString("Crate.Prizes." + reward + ".DisplayItem", "Stone");
@@ -634,7 +635,7 @@ public class CrazyManager {
             boolean hideItemFlags = file.getBoolean("Crate.Prizes." + reward + ".HideItemsFlags", false);
 
             for (String enchantmentName : file.getStringList("Crate.Prizes." + reward + ".DisplayEnchantments")) {
-                Enchantment enchantment = ColorUtils.getEnchantment(enchantmentName.split(":")[0]);
+                Enchantment enchantment = Methods.getEnchantment(enchantmentName.split(":")[0]);
 
                 if (enchantment != null) {
                     enchantments.put(enchantment, Integer.parseInt(enchantmentName.split(":")[1]));
@@ -671,7 +672,7 @@ public class CrazyManager {
                     continue;
                 }
 
-                if (!ColorUtils.isInventoryFull(player)) {
+                if (!Methods.isInventoryFull(player)) {
                     player.getInventory().addItem(item);
                 } else {
                     player.getWorld().dropItemNaturally(player.getLocation(), item);
@@ -686,7 +687,7 @@ public class CrazyManager {
                     clone.setLore(PlaceholderAPI.setPlaceholders(player, clone.getLore()));
                 }
 
-                if (!ColorUtils.isInventoryFull(player)) {
+                if (!Methods.isInventoryFull(player)) {
                     player.getInventory().addItem(clone.build());
                 } else {
                     player.getWorld().dropItemNaturally(player.getLocation(), clone.build());
@@ -722,13 +723,13 @@ public class CrazyManager {
 
                 if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) command = PlaceholderAPI.setPlaceholders(player, command);
 
-                ColorUtils.sendCommand(command.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getUpdatedName())));
+                Methods.sendCommand(command.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getUpdatedName())));
             }
 
             for (String message : prize.getMessages()) {
                 if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) message = PlaceholderAPI.setPlaceholders(player, message);
 
-                ColorUtils.sendMessage(player, message.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getName())), false);
+                Methods.sendMessage(player, message.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getName())), false);
             }
         } else {
             plugin.getLogger().warning("No prize was found when giving " + player.getName() + " a prize.");
@@ -892,7 +893,7 @@ public class CrazyManager {
      */
     public boolean isKeyFromCrate(ItemStack item, Crate crate) {
         if (crate.getCrateType() != CrateType.MENU) {
-            if (item != null && item.getType() != Material.AIR) return ColorUtils.isSimilar(item, crate);
+            if (item != null && item.getType() != Material.AIR) return Methods.isSimilar(item, crate);
         }
 
         return false;
@@ -978,7 +979,7 @@ public class CrazyManager {
         for (ItemStack item : player.getOpenInventory().getBottomInventory().getContents()) {
             if (item == null || item.getType() == Material.AIR) continue;
 
-            if (ColorUtils.isSimilar(item, crate)) return item;
+            if (Methods.isSimilar(item, crate)) return item;
         }
 
         return null;
@@ -1045,7 +1046,7 @@ public class CrazyManager {
         for (ItemStack item : player.getOpenInventory().getBottomInventory().getContents()) {
             if (item == null || item.getType() == Material.AIR) continue;
 
-            if (ColorUtils.isSimilar(item, crate)) keys += item.getAmount();
+            if (Methods.isSimilar(item, crate)) keys += item.getAmount();
         }
 
         return keys;
@@ -1089,7 +1090,7 @@ public class CrazyManager {
                                 int keyAmount = item.getAmount();
 
                                 if ((takeAmount - keyAmount) >= 0) {
-                                    ColorUtils.removeItemAnySlot(player.getInventory(), item);
+                                    Methods.removeItemAnySlot(player.getInventory(), item);
                                     takeAmount -= keyAmount;
                                 } else {
                                     item.setAmount(keyAmount - takeAmount);
@@ -1122,7 +1123,7 @@ public class CrazyManager {
                         }
                     }
                 } catch (Exception e) {
-                    ColorUtils.failedToTakeKey(player, crate);
+                    Methods.failedToTakeKey(player, crate);
                     return false;
                 }
 
@@ -1173,7 +1174,7 @@ public class CrazyManager {
     public void addKeys(int amount, Player player, Crate crate, KeyType keyType) {
         switch (keyType) {
             case PHYSICAL_KEY -> {
-                if (ColorUtils.isInventoryFull(player)) {
+                if (Methods.isInventoryFull(player)) {
                     if (plugin.getConfigSettings().getProperty(ConfigSettings.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL)) {
                         addVirtualKeys(amount, player, crate);
 
@@ -1306,7 +1307,7 @@ public class CrazyManager {
 
             if (file.contains(path + "DisplayEnchantments")) {
                 for (String enchantmentName : file.getStringList(path + "DisplayEnchantments")) {
-                    Enchantment enchantment = ColorUtils.getEnchantment(enchantmentName.split(":")[0]);
+                    Enchantment enchantment = Methods.getEnchantment(enchantmentName.split(":")[0]);
 
                     if (enchantment != null) itemBuilder.addEnchantments(enchantment, Integer.parseInt(enchantmentName.split(":")[1]));
                 }
