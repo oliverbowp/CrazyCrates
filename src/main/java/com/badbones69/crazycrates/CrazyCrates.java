@@ -61,7 +61,7 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         this.apiManager = new ApiManager(getDataFolder().toPath(), plugin);
         this.apiManager.load();
 
-        this.fileManager = new FileManager();
+        /*this.fileManager = new FileManager();
         this.crazyManager = new CrazyManager();
         this.chestStateHandler = new ChestStateHandler();
         this.eventLogger = new EventLogger();
@@ -81,14 +81,14 @@ public class CrazyCrates extends JavaPlugin implements Listener {
                 .registerCustomFilesFolder("/schematics")
                 .setup();
 
-        enable();
+        enable();*/
     }
 
     @Override
     public void onDisable() {
-        SessionManager.endCrates();
+        //SessionManager.endCrates();
 
-        QuickCrate.removeAllRewards();
+        //QuickCrate.removeAllRewards();
 
         if (this.apiManager.getHolograms() != null) this.apiManager.getHolograms().purge(this);
     }

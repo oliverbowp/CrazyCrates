@@ -64,7 +64,13 @@ public non-sealed class YamlUserManager extends YamlStorage implements UserManag
 
     @Override
     public void addUser(UUID uuid) {
+        if (!userData.containsKey(uuid)) return;
 
+        UserData data = new UserData(uuid);
+
+
+
+        userData.put(uuid, data);
     }
 
     @Override

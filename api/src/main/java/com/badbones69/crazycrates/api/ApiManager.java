@@ -4,6 +4,7 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.badbones69.crazycrates.api.configs.ConfigBuilder;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
+import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.enums.HologramSupport;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
@@ -29,6 +30,7 @@ public class ApiManager {
     }
 
     private UserManager userManager;
+    private CrateManager crateManager;
 
     private SettingsManager pluginSettings;
     private SettingsManager configSettings;
@@ -74,6 +76,8 @@ public class ApiManager {
         );
 
         jsonCrateHandler.load();
+
+        this.crateManager = new CrateManager(this.plugin);
 
         return this;
     }
@@ -135,6 +139,10 @@ public class ApiManager {
 
     public UserManager getUserManager() {
         return this.userManager;
+    }
+
+    public CrateManager getCrateManager() {
+        return this.crateManager;
     }
 
     public SettingsManager getPluginSettings() {

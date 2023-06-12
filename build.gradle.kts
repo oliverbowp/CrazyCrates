@@ -11,9 +11,9 @@ dependencies {
 
     compileOnly(libs.itemsadder.api)
 
-    compileOnly(libs.config.me)
+    implementation(libs.config.me)
 
-    compileOnly(libs.stick.api)
+    implementation(libs.stick.api)
 
     implementation(libs.bstats.bukkit)
 
