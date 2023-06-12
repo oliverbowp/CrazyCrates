@@ -3,6 +3,7 @@ package com.badbones69.crazycrates.api.crates;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -102,8 +103,55 @@ public class CrateConfig extends YamlConfiguration {
                 ConfigurationSection section = getConfigurationSection("Prizes");
 
                 if (section != null) {
-                    section.getKeys(true).forEach(value -> {
+                    section.getKeys(false).forEach(value -> {
+                        String prizePath = path + "Prizes." + value;
 
+                        String id = getString(prizePath + ".DisplayItem", "Stone");
+                        String name = getString(prizePath + ".DisplayName", "");
+                        List<String> lore = getStringList(prizePath + ".Lore");
+
+                        String player = getString(prizePath + ".Player", "");
+                        boolean glowing = getBoolean(prizePath + ".Glowing", false);
+                        int amount = getInt(prizePath + ".DisplayAmount", 1);
+                        boolean unbreakable = getBoolean(prizePath + ".Unbreakable", false);
+                        boolean hideItemFlags = getBoolean(prizePath + ".HideItemsFlags", false);
+
+                        List<String> enchantments = getStringList(prizePath + ".DisplayEnchantments");
+
+                        // Misc
+                        boolean fireworks = getBoolean(prizePath + ".Firework");
+                        int chance = getInt(prizePath + ".Chance");
+                        int range = getInt(prizePath + ".MaxRange");
+                        List<String> blacklisted = getStringList(prizePath + ".BlackListed-Permissions");
+
+                        List<String> commands = getStringList(prizePath + ".Commands");
+                        List<String> messages = getStringList(prizePath + ".Messages");
+
+                        // Alternative Prizes
+                        boolean altPrizeToggle = getBoolean(prizePath + ".Alternative-Prize.Toggle");
+                        List<String> altPrizeMessageList = getStringList(prizePath + ".Alternative-Prize.Messages");
+                        List<String> altPrizeCommandList = getStringList(prizePath + ".Alternative-Prize.Commands");
+
+
+                        // If it contains it, set the old values to new.
+                        if (contains(prizePath + ".Alternative-Prize")) {
+
+                        }
+
+                        // If it contains it, set the old values to new.
+                        if (contains(prizePath + ".Editor-Items")) {
+
+                        }
+
+                        set("prizes." + value + ".display.name", name);
+                        set("prizes." + value + ".display.item", id);
+
+                        set("prizes." + value + ".display.lore.toggle", false);
+                        set("prizes." + value + ".display.lore.message", lore);
+
+                        //set("prizes." + value + ".fireworks");
+
+                        // Cosmic Crate Checks
                     });
                 }
 
