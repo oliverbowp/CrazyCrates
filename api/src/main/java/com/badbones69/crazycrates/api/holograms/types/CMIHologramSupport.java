@@ -1,6 +1,5 @@
 package com.badbones69.crazycrates.api.holograms.types;
 
-/*
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
@@ -25,6 +24,8 @@ public class CMIHologramSupport implements HologramManager {
 
         CMIHologram hologram = new CMIHologram("CrazyCrates-" + UUID.randomUUID(), cmiLocation);
 
+        hologram.setLines(crateHologram.getMessages());
+
         CMI.getInstance().getHologramManager().addHologram(hologram);
 
         hologram.update();
@@ -48,4 +49,3 @@ public class CMIHologramSupport implements HologramManager {
         holograms.clear();
     }
 }
- */

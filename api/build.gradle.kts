@@ -2,6 +2,12 @@ plugins {
     id("paper-plugin")
 }
 
+repositories {
+    flatDir {
+        dirs("${rootDir}/libs")
+    }
+}
+
 dependencies {
     compileOnly(libs.config.me)
 
@@ -10,8 +16,8 @@ dependencies {
     compileOnly(libs.fancy.holograms)
     compileOnly(libs.fancy.npcs)
 
-    //compileOnly(libs.cmi.api)
-    //compileOnly(libs.cmi.lib)
+    compileOnly("cmi-api:CMI-API")
+    compileOnly("cmi-lib:CMILib")
 
     compileOnly(libs.stick.api)
 }
