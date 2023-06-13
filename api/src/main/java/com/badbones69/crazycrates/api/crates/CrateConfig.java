@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates.api.crates;
 
 import com.badbones69.crazycrates.api.crates.types.CrateType;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -121,19 +123,38 @@ public class CrateConfig extends YamlConfiguration {
                         set(prizePath + ".Glowing", null);
 
                         int amount = getInt(prizePath + ".DisplayAmount", 1);
+                        set(newPath + ".display.amount", amount);
+
                         boolean unbreakable = getBoolean(prizePath + ".Unbreakable", false);
+                        set(newPath + ".unbreakable", unbreakable);
+
                         boolean hideItemFlags = getBoolean(prizePath + ".HideItemsFlags", false);
+                        set(newPath + ".hide-item-flags", hideItemFlags);
 
                         List<String> enchantments = getStringList(prizePath + ".DisplayEnchantments");
+                        set(newPath + ".display.enchantments", enchantments);
 
                         // Misc
                         boolean fireworks = getBoolean(prizePath + ".Firework");
+                        set(newPath + ".fireworks.toggle", fireworks);
+
                         int chance = getInt(prizePath + ".Chance");
+                        set(newPath + ".chance", chance);
+
                         int range = getInt(prizePath + ".MaxRange");
+                        set(newPath + ".max-range", range);
+
                         List<String> blacklisted = getStringList(prizePath + ".BlackListed-Permissions");
+                        set(newPath + ".permissions.blacklisted.toggle", false);
+                        set(newPath + ".permissions.blacklisted.values", blacklisted);
 
                         List<String> commands = getStringList(prizePath + ".Commands");
+                        set(newPath + ".commands.toggle", false);
+                        set(newPath + ".commands.values", commands);
+
                         List<String> messages = getStringList(prizePath + ".Messages");
+                        set(newPath + ".messages.toggle", false);
+                        set(newPath + ".messages.values", messages);
 
                         // Alternative Prizes
                         boolean altPrizeToggle = getBoolean(prizePath + ".Alternative-Prize.Toggle");
@@ -199,7 +220,77 @@ public class CrateConfig extends YamlConfiguration {
         }
     }
 
+    /**
+     * @return the file
+     */
     public File getFile() {
         return this.file;
+    }
+
+    /**
+     * @return crate type
+     */
+    public String getType() {
+        return getString("crate-settings.type", "CSGO");
+    }
+
+    /**
+     * Get the display name of the crate and check if it isn't null.
+     *
+     * @return display name
+     */
+    public String getDisplayName() {
+        String name = getString("crate-settings.name");
+
+        if (name == null) {
+            // TODO() add logging.
+        }
+
+        return getString("crate-settings.name", "Error: crate-settings.name is not defined!");
+    }
+
+    /**
+     * Get the display name of the key and check if it isn't null.
+     *
+     * @return key name
+     */
+    public String getKeyName() {
+        String name = getString("crate-settings.key.name");
+
+        if (name == null) {
+            // TODO() add logging.
+        }
+
+        return getString("crate-settings.key.name", "Error: crate-settings.key.name is not defined!");
+    }
+
+    /**
+     * Check if the lore is empty and print out a debug message if verbose logging is enabled.
+     *
+     * @return lore
+     */
+    public List<String> getKeyLore() {
+        List<String> lore = getStringList("crate-settings.key.lore");
+
+        if (lore.isEmpty()) {
+            // TODO() add debug message
+            return Collections.emptyList();
+        }
+
+        return lore;
+    }
+
+    /**
+     * @return get the key's material
+     */
+    public Material getKeyItem() {
+        return Material.matchMaterial(getString("crate-settings.key.display.item", "TRIPWIRE_HOOK"));
+    }
+
+    /**
+     * @return whether the key glows
+     */
+    public boolean isKeyGlowing() {
+        return getBoolean("crate-settings.key.display.glowing", false);
     }
 }

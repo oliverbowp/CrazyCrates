@@ -105,6 +105,11 @@ prizes:
       player: 'https://textures.minecraft.net/texture/1ee3126ff2c343da525eef2b93272b9fed36273d0ea08c2616b80009948ad57e' # Custom Texture Example.
       # How many of the item will be displayed.
       amount: 1
+      # What enchants to display? Set to [] to disable.
+      # https://jd.papermc.io/paper/1.20/org/bukkit/enchantments/Enchantment.html
+      enchantments:
+        - 'SHARPNESS:5'
+        - 'FORTUNE:3'
       # The lore related settings.
       lore:
         # If the lore should be enabled.
@@ -115,6 +120,14 @@ prizes:
           - ''
           - '&cChance: &e%chance%'
           - '&cRange: %max-range%'
+
+    unbreakable:
+      # Whether to have the item be unbreakable.
+      toggle: false
+
+    hide-item-flags:
+      # Whether to hide item flags.
+      toggle: false
 
     fireworks:
       # Whether to have fireworks spawn when this prize is won.
@@ -195,6 +208,9 @@ prizes:
       player: '' # Custom Texture Example.
       # How many of the item will be displayed.
       amount: 1
+      # What enchants to display? Set to [] to disable.
+      # https://jd.papermc.io/paper/1.20/org/bukkit/enchantments/Enchantment.html
+      enchantments: []
       # The lore related settings.
       lore:
         # If the lore should be enabled.
@@ -205,6 +221,14 @@ prizes:
           - ''
           - '&cChance: &e%chance%'
           - '&cRange: %max-range%'
+
+    unbreakable:
+      # Whether to have the item be unbreakable.
+      toggle: false
+
+    hide-item-flags:
+      # Whether to hide item flags.
+      toggle: false
 
     fireworks:
       # Whether to have fireworks spawn when this prize is won.
@@ -285,6 +309,9 @@ prizes:
       player: '' # Custom Texture Example.
       # How many of the item will be displayed.
       amount: 3
+      # What enchants to display? Set to [] to disable.
+      # https://jd.papermc.io/paper/1.20/org/bukkit/enchantments/Enchantment.html
+      enchantments: []
       # The lore related settings.
       lore:
         # If the lore should be enabled.
@@ -295,6 +322,14 @@ prizes:
           - ''
           - '&cChance: &e%chance%'
           - '&cRange: %max-range%'
+
+    unbreakable:
+      # Whether to have the item be unbreakable.
+      toggle: false
+
+    hide-item-flags:
+      # Whether to hide item flags.
+      toggle: false
 
     fireworks:
       # Whether to have fireworks spawn when this prize is won.

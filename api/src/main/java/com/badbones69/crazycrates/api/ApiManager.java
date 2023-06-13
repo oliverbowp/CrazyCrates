@@ -79,6 +79,8 @@ public class ApiManager {
 
         this.crateManager = new CrateManager(this.plugin);
 
+        this.crateManager.loadCrates();
+
         return this;
     }
 

@@ -6,13 +6,13 @@ import java.io.File;
 
 public class CrateManager {
 
-
     private final JavaPlugin plugin;
+
     public CrateManager(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
-    private void loadCrates() {
+    public void loadCrates() {
         File cratesDir = new File(this.plugin.getDataFolder(), "crates");
 
         if (!cratesDir.exists()) {
