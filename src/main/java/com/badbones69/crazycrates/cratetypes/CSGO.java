@@ -1,10 +1,9 @@
 package com.badbones69.crazycrates.cratetypes;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
-import com.badbones69.crazycrates.enums.types.KeyType;
+import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.ItemBuilder;
 import com.badbones69.crazycrates.api.objects.Prize;

@@ -1,9 +1,10 @@
 package com.badbones69.crazycrates.api.crates.types;
 
-public enum CrateTypes {
+public enum CrateType {
 
     csgo("CSGO"),
     quad_crate("QuadCrate"),
+    cosmic("Cosmic"),
     quick_crate("QuickCrate"),
     roulette("Roulette"),
     crate_on_the_go("CrateOnTheGo"),
@@ -14,7 +15,7 @@ public enum CrateTypes {
 
     private final String crateType;
 
-    CrateTypes(String crateType) {
+    CrateType(String crateType) {
         this.crateType = crateType;
     }
 

@@ -3,7 +3,6 @@ package com.badbones69.crazycrates.support.placeholders;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.objects.Crate;
-import com.badbones69.crazycrates.enums.types.CrateType;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -22,7 +21,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
             Player playerOnline = (Player) player;
 
             for (Crate crate : crazyManager.getCrates()) {
-                if (crate.getCrateType() != CrateType.MENU) {
+                //if (crate.getCrateType() != CrateType.MENU) {
                     if (identifier.equalsIgnoreCase(crate.getName())) {
                         return NumberFormat.getNumberInstance().format(crazyManager.getVirtualKeys(playerOnline, crate));
                     } else if (identifier.equalsIgnoreCase(crate.getName() + "_physical")) {
@@ -30,7 +29,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                     } else if (identifier.equalsIgnoreCase(crate.getName() + "_total")) {
                         return NumberFormat.getNumberInstance().format(crazyManager.getTotalKeys(playerOnline, crate));
                     }
-                }
+                //}
             }
         }
 

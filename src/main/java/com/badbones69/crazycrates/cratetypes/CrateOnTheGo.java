@@ -1,13 +1,12 @@
 package com.badbones69.crazycrates.cratetypes;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
+import com.badbones69.crazycrates.api.crates.types.CrateType;
 import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.Prize;
-import com.badbones69.crazycrates.enums.types.CrateType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +31,7 @@ public class CrateOnTheGo implements Listener {
             if (item == null || item.getType() == Material.AIR) return;
             
             for (Crate crate : crazyManager.getCrates()) {
-                if (crate.getCrateType() == CrateType.CRATE_ON_THE_GO && Methods.isSimilar(item, crate)) {
+                if (crate.getCrateType() == CrateType.crate_on_the_go && Methods.isSimilar(item, crate)) {
                     e.setCancelled(true);
                     crazyManager.addPlayerToOpeningList(player, crate);
 

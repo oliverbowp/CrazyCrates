@@ -1,91 +1,371 @@
-Crate:
-    # Settings for the holograms.
-  # All the prizes that can be gotten in the Crate.
-  Prizes:
-    1:
-      # Name of the item shown by the crate.
-      DisplayName: '&cAn example of a Player Head!'
-      # ITem shown by the crate.
-      DisplayItem: 'PLAYER_HEAD'
-      # The amount displayed.
-      DisplayAmount: 1
+crate-settings:
+  # Type of crate -> CSGO/QuadCrate/QuickCrate/Roulette/CrateOnTheGo/FireCracker/Wonder/Wheel/War
 
-      # The lore in the crate preview
-      Lore:
-        - '&7Want a player head?'
-        - ''
-        - '&cChance: &e25%'
-      # If you do not want a lore, Set the "Lore:" to look like the line below.
-      # Lore: []
+  # Make sure to check out the wiki for anything not explained here.
+  # https://github.com/Crazy-Crew/Crazy-Crates/wiki
 
-      MaxRange: 100 # Available values: 100, 1000, 10000, 100000, 1000000, 10000000
-      #
-      # 25 is 25% if Max Range is 100
-      # Read more on "Chance" @ https://github.com/Crazy-Crew/Crazy-Crates/wiki/Chance-System
-      #
-      Chance: 25 # The chance out of MaxRange to win an item.
+  # See CosmicCrateExample.yml to see how the Cosmic CrateType works.
+  type: CSGO
+  # The display name when opening a gui crate.
+  name: '&aBasic Crate'
+  # Settings related to how the key looks in-game
+  key:
+    # The name of the key.
+    name: '&7&lBasic Crate &b&lKey'
+    # The lore on the key.
+    lore:
+      - '&7A special key!'
+      - '&7for a special crate.'
+    display:
+      # The item the key is.
+      # You can use TRIPWIRE_HOOK#1 for custom model data.
+      # Replace TRIPWIRE_HOOK with the right material and #1 with whatever the model data is.
+      item: 'TRIPWIRE_HOOK'
+      # If the key should glow or not.
+      glowing: true
 
-      # Can be a name as well.
-      Player: 'https://textures.minecraft.net/texture/1ee3126ff2c343da525eef2b93272b9fed36273d0ea08c2616b80009948ad57e' # Custom Texture Example.
+holograms:
+  # Whether to enable the hologram.
+  toggle: false
+  # How far above the crate should the hologram be?
+  height: 1.5
+  # Settings related to the in-game display.
+  display:
+    # The messages displayed in the hologram.
+    messages:
+      - '&7&lWow this is one line'
+      - '&e&lWow we have another line.'
 
-      # If you do not want a player supplied, Set the "Player:" to look like the line below.
-      # Player: ''
+# Settings related to the crate preview.
+crate-preview:
+  # If the crate preview should be enabled.
+  toggle: false
+  # The name of the crate preview.
+  name: '&aBasic Crate Preview'
+  # How many rows should the Crate Preview have? Header & Bottom included so 3-6
+  rows: 6
+  glass:
+    # Turn the glass boarder in the preview on and off.
+    toggle: true
+    # The name of the border item.
+    name: ' '
+    # The item that shows in the boarder. Can be glass or any other item.
+    item: 'GRAY_STAINED_GLASS_PANE'
 
-      Items: # Give any item you want to the winning player & with a custom texture.
+# Settings related to giving keys on first join.
+starting-keys:
+  # If keys should be given on first join.
+  toggle: false
+  # The amount of keys to give.
+  amount: 0
+
+misc:
+  # Settings related to mass-open.
+  mass-open:
+    # Requires a min of 3 to use mass-open.
+    min: 3
+    # Limited to a max of 10 when using mass-open.
+    max: 10
+  opening-broadcast:
+    # Whether to send the broadcast when opening a crate.
+    toggle: true
+    # Message that is broadcast when opening the crate.
+    message: '%prefix%&6&l%player%&r &7is opening a &7&lBasic Chest&7.'
+
+# Settings related to '/cc gui'
+gui:
+  # If it should show up at all.
+  toggle: true
+  # The slot the item is in.
+  slot: 21
+  display:
+    # The name displayed on the item.
+    name: '&e&lBasic Chest'
+    # The lore displayed on the item.
+    lore:
+      - '&7This crate contains strange objects.'
+      - '&7You have &6%Keys% keys &7to open this crate with.'
+      - '&7&l(&e&l!&7&l) Right click to view rewards.'
+    # The item displayed in the gui.
+    item: 'CHEST'
+  # If the item should be glowing or not.
+  glowing: false
+
+prizes:
+  1:
+    # Settings related to how the item will look cosmetically when previewing prizes.
+    display:
+      # The name of the prize.
+      name: '&cAn example of a player head!'
+      # The item the prize will look like.
+      item: 'PLAYER_HEAD'
+      # You can get these textures from https://minecraft-heads.com/!
+      # You do not need HeadDataBase since they get their heads from minecraft-heads.com.
+      # You can also use player names like Rukkhadevata. If you don't want a custom texture, Leave it blank.
+      player: 'https://textures.minecraft.net/texture/1ee3126ff2c343da525eef2b93272b9fed36273d0ea08c2616b80009948ad57e' # Custom Texture Example.
+      # How many of the item will be displayed.
+      amount: 1
+      # The lore related settings.
+      lore:
+        # If the lore should be enabled.
+        toggle: false
+        # The lore of the preview item.
+        message:
+          - '&7Want a player head?'
+          - ''
+          - '&cChance: &e%chance%'
+          - '&cRange: %max-range%'
+
+    fireworks:
+      # Whether to have fireworks spawn when this prize is won.
+      toggle: false
+
+    glowing:
+      # Whether the display item should glow.
+      toggle: false
+
+    max-range: 100 # Available values: 100, 1000, 10000, 100000, 1000000, 10000000
+    #
+    # 25 is 25% if Max Range is 100
+    # Read more on "Chance" @ https://github.com/Crazy-Crew/Crazy-Crates/wiki/Chance-System
+    #
+    chance: 25 # The chance out of MaxRange to win an item.
+
+    items:
+      # Whether to give items.
+      toggle: false
+      # The items to build.
+      # This item is an example of giving someone a texture head without HeadDataBase!
+      values:
         - 'Item:PLAYER_HEAD, Player:https://textures.minecraft.net/texture/1ee3126ff2c343da525eef2b93272b9fed36273d0ea08c2616b80009948ad57e, Amount:1'
-      # If you do not want to give items, Set the "Items:" to look like the line below.
-      # Items: []
 
-      Commands: # You can run any plugin command here.
+    commands:
+      # Whether to send commands.
+      toggle: false
+      # The commands to run.
+      values:
         - 'broadcast &6&l%player%&r &7won %reward%! WOW'
-      # If you do not want to send commands, Set the "Commands:" to look like the line below.
-      # Commands: []
 
-      Messages: # Send any message you want to the player.
+    messages:
+      # Whether to send messages.
+      toggle: false
+      # The messages to send.
+      values:
         - '&cYou won a &r%reward%!'
-      # If you do not want to send messages, Set the "Messages:" to look like the line below.
-      # Messages: []
 
-      #This allows for one time winnable prizes. If a player has one of the permissions then they will not be able to win it.
-      BlackListed-Permissions: []
-      #This allows users who have won the same prize before to get alternative prizes. They must have a BlackListed-Permission to get an alternative prize.
-      Alternative-Prize:
-        #Toggle if the prize will use alternative prizes for the blacklisted permission.
-        Toggle: false
-        Messages: []
-        Commands: []
-        Items: []
-    2:
-      DisplayName: '&b&lCheap Helmet'
-      DisplayItem: 'GOLDEN_HELMET'
-      DisplayAmount: 1
-      Lore:
-        - '&7Win a cheap helmet.'
-        - '&6&lChance: &c&l60%'
-      MaxRange: 100
-      Chance: 60
-      Items:
+    permissions:
+      blacklisted:
+        # If we should check for blacklisted permissions at all.
+        # I recommend to use LuckPerms, https://luckperms.net/ to handle your permissions!
+        toggle: false
+        # If they have any permission in the list, Deny them the prize.
+        values: []
+
+      alternative-prize:
+        # Toggle if the prize will use alternative prizes if the player has a blacklisted permission.
+        toggle: false
+
+        items:
+          # Whether to give items.
+          toggle: false
+          # The items to build.
+          values: []
+
+        commands:
+          # Whether to send commands.
+          toggle: false
+          # The commands to run.
+          values: []
+
+        messages:
+          # Whether to send messages.
+          toggle: false
+          # The messages to send.
+          values: []
+  2:
+    # Settings related to how the item will look cosmetically when previewing prizes.
+    display:
+      # The name of the prize.
+      name: '&b&lCheap Helmet'
+      # The item the prize will look like.
+      item: 'GOLDEN_HELMET'
+      # You can get these textures from https://minecraft-heads.com/!
+      # You do not need HeadDataBase since they get their heads from minecraft-heads.com.
+      # You can also use player names like Rukkhadevata. If you don't want a custom texture, Leave it blank.
+      player: '' # Custom Texture Example.
+      # How many of the item will be displayed.
+      amount: 1
+      # The lore related settings.
+      lore:
+        # If the lore should be enabled.
+        toggle: false
+        # The lore of the preview item.
+        message:
+          - '&7Win a cheap helmet.'
+          - ''
+          - '&cChance: &e%chance%'
+          - '&cRange: %max-range%'
+
+    fireworks:
+      # Whether to have fireworks spawn when this prize is won.
+      toggle: false
+
+    glowing:
+      # Whether the display item should glow.
+      toggle: false
+
+    max-range: 1000 # Available values: 100, 1000, 10000, 100000, 1000000, 10000000
+    #
+    # 15 is 1.5% if Max Range is 1000
+    # Read more on "Chance" @ https://github.com/Crazy-Crew/Crazy-Crates/wiki/Chance-System
+    #
+    chance: 15 # The chance out of MaxRange to win an item.
+
+    items:
+      # Whether to give items.
+      toggle: false
+      # The items to build.
+      # This item is an example of giving someone a texture head without HeadDataBase!
+      values:
         - 'Item:GOLDEN_HELMET, Amount:1, Name:&bCheap Helmet, PROTECTION_ENVIRONMENTAL:1, OXYGEN:1'
-    3:
-      DisplayName: '&e&l$1,000'
-      DisplayItem: 'SUNFLOWER'
-      DisplayAmount: 1
-      Lore:
-        - '&7Make it rain Money.'
-        - '&6&lChance: &c&l20%'
-      MaxRange: 100
-      Chance: 20
-      Firework: true
-      Commands:
+
+    commands:
+      # Whether to send commands.
+      toggle: false
+      # The commands to run.
+      values:
+        - 'broadcast &6&l%player%&r &7won %reward%! WOW'
+
+    messages:
+      # Whether to send messages.
+      toggle: false
+      # The messages to send.
+      values:
+        - '&cYou won a &r%reward%!'
+
+    permissions:
+      blacklisted:
+        # If we should check for blacklisted permissions at all.
+        # I recommend to use LuckPerms, https://luckperms.net/ to handle your permissions!
+        toggle: false
+        # If they have any permission in the list, Deny them the prize.
+        values: []
+
+      alternative-prize:
+        # Toggle if the prize will use alternative prizes if the player has a blacklisted permission.
+        toggle: false
+
+        items:
+          # Whether to give items.
+          toggle: false
+          # The items to build.
+          values: []
+
+        commands:
+          # Whether to send commands.
+          toggle: false
+          # The commands to run.
+          values: []
+
+        messages:
+          # Whether to send messages.
+          toggle: false
+          # The messages to send.
+          values: []
+  3:
+    # Settings related to how the item will look cosmetically when previewing prizes.
+    display:
+      # The name of the prize.
+      name: '&e&l$1,000'
+      # The item the prize will look like.
+      item: 'SUNFLOWER'
+      # You can get these textures from https://minecraft-heads.com/!
+      # You do not need HeadDataBase since they get their heads from minecraft-heads.com.
+      # You can also use player names like Rukkhadevata. If you don't want a custom texture, Leave it blank.
+      player: '' # Custom Texture Example.
+      # How many of the item will be displayed.
+      amount: 3
+      # The lore related settings.
+      lore:
+        # If the lore should be enabled.
+        toggle: false
+        # The lore of the preview item.
+        message:
+          - '&7Make it rain Money.'
+          - ''
+          - '&cChance: &e%chance%'
+          - '&cRange: %max-range%'
+
+    fireworks:
+      # Whether to have fireworks spawn when this prize is won.
+      toggle: false
+
+    glowing:
+      # Whether the display item should glow.
+      toggle: false
+
+    max-range: 10000 # Available values: 100, 1000, 10000, 100000, 1000000, 10000000
+    #
+    # 20 is 0.20% if Max Range is 10000
+    # Read more on "Chance" @ https://github.com/Crazy-Crew/Crazy-Crates/wiki/Chance-System
+    #
+    chance: 20 # The chance out of MaxRange to win an item.
+
+    items:
+      # Whether to give items.
+      toggle: false
+      # The items to build.
+      # This item is an example of giving someone a texture head without HeadDataBase!
+      values:
+        - 'Item:PLAYER_HEAD, Player:https://textures.minecraft.net/texture/1ee3126ff2c343da525eef2b93272b9fed36273d0ea08c2616b80009948ad57e, Amount:1'
+
+    commands:
+      # Whether to send commands.
+      toggle: true
+      # The commands to run.
+      values:
+        # You can replace lp user %player% with lp group <your group> if you want a prize to only be winnable once.
         - 'eco give %player% 1000'
-      # - 'lp user %player% permission set crazycrates.blacklist.basic.3' -> This is the line where you would give the user the permission.
-      Messages:
-        - '&7You just won &r%reward%.'
-      BlackListed-Permissions:
-        - 'crazycrates.blacklist.basic.3'
-      Alternative-Prize:
-        Toggle: true
-        Messages:
-          - '&r &8[&bCrazyCrates&8]: &7You have already won that prize, so enjoy some gold nuggets.'
-        Commands:
-          - 'give %player% gold_nugget 16'
+        - 'lp user %player% permission set crazycrates.example.blacklist' # This will add the permission to the user
+        # - 'lp user %player% permission settemp crazycrates.example.blacklist 1h' # This will deny the permission for an hour.
+
+    messages:
+      # Whether to send messages.
+      toggle: false
+      # The messages to send.
+      values:
+        - '&cYou won a &r%reward%!'
+
+    permissions:
+      blacklisted:
+        # If we should check for blacklisted permissions at all.
+        # I recommend to use LuckPerms, https://luckperms.net/ to handle your permissions!
+        toggle: true
+        # If they have any permission in the list, Deny them the prize.
+        values:
+          # The player must have one of these permissions.
+          - 'crazycrates.example.blacklist'
+
+      alternative-prize:
+        # Toggle if the prize will use alternative prizes if the player has a blacklisted permission.
+        toggle: false
+
+        items:
+          # Whether to give items.
+          toggle: false
+          # The items to build.
+          values: []
+
+        commands:
+          # Whether to send commands.
+          toggle: false
+          # The commands to run.
+          values:
+            - 'give %player% gold_nugget 16'
+
+        messages:
+          # Whether to send messages.
+          toggle: false
+          # The messages to send.
+          values:
+            - '&r &8[&bCrazyCrates&8]: &7You have already won that prize, so enjoy some gold nuggets.'

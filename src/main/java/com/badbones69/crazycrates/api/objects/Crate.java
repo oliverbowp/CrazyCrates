@@ -4,9 +4,9 @@ import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager;
+import com.badbones69.crazycrates.api.crates.types.CrateType;
 import com.badbones69.crazycrates.api.managers.CosmicCrateManager;
 import com.badbones69.crazycrates.api.managers.CrateManager;
-import com.badbones69.crazycrates.enums.types.CrateType;
 import com.badbones69.crazycrates.listeners.PreviewListener;
 import com.badbones69.crazycrates.objects.CrateHologram;
 import de.tr7zw.changeme.nbtapi.NBTItem;
@@ -93,7 +93,7 @@ public class Crate {
 
         this.hologram = hologram != null ? hologram : new CrateHologram();
 
-        if (crateType == CrateType.COSMIC) this.manager = new CosmicCrateManager(file);
+        if (crateType == CrateType.cosmic) this.manager = new CosmicCrateManager(file);
     }
     
     /**

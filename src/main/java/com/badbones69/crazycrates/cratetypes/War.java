@@ -1,11 +1,10 @@
 package com.badbones69.crazycrates.cratetypes;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
-import com.badbones69.crazycrates.enums.types.CrateType;
-import com.badbones69.crazycrates.enums.types.KeyType;
+import com.badbones69.crazycrates.api.crates.types.CrateType;
+import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.ItemBuilder;
@@ -136,7 +135,7 @@ public class War implements Listener {
         if (inv != null && canPick.containsKey(player) && crazyManager.isInOpeningList(player)) {
             Crate crate = crazyManager.getOpeningCrate(player);
 
-            if (crate.getCrateType() == CrateType.WAR && canPick.get(player)) {
+            if (crate.getCrateType() == CrateType.war && canPick.get(player)) {
                 ItemStack item = e.getCurrentItem();
 
                 if (item != null && item.getType().toString().contains(Material.GLASS_PANE.toString())) {
@@ -202,7 +201,7 @@ public class War implements Listener {
 
         if (canClose.containsKey(player) && canClose.get(player)) {
             for (Crate crate : crazyManager.getCrates()) {
-                if (crate.getCrateType() == CrateType.WAR && e.getView().getTitle().equalsIgnoreCase(Methods.sanitizeColor(crate.getFile().getString(crateNameString)))) {
+                if (crate.getCrateType() == CrateType.war && e.getView().getTitle().equalsIgnoreCase(Methods.sanitizeColor(crate.getFile().getString(crateNameString)))) {
                     canClose.remove(player);
 
                     if (crazyManager.hasCrateTask(player)) crazyManager.endCrate(player);

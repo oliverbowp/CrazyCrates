@@ -3,7 +3,7 @@ package com.badbones69.crazycrates.api;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.api.objects.Crate;
-import com.badbones69.crazycrates.enums.types.KeyType;
+import com.badbones69.crazycrates.enums.KeyType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.io.*;
@@ -68,7 +68,7 @@ public class EventLogger {
     @SuppressWarnings("DEPRECATIONS")
     private String setEntryData(String string, Player player, CommandSender sender, Crate crate, KeyType keyType) {
         return string.replace("%player%", player.getName()).replace("%crate_name%", crate.getName()).replace("%sender%", sender.getName())
-                .replace("%crate_type%", crate.getCrateType().getName()).replace("%key_name%", crate.getKey().getItemMeta().getDisplayName())
+                .replace("%crate_type%", crate.getCrateType().getCrateType()).replace("%key_name%", crate.getKey().getItemMeta().getDisplayName())
                 .replace("%key_type%", keyType.getName()).replace("%key_item%", crate.getKey().getType().toString());
     }
 

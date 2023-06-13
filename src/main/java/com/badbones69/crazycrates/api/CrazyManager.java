@@ -1,9 +1,9 @@
 package com.badbones69.crazycrates.api;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager.Files;
+import com.badbones69.crazycrates.api.crates.types.CrateType;
 import com.badbones69.crazycrates.api.enums.BrokeLocation;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
@@ -13,8 +13,7 @@ import com.badbones69.crazycrates.api.objects.*;
 import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.cratetypes.*;
-import com.badbones69.crazycrates.enums.types.CrateType;
-import com.badbones69.crazycrates.enums.types.KeyType;
+import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
 import com.badbones69.crazycrates.listeners.MenuListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
@@ -94,7 +93,8 @@ public class CrazyManager {
         for (String crateName : fileManager.getAllCratesNames(plugin)) {
             try {
                 FileConfiguration file = fileManager.getFile(crateName).getFile();
-                CrateType crateType = CrateType.getFromName(file.getString("Crate.CrateType"));
+                CrateType crateType = CrateType.crate_on_the_go;
+                //(file.getString("Crate.CrateType"));
                 ArrayList<Prize> prizes = new ArrayList<>();
                 String previewName = file.contains("Crate.Preview-Name") ? file.getString("Crate.Preview-Name") : file.getString("Crate.Name");
                 ArrayList<Tier> tiers = new ArrayList<>();
@@ -107,7 +107,7 @@ public class CrazyManager {
                     }
                 }
 
-                if (crateType == CrateType.COSMIC && tiers.isEmpty()) {
+                if (crateType == CrateType.cosmic && tiers.isEmpty()) {
                     brokecrates.add(crateName);
                     plugin.getLogger().warning("No tiers were found for this cosmic crate " + crateName + ".yml file.");
                     continue;
@@ -171,7 +171,7 @@ public class CrazyManager {
             }
         }
 
-        crates.add(new Crate("Menu", "Menu", CrateType.MENU, new ItemStack(Material.AIR), new ArrayList<>(), null, 0, null, 0, null));
+        //crates.add(new Crate("Menu", "Menu", CrateType.MENU, new ItemStack(Material.AIR), new ArrayList<>(), null, 0, null, 0, null));
 
         if (fileManager.isLogging()) {
             plugin.getLogger().info("All crate information has been loaded.");
@@ -293,32 +293,32 @@ public class CrazyManager {
      * @param checkHand If it just checks the players hand or if it checks their inventory.
      */
     public void openCrate(Player player, Crate crate, KeyType keyType, Location location, boolean virtualCrate, boolean checkHand) {
-        if (crate.getCrateType() != CrateType.MENU) {
+        //if (crate.getCrateType() != CrateType.MENU) {
             if (!crate.canWinPrizes(player)) {
                 player.sendMessage(Messages.NO_PRIZES_FOUND.getMessage());
                 removePlayerFromOpeningList(player);
                 removePlayerKeyType(player);
                 return;
             }
-        }
+        //}
 
         addPlayerToOpeningList(player, crate);
 
         if (crate.getFile() != null) Methods.broadCastMessage(crate.getFile(), player);
 
         switch (crate.getCrateType()) {
-            case MENU -> {
-                boolean openMenu = plugin.getConfigSettings().getProperty(ConfigSettings.ENABLE_CRATE_MENU);
+            //case MENU -> {
+            //    boolean openMenu = plugin.getConfigSettings().getProperty(ConfigSettings.ENABLE_CRATE_MENU);
 
-                if (openMenu) MenuListener.openGUI(player); else player.sendMessage(Messages.FEATURE_DISABLED.getMessage());
-            }
-            case COSMIC -> Cosmic.openCosmic(player, crate, keyType, checkHand);
-            case CSGO -> CSGO.openCSGO(player, crate, keyType, checkHand);
-            case ROULETTE -> Roulette.openRoulette(player, crate, keyType, checkHand);
-            case WHEEL -> Wheel.startWheel(player, crate, keyType, checkHand);
-            case WONDER -> Wonder.startWonder(player, crate, keyType, checkHand);
-            case WAR -> War.openWarCrate(player, crate, keyType, checkHand);
-            case QUAD_CRATE -> {
+            //    if (openMenu) MenuListener.openGUI(player); else player.sendMessage(Messages.FEATURE_DISABLED.getMessage());
+            //}
+            case cosmic -> Cosmic.openCosmic(player, crate, keyType, checkHand);
+            case csgo -> CSGO.openCSGO(player, crate, keyType, checkHand);
+            case roulette -> Roulette.openRoulette(player, crate, keyType, checkHand);
+            case wheel -> Wheel.startWheel(player, crate, keyType, checkHand);
+            case wonder -> Wonder.startWonder(player, crate, keyType, checkHand);
+            case war -> War.openWarCrate(player, crate, keyType, checkHand);
+            case quad_crate -> {
                 Location lastLocation = player.getLocation();
                 lastLocation.setPitch(0F);
                 CrateSchematic crateSchematic = getCrateSchematics().get(new Random().nextInt(getCrateSchematics().size()));
@@ -328,7 +328,7 @@ public class CrazyManager {
 
                 session.startCrate();
             }
-            case FIRE_CRACKER -> {
+            case fire_cracker -> {
                 if (CrateControlListener.inUse.containsValue(location)) {
                     player.sendMessage(Messages.QUICK_CRATE_IN_USE.getMessage());
                     removePlayerFromOpeningList(player);
@@ -344,7 +344,7 @@ public class CrazyManager {
                     }
                 }
             }
-            case QUICK_CRATE -> {
+            case quick_crate -> {
                 if (CrateControlListener.inUse.containsValue(location)) {
                     player.sendMessage(Messages.QUICK_CRATE_IN_USE.getMessage());
                     removePlayerFromOpeningList(player);
@@ -360,7 +360,7 @@ public class CrazyManager {
                     }
                 }
             }
-            case CRATE_ON_THE_GO -> {
+            case crate_on_the_go -> {
                 if (virtualCrate) {
                     player.sendMessage(Messages.CANT_BE_A_VIRTUAL_CRATE.getMessage());
                     removePlayerFromOpeningList(player);
@@ -875,9 +875,9 @@ public class CrazyManager {
     public Crate getCrateFromKey(ItemStack item) {
         if (item != null && item.getType() != Material.AIR) {
             for (Crate crate : getCrates()) {
-                if (crate.getCrateType() != CrateType.MENU) {
+                //if (crate.getCrateType() != CrateType.MENU) {
                     if (isKeyFromCrate(item, crate)) return crate;
-                }
+               // }
             }
         }
 
@@ -892,9 +892,9 @@ public class CrazyManager {
      * @return Returns true if it belongs to that Crate and false if it does not.
      */
     public boolean isKeyFromCrate(ItemStack item, Crate crate) {
-        if (crate.getCrateType() != CrateType.MENU) {
+        //if (crate.getCrateType() != CrateType.MENU) {
             if (item != null && item.getType() != Material.AIR) return Methods.isSimilar(item, crate);
-        }
+        //}
 
         return false;
     }

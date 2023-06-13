@@ -6,6 +6,7 @@ import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.EventLogger;
 import com.badbones69.crazycrates.api.FileManager;
+import com.badbones69.crazycrates.api.crates.types.CrateType;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
@@ -14,8 +15,7 @@ import com.badbones69.crazycrates.api.objects.CrateLocation;
 import com.badbones69.crazycrates.api.objects.Prize;
 import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
 import com.badbones69.crazycrates.enums.Permissions;
-import com.badbones69.crazycrates.enums.types.CrateType;
-import com.badbones69.crazycrates.enums.types.KeyType;
+import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
 import com.badbones69.crazycrates.listeners.MenuListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
@@ -149,9 +149,9 @@ public class CrateBaseCommand extends BaseCommand {
         Inventory inv = plugin.getServer().createInventory(null, slots, ColorUtils.color("&4&lAdmin Keys"));
 
         for (Crate crate : crazyManager.getCrates()) {
-            if (crate.getCrateType() != CrateType.MENU) {
+            //if (crate.getCrateType() != CrateType.MENU) {
                 if (inv.firstEmpty() >= 0) inv.setItem(inv.firstEmpty(), crate.getAdminKey());
-            }
+            //}
         }
 
         player.openInventory(inv);
@@ -262,9 +262,9 @@ public class CrateBaseCommand extends BaseCommand {
         Crate crate = null;
 
         for (Crate crates : crazyManager.getCrates()) {
-            if (crates.getCrateType() != CrateType.MENU) {
+            //if (crates.getCrateType() != CrateType.MENU) {
                 if (crates.getName().equalsIgnoreCase(crateName)) crate = crates;
-            }
+            //}
         }
 
         if (crate != null) {
@@ -273,10 +273,10 @@ public class CrateBaseCommand extends BaseCommand {
                 return;
             }
 
-            if (crate.getCrateType() != CrateType.MENU) {
-                PreviewListener.setPlayerInMenu(player, false);
-                PreviewListener.openNewPreview(player, crate);
-            }
+            //if (crate.getCrateType() != CrateType.MENU) {
+            //    PreviewListener.setPlayerInMenu(player, false);
+            //    PreviewListener.openNewPreview(player, crate);
+            //}
         }
     }
 
@@ -335,7 +335,7 @@ public class CrateBaseCommand extends BaseCommand {
                         return;
                     }
 
-                    if (type != CrateType.CRATE_ON_THE_GO && type != CrateType.QUICK_CRATE && type != CrateType.FIRE_CRACKER && type != CrateType.QUAD_CRATE) {
+                    if (type != CrateType.crate_on_the_go && type != CrateType.quick_crate && type != CrateType.fire_cracker && type != CrateType.quad_crate) {
                         crazyManager.openCrate(player, crate, keyType, player.getLocation(), true, false);
 
                         HashMap<String, String> placeholders = new HashMap<>();
@@ -407,7 +407,7 @@ public class CrateBaseCommand extends BaseCommand {
     @Permission(value = "crazycrates.command.admin.forceopen", def = PermissionDefault.OP)
     public void onAdminForceOpen(CommandSender sender, @Suggestion("crates") String crateName, @Suggestion("online-players") Player player) {
         for (Crate crate : crazyManager.getCrates()) {
-            if (crate.getCrateType() != CrateType.MENU) {
+            //if (crate.getCrateType() != CrateType.MENU) {
                 if (crate.getName().equalsIgnoreCase(crateName)) {
 
                     if (crazyManager.isInOpeningList(player)) {
@@ -418,7 +418,7 @@ public class CrateBaseCommand extends BaseCommand {
                     CrateType type = crate.getCrateType();
 
                     if (type != null) {
-                        if (type != CrateType.CRATE_ON_THE_GO && type != CrateType.QUICK_CRATE && type != CrateType.FIRE_CRACKER) {
+                        if (type != CrateType.crate_on_the_go && type != CrateType.quick_crate && type != CrateType.fire_cracker) {
                             crazyManager.openCrate(player, crate, KeyType.FREE_KEY, player.getLocation(), true, false);
 
                             HashMap<String, String> placeholders = new HashMap<>();
@@ -438,7 +438,7 @@ public class CrateBaseCommand extends BaseCommand {
 
                     return;
                 }
-            }
+            //}
         }
 
         sender.sendMessage(Messages.NOT_A_CRATE.getMessage("%Crate%", crateName));
@@ -513,13 +513,13 @@ public class CrateBaseCommand extends BaseCommand {
             return;
         }
 
-        if (crate.getCrateType() != CrateType.MENU) {
+        //if (crate.getCrateType() != CrateType.MENU) {
             PlayerReceiveKeyEvent event = new PlayerReceiveKeyEvent(person, crate, PlayerReceiveKeyEvent.KeyReceiveReason.GIVE_COMMAND, amount);
 
             plugin.getServer().getPluginManager().callEvent(event);
 
             if (!event.isCancelled()) {
-                if (crate.getCrateType() == CrateType.CRATE_ON_THE_GO) {
+                if (crate.getCrateType() == CrateType.crate_on_the_go) {
                     if (person != null) person.getInventory().addItem(crate.getKey(amount));
                 } else {
                     if (person != null && person.isOnline()) {
@@ -555,8 +555,8 @@ public class CrateBaseCommand extends BaseCommand {
                 eventLogger.logKeyEvent(player, sender, crate, type, EventLogger.KeyEventType.KEY_EVENT_GIVEN, plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_FILE), plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_CONSOLE));
             }
 
-            return;
-        }
+            //return;
+        //}
 
         sender.sendMessage(Messages.NOT_A_CRATE.getMessage("%Crate%", crateName));
     }
@@ -574,7 +574,7 @@ public class CrateBaseCommand extends BaseCommand {
         }
 
         if (crate != null) {
-            if (crate.getCrateType() != CrateType.MENU) {
+            //if (crate.getCrateType() != CrateType.MENU) {
 
                 if (!crazyManager.takeKeys(amount, target, crate, type, false)) {
                     Methods.failedToTakeKey(sender, crate);
@@ -591,7 +591,7 @@ public class CrateBaseCommand extends BaseCommand {
                 eventLogger.logKeyEvent(target, sender, crate, type, EventLogger.KeyEventType.KEY_EVENT_REMOVED, plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_FILE), plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_CONSOLE));
 
                 return;
-            }
+            //}
         }
 
         sender.sendMessage(Messages.NOT_A_CRATE.getMessage("%Crate%", crateName));
@@ -610,7 +610,7 @@ public class CrateBaseCommand extends BaseCommand {
         Crate crate = crazyManager.getCrateFromName(crateName);
 
         if (crate != null) {
-            if (crate.getCrateType() != CrateType.MENU) {
+            //if (crate.getCrateType() != CrateType.MENU) {
                 HashMap<String, String> placeholders = new HashMap<>();
 
                 placeholders.put("%Amount%", String.valueOf(amount));
@@ -628,7 +628,7 @@ public class CrateBaseCommand extends BaseCommand {
                     if (!event.isCancelled()) {
                         onlinePlayer.sendMessage(Messages.OBTAINING_KEYS.getMessage(placeholders));
 
-                        if (crate.getCrateType() == CrateType.CRATE_ON_THE_GO) {
+                        if (crate.getCrateType() == CrateType.crate_on_the_go) {
                             onlinePlayer.getInventory().addItem(crate.getKey(amount));
                             return;
                         }
@@ -639,8 +639,8 @@ public class CrateBaseCommand extends BaseCommand {
                     }
                 }
 
-                return;
-            }
+                //return;
+            //}
         }
 
         sender.sendMessage(Messages.NOT_A_CRATE.getMessage("%Crate%", crateName));

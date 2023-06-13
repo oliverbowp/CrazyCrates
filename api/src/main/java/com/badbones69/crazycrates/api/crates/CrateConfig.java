@@ -1,14 +1,18 @@
 package com.badbones69.crazycrates.api.crates;
 
+import com.badbones69.crazycrates.api.crates.types.CrateTypes;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CrateConfig extends YamlConfiguration {
 
@@ -105,13 +109,20 @@ public class CrateConfig extends YamlConfiguration {
                 if (section != null) {
                     section.getKeys(false).forEach(value -> {
                         String prizePath = path + "Prizes." + value;
+                        String newPath = "prizes." + value;
 
                         String id = getString(prizePath + ".DisplayItem", "Stone");
                         String name = getString(prizePath + ".DisplayName", "");
                         List<String> lore = getStringList(prizePath + ".Lore");
 
                         String player = getString(prizePath + ".Player", "");
+                        set(newPath + ".player", player);
+                        set(prizePath + ".Player", null);
+
                         boolean glowing = getBoolean(prizePath + ".Glowing", false);
+                        set(newPath + ".glowing", glowing);
+                        set(prizePath + ".Glowing", null);
+
                         int amount = getInt(prizePath + ".DisplayAmount", 1);
                         boolean unbreakable = getBoolean(prizePath + ".Unbreakable", false);
                         boolean hideItemFlags = getBoolean(prizePath + ".HideItemsFlags", false);
@@ -132,26 +143,55 @@ public class CrateConfig extends YamlConfiguration {
                         List<String> altPrizeMessageList = getStringList(prizePath + ".Alternative-Prize.Messages");
                         List<String> altPrizeCommandList = getStringList(prizePath + ".Alternative-Prize.Commands");
 
-
                         // If it contains it, set the old values to new.
                         if (contains(prizePath + ".Alternative-Prize")) {
+                            set(newPath + ".permissions.alternative-prize.toggle", altPrizeToggle);
 
+                            set(newPath + ".permissions.alternative-prize.messages.values", altPrizeMessageList);
+                            set(newPath + ".permissions.alternative-prize.messages.toggle", false);
+
+                            set(newPath + ".permissions.alternative-prize.commands.values", altPrizeCommandList);
+                            set(newPath + ".permissions.alternative-prize.commands.toggle", false);
                         }
 
                         // If it contains it, set the old values to new.
                         if (contains(prizePath + ".Editor-Items")) {
+                            List<?> items = getList(prizePath + ".Editor-Items");
 
+                            ArrayList<ItemStack> editorItems = new ArrayList<>();
+
+                            if (items != null) {
+                                items.forEach(item -> editorItems.add((ItemStack) item));
+
+                                set(newPath + ".editor-items", editorItems);
+                            }
                         }
 
-                        set("prizes." + value + ".display.name", name);
-                        set("prizes." + value + ".display.item", id);
+                        set(newPath + ".display.name", name);
+                        set(newPath + ".display.item", id);
 
-                        set("prizes." + value + ".display.lore.toggle", false);
-                        set("prizes." + value + ".display.lore.message", lore);
+                        set(newPath + ".display.lore.toggle", false);
+                        set(newPath + ".display.lore.message", lore);
 
-                        //set("prizes." + value + ".fireworks");
+                        if (contains(prizePath + ".Firework")) set(newPath + ".fireworks.toggle", false);
 
-                        // Cosmic Crate Checks
+                        // Cosmic Crate
+                        if (contains(prizePath + ".Tiers") && Objects.requireNonNull(getString(path + "Type")).equalsIgnoreCase(CrateTypes.cosmic.getCrateType())) {
+                            List<String> tiers = getStringList(prizePath + ".Tiers");
+
+                            set(newPath + ".cosmic-settings.tiers", tiers);
+                        }
+
+                        set(newPath + ".cosmic-settings.total-prize-amount", getInt(path + "Crate-Type-Settings.Total-Prize-Amount"));
+                        set(newPath + ".cosmic-settings.mystery-crate.item",  getString(path + "Crate-Type-Settings.Mystery-Crate.Item"));
+                        set(newPath + ".cosmic-settings.mystery-crate.name",  getString(path + "Crate-Type-Settings.Mystery-Crate.Name"));
+                        set(newPath + ".cosmic-settings.mystery-crate.lore", getStringList(path + "Crate-Type-Settings.Mystery-Crate.Lore"));
+
+                        set(newPath + ".cosmic-settings.picked-crate.item",  getString(path + "Crate-Type-Settings.Picked-Crate.Item"));
+                        set(newPath + ".cosmic-settings.picked-crate.name",  getString(path + "Crate-Type-Settings.Picked-Crate.Name"));
+                        set(newPath + ".cosmic-settings.picked-crate.lore", getStringList(path + "Crate-Type-Settings.Picked-Crate.Lore"));
+
+                        set(path + "Crate-Type-Settings", null);
                     });
                 }
 
