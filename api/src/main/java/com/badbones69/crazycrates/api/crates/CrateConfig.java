@@ -1,13 +1,10 @@
 package com.badbones69.crazycrates.api.crates;
 
-import com.badbones69.crazycrates.api.crates.types.CrateTypes;
+import com.badbones69.crazycrates.api.crates.types.CrateType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -176,7 +173,7 @@ public class CrateConfig extends YamlConfiguration {
                         if (contains(prizePath + ".Firework")) set(newPath + ".fireworks.toggle", false);
 
                         // Cosmic Crate
-                        if (contains(prizePath + ".Tiers") && Objects.requireNonNull(getString(path + "Type")).equalsIgnoreCase(CrateTypes.cosmic.getCrateType())) {
+                        if (contains(prizePath + ".Tiers") && Objects.requireNonNull(getString(path + "Type")).equalsIgnoreCase(CrateType.cosmic.getCrateType())) {
                             List<String> tiers = getStringList(prizePath + ".Tiers");
 
                             set(newPath + ".cosmic-settings.tiers", tiers);
