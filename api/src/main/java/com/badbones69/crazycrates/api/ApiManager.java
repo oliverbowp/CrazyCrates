@@ -132,6 +132,8 @@ public class ApiManager {
 
             jsonCrateHandler.save();
             jsonCrateHandler.load();
+
+            this.crateManager.loadCrates();
         }
     }
 

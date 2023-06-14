@@ -19,6 +19,14 @@ public enum CrateType {
         this.crateType = crateType;
     }
 
+    public static CrateType getFromName(String name) {
+        for (CrateType crate: CrateType.values()) {
+            if (crate.getCrateType().equalsIgnoreCase(name)) return crate;
+        }
+
+        return null;
+    }
+
     public String getCrateType() {
         return this.crateType;
     }

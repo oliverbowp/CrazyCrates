@@ -7,7 +7,7 @@ import com.badbones69.crazycrates.api.crates.types.CrateType;
 import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.badbones69.crazycrates.api.objects.Crate;
-import com.badbones69.crazycrates.api.objects.ItemBuilder;
+import com.badbones69.crazycrates.objects.ItemBuilder;
 import com.badbones69.crazycrates.api.objects.Prize;
 import org.bukkit.Material;
 import org.bukkit.Sound;

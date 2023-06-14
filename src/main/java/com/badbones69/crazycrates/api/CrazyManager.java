@@ -15,7 +15,6 @@ import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSectio
 import com.badbones69.crazycrates.cratetypes.*;
 import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
-import com.badbones69.crazycrates.listeners.MenuListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
 import com.badbones69.crazycrates.objects.CrateHologram;
 import com.badbones69.crazycrates.quadcrates.CrateSchematic;

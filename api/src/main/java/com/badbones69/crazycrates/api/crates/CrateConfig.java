@@ -11,10 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class CrateConfig extends YamlConfiguration {
 
@@ -237,6 +234,10 @@ public class CrateConfig extends YamlConfiguration {
      */
     public File getFile() {
         return this.file;
+    }
+
+    public String getCrateName() {
+        return getFile().getName().replace(".yml", "");
     }
 
     /**
@@ -853,5 +854,36 @@ public class CrateConfig extends YamlConfiguration {
         }
 
         return getBoolean("gui.glowing", false);
+    }
+
+    public List<PrizeConfig> getPrizes() {
+        ArrayList<PrizeConfig> prizes = new ArrayList<>();
+
+        ConfigurationSection prizeSection = getConfigurationSection("prizes");
+
+        if (prizeSection == null) return Collections.unmodifiableList(prizes);
+
+        Set<String> keys = prizeSection.getKeys(false);
+
+        for (String reward : keys) {
+            ConfigurationSection section = prizeSection.getConfigurationSection(reward);
+
+            if (section == null) continue;
+
+            PrizeConfig prizeConfig = new PrizeConfig(
+                    CrateType.getFromName(getType()),
+                    getCrateName(),
+                    section.getString("display.name", "&cError"),
+                    section.getString("display.item", "STONE"),
+                    section.getString("display.player", ""),
+                    section.getInt("display.amount", 1),
+                    section.getStringList("display.enchantments"),
+                    section.getBoolean("display.lore.toggle", false),
+                    section.getStringList("display.lore.lines"));
+
+            prizes.add(prizeConfig);
+        }
+
+        return Collections.unmodifiableList(prizes);
     }
 }
