@@ -1,5 +1,6 @@
 package com.badbones69.crazycrates.api.crates;
 
+import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.stick.paper.utils.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
@@ -7,9 +8,11 @@ import java.io.File;
 public class CrateManager {
 
     private final JavaPlugin plugin;
+    private final SettingsManager pluginSettings;
 
-    public CrateManager(JavaPlugin plugin) {
+    public CrateManager(JavaPlugin plugin, SettingsManager pluginSettings) {
         this.plugin = plugin;
+        this.pluginSettings = pluginSettings;
     }
 
     public void loadCrates() {
@@ -34,7 +37,7 @@ public class CrateManager {
         for (File file : crateList) {
             this.plugin.getLogger().info("Loading crate: " + file.getName());
 
-            CrateConfig crateConfig = new CrateConfig(file);
+            CrateConfig crateConfig = new CrateConfig(file, this.plugin, this.pluginSettings);
 
             crateConfig.load();
 

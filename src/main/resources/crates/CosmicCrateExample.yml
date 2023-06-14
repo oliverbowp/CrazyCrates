@@ -73,7 +73,7 @@ holograms:
   # Settings related to the in-game display.
   display:
     # The messages displayed in the hologram.
-    messages:
+    lines:
       - '&7&lWow this is one line'
       - '&e&lWow we have another line.'
 
@@ -98,14 +98,16 @@ starting-keys:
   # If keys should be given on first join.
   toggle: false
   # The amount of keys to give.
-  amount: 0
+  amount: 1
 
 misc:
   # Settings related to mass-open.
   mass-open:
-    # Requires a min of 3 to use mass-open.
+    # Whether mass-open should be enabled.
+    toggle: false
+    # Requires a min of 3 keys to use mass-open.
     min: 3
-    # Limited to a max of 10 when using mass-open.
+    # Limited to a max of 10 keys when using mass-open.
     max: 10
   opening-broadcast:
     # Whether to send the broadcast when opening a crate.
@@ -155,7 +157,7 @@ prizes:
         # If the lore should be enabled.
         toggle: false
         # The lore of the preview item.
-        message:
+        lines:
           - '&7Want a player head?'
           - ''
           - '&cChance: &e%chance%'
@@ -256,7 +258,7 @@ prizes:
         # If the lore should be enabled.
         toggle: false
         # The lore of the preview item.
-        message:
+        lines:
           - '&7Win a cheap helmet.'
           - ''
           - '&cChance: &e%chance%'
@@ -357,7 +359,7 @@ prizes:
         # If the lore should be enabled.
         toggle: false
         # The lore of the preview item.
-        message:
+        lines:
           - '&7Make it rain Money.'
           - ''
           - '&cChance: &e%chance%'
