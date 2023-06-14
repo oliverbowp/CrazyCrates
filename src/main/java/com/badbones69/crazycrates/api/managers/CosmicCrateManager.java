@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates.api.managers;
 
-import com.badbones69.crazycrates.objects.ItemBuilder;
+import com.badbones69.crazycrates.objects.CrateManager;
+import com.badbones69.crazycrates.objects.builder.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import java.util.Collections;

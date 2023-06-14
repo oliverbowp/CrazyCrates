@@ -17,6 +17,7 @@ import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
 import com.badbones69.crazycrates.objects.CrateHologram;
+import com.badbones69.crazycrates.objects.builder.ItemBuilder;
 import com.badbones69.crazycrates.quadcrates.CrateSchematic;
 import com.badbones69.crazycrates.support.structures.StructureHandler;
 import de.tr7zw.changeme.nbtapi.NBTItem;

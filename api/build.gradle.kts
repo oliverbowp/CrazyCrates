@@ -13,6 +13,8 @@ dependencies {
 
     compileOnly(libs.decent.holograms)
 
+    compileOnly(libs.nbt.api)
+
     compileOnly(libs.fancy.holograms)
     compileOnly(libs.fancy.npcs)
 

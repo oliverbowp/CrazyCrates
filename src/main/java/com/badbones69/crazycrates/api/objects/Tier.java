@@ -1,5 +1,6 @@
 package com.badbones69.crazycrates.api.objects;
 
+import com.badbones69.crazycrates.objects.builder.ItemBuilder;
 import org.bukkit.inventory.ItemStack;
 
 public class Tier {

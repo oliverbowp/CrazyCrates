@@ -4,6 +4,7 @@ import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.stick.paper.utils.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
+import java.util.ArrayList;
 
 public class CrateManager {
 

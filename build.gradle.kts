@@ -9,8 +9,6 @@ dependencies {
 
     compileOnly(libs.placeholder.api)
 
-    compileOnly(libs.itemsadder.api)
-
     implementation(libs.config.me)
 
     implementation(libs.stick.api)

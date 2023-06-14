@@ -1,7 +1,6 @@
 package com.badbones69.crazycrates.api.crates;
 
 import com.badbones69.crazycrates.api.crates.types.CrateType;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -14,10 +13,10 @@ public class PrizeConfig {
     private final String player;
     private final int amount;
     private final List<String> enchantments;
-    private final boolean loreToggle;
+    private final boolean hasLore;
     private final List<String> lore;
 
-    public PrizeConfig(CrateType crateType, String crateName, String displayName, String item, String player, int amount, List<String> enchantments, boolean loreToggle, List<String> lore) {
+    public PrizeConfig(CrateType crateType, String crateName, String displayName, String item, String player, int amount, List<String> enchantments, boolean hasLore, List<String> lore) {
         this.crateType = crateType;
         this.crateName = crateName;
         this.displayName = displayName;
@@ -27,13 +26,12 @@ public class PrizeConfig {
         this.amount = amount;
         this.enchantments = enchantments != null ? enchantments : Collections.emptyList();
 
-        this.loreToggle = loreToggle;
+        this.hasLore = hasLore;
 
         this.lore = lore != null ? lore : Collections.emptyList();
-
-        //if (lore != null && loreToggle) this.lore = lore; else this.lore = Collections.emptyList();
     }
 
+    // Crate Settings.
     public CrateType getCrateType() {
         return this.crateType;
     }
@@ -44,5 +42,30 @@ public class PrizeConfig {
 
     public String getDisplayName() {
         return this.displayName;
+    }
+
+    // Item Preview.
+    public String getItem() {
+        return this.item;
+    }
+
+    public String getPlayer() {
+        return this.player;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
+    public boolean hasLore() {
+        return this.hasLore;
+    }
+
+    public List<String> getLore() {
+        return this.lore;
+    }
+
+    public List<String> getEnchantments() {
+        return this.enchantments;
     }
 }

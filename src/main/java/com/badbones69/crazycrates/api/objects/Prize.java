@@ -1,5 +1,6 @@
 package com.badbones69.crazycrates.api.objects;
 
+import com.badbones69.crazycrates.objects.builder.ItemBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -21,12 +21,12 @@ public class ApiManager {
     private static Stick stick;
 
     private final Path path;
-    private final JavaPlugin plugin;
+    private static JavaPlugin plugin;
 
-    public ApiManager(Path path, JavaPlugin plugin) {
+    public ApiManager(Path path, JavaPlugin javaPlugin) {
         this.path = path;
 
-        this.plugin = plugin;
+        plugin = javaPlugin;
     }
 
     private UserManager userManager;
@@ -72,12 +72,12 @@ public class ApiManager {
 
         JsonCrateHandler jsonCrateHandler = new JsonCrateHandler(
                 this.path,
-                this.plugin.getServer()
+                plugin.getServer()
         );
 
         jsonCrateHandler.load();
 
-        this.crateManager = new CrateManager(this.plugin, this.pluginSettings);
+        this.crateManager = new CrateManager(plugin, this.pluginSettings);
 
         this.crateManager.loadCrates();
 
@@ -88,7 +88,7 @@ public class ApiManager {
         boolean hologramsToggle = this.pluginSettings.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_ENABLED);
 
         if (hologramsToggle) {
-            if (this.hologramManager != null) this.hologramManager.purge(this.plugin);
+            if (this.hologramManager != null) this.hologramManager.purge(plugin);
 
             HologramSupport hologramType = this.pluginSettings.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_TYPE);
 
@@ -109,12 +109,12 @@ public class ApiManager {
 
                 case fancy_holograms -> {
                     this.hologramManager = new DecentHologramSupport();
-                    this.plugin.getLogger().warning("DecentHologram Support is enabled.");
+                    plugin.getLogger().warning("DecentHologram Support is enabled.");
                 }
 
                 case decent_holograms -> {
                     this.hologramManager = new FancyHologramSupport();
-                    this.plugin.getLogger().warning("FancyHologram Support is enabled.");
+                    plugin.getLogger().warning("FancyHologram Support is enabled.");
                 }
             }
         }
@@ -127,7 +127,7 @@ public class ApiManager {
 
             JsonCrateHandler jsonCrateHandler = new JsonCrateHandler(
                     this.path,
-                    this.plugin.getServer()
+                    plugin.getServer()
             );
 
             jsonCrateHandler.save();
@@ -135,6 +135,10 @@ public class ApiManager {
 
             this.crateManager.loadCrates();
         }
+    }
+
+    public static JavaPlugin getPlugin() {
+        return plugin;
     }
 
     public static Stick getStickCore() {

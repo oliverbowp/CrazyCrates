@@ -1,11 +1,9 @@
-package com.badbones69.crazycrates.api.objects;
+package com.badbones69.crazycrates.objects.builder;
 
-import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.ColorUtils;
+import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
-import com.badbones69.crazycrates.support.SkullCreator;
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import dev.lone.itemsadder.api.CustomStack;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -17,6 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 
 public class ItemBuilder {
 
-    private final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final JavaPlugin plugin = ApiManager.getPlugin();
     
     private NBTItem nbtItem;
     
@@ -35,7 +34,6 @@ public class ItemBuilder {
     private String itemName;
     private final List<String> itemLore;
     private int itemAmount;
-    private String iaNamespace;
     
     // Player
     private String player;
@@ -335,14 +333,6 @@ public class ItemBuilder {
         
         ItemStack item = referenceItem;
 
-        //If item is null, Check if the iaNamespace (material from config file) is a ItemsAdder CustomStack
-        //otherwise, normal behaviour
-        if (item == null && this.plugin.getPluginSettings().getProperty(PluginSupportSection.ITEMS_ADDER_SUPPORT)) {
-            CustomStack customStack = CustomStack.getInstance(this.iaNamespace);
-
-            if (customStack != null) item = customStack.getItemStack();
-        }
-
         if (item == null) item = new ItemStack(material);
 
         if (item.getType() != Material.AIR) {
@@ -441,9 +431,6 @@ public class ItemBuilder {
      */
     public ItemBuilder setMaterial(String material) {
         String metaData;
-
-        // Store material inside iaNamespace (e.g. ia:myblock)
-        this.iaNamespace = material;
         
         if (material.contains(":")) { // Sets the durability or another value option.
             String[] b = material.split(":");
