@@ -255,21 +255,6 @@ public class CrateConfig extends YamlConfiguration {
      * @return crate type
      */
     public String getType() {
-        String name = getString("crate-settings.type");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-settings.type is missing or is null.",
-                        "Adding the default value to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-settings.type", "CSGO");
-
-            save();
-        }
-
         return getString("crate-settings.type", "CSGO");
     }
 
@@ -279,21 +264,6 @@ public class CrateConfig extends YamlConfiguration {
      * @return display name
      */
     public String getDisplayName() {
-        String name = getString("crate-settings.name");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-settings.name is missing.",
-                        "Adding the default value to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-settings.name", "&cYou should change this in " + this.file.getName());
-
-            save();
-        }
-
         return getString("crate-settings.name", "&cYou should change this in " + this.file.getName());
     }
 
@@ -303,21 +273,6 @@ public class CrateConfig extends YamlConfiguration {
      * @return key name
      */
     public String getKeyName() {
-        String name = getString("crate-settings.key.name");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-settings.key.name is missing.",
-                        "Adding the default value to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-settings.key.name", "&cYou should change this in " + this.file.getName());
-
-            save();
-        }
-
         return getString("crate-settings.key.name", "&cYou should change this in " + this.file.getName());
     }
 
@@ -329,28 +284,7 @@ public class CrateConfig extends YamlConfiguration {
     public List<String> getKeyLore() {
         List<String> lore = getStringList("crate-settings.key.lore");
 
-        if (lore.isEmpty() || getString("crate-settings.key.lore") == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-settings.key.lore is empty or missing.",
-                        "Adding the default value or returning an empty list to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            if (getString("crate-settings.key.lore") == null) {
-                set("crate-settings.key.lore", List.of(
-                        "&cYou should change this in " + file.getName()
-                ));
-
-                if (this.verbose) this.plugin.getLogger().warning("Adding the default value to " + this.file.getName());
-
-                save();
-
-                return lore;
-            }
-
-            return Collections.emptyList();
-        }
+        if (lore.isEmpty() || getString("crate-settings.key.lore") == null) return Collections.emptyList();
 
         return lore;
     }
@@ -358,46 +292,16 @@ public class CrateConfig extends YamlConfiguration {
     /**
      * @return get the key's material
      */
-    public Material getKeyItem() {
-        String material = getString("crate-settings.key.display.item");
+    public ItemStack getKeyItem() {
+        String material = getString("crate-settings.key.display.item", "TRIPWIRE_HOOK");
 
-        if (material == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-settings.key.display.item is missing/invalid.",
-                        "Adding the default value to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-
-                this.plugin.getLogger().warning("Added the default values back.");
-            }
-
-            set("crate-settings.key.display.item", "TRIPWIRE_HOOK");
-
-            save();
-        }
-
-        return Material.getMaterial(getString("crate-settings.key.display.item", "TRIPWIRE_HOOK"));
+        return new ItemStack(Material.valueOf(material));
     }
 
     /**
      * @return whether the key glows
      */
     public boolean isKeyGlowing() {
-        String value = getString("crate-settings.key.display.glowing");
-
-        if (value == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-settings.key.display.glowing is missing/invalid.",
-                        "Adding the default value to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-settings.key.display.glowing", false);
-
-            save();
-        }
-
         return getBoolean("crate-settings.key.display.glowing", false);
     }
 
@@ -407,21 +311,6 @@ public class CrateConfig extends YamlConfiguration {
      * @return true or false
      */
     public boolean isHologramEnabled() {
-        String value = getString("holograms.toggle");
-
-        if (value == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: holograms.toggle is missing/invalid.",
-                        "Adding the default value to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("holograms.toggle", false);
-
-            save();
-        }
-
         return getBoolean("holograms.toggle", false);
     }
 
@@ -431,21 +320,6 @@ public class CrateConfig extends YamlConfiguration {
      * @return the distance
      */
     public double getHologramHeight() {
-        String value = getString("holograms.height");
-
-        if (value == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: holograms.height is missing/invalid.",
-                        "Adding the default value to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("holograms.height", 1.5);
-
-            save();
-        }
-
         return getDouble("holograms.height", 1.5);
     }
 
@@ -455,404 +329,88 @@ public class CrateConfig extends YamlConfiguration {
     public List<String> getHologramMessages() {
         List<String> lines = getStringList("holograms.display.lines");
 
-        String lore = getString("holograms.display.lines");
-
-        if (lines.isEmpty() || getString("holograms.display.lines") == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: holograms.display.lines is empty or missing.",
-                        "Adding the default value or returning an empty list."
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            if (lore == null) {
-                set("holograms.display.lines", List.of(
-                        "&cYou should change this in " + this.file.getName()
-                ));
-
-                if (this.verbose) this.plugin.getLogger().warning("Added the default values back to " + this.file.getName());
-
-                save();
-
-                return lines;
-            }
-
-            return Collections.emptyList();
-        }
+        if (lines.isEmpty() || getString("holograms.display.lines") == null) return Collections.emptyList();
 
         return lines;
     }
 
     public boolean isCratePreviewEnabled() {
-        String glass = getString("crate-preview.toggle");
-
-        if (glass == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-preview.toggle is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-preview.toggle", false);
-
-            save();
-        }
-
         return getBoolean("crate-preview.toggle", false);
     }
 
     public String getCratePreviewName() {
-        String name = getString("crate-preview.name");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-preview.name is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-preview.name", "&cWarning: You should change this in " + this.file.getName());
-
-            save();
-        }
-
-        return getString("crate-preview.name");
+        return getString("crate-preview.name", "&cError: Preview name is missing from &e" + this.file.getName());
     }
 
     public int getCratePreviewRows() {
-        String rows = getString("crate-preview.rows");
-
-        if (rows == null) {
-           if (this.verbose) {
-               List.of(
-                       "Warning: crate-preview.rows is missing.",
-                       "Added the default values back to " + this.file.getName()
-               ).forEach(line -> this.plugin.getLogger().warning(line));
-           }
-
-           set("crate-preview.rows", 6);
-
-           save();
-        }
-
         return getInt("crate-preview.rows", 6);
     }
 
     public boolean isCratePreviewGlassEnabled() {
-        String glass = getString("crate-preview.glass.toggle");
-
-        if (glass == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-preview.glass.toggle is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-preview.glass.toggle", false);
-
-            save();
-        }
-
         return getBoolean("crate-preview.glass.toggle", false);
     }
 
     public String getCratePreviewGlassName() {
-        String name = getString("crate-preview.glass.name");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-preview.glass.name is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-preview.glass.name", " ");
-
-            save();
-        }
-
         return getString("crate-preview.glass.name", " ");
     }
 
     public String getCratePreviewGlassItem() {
-        String name = getString("crate-preview.glass.item");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: crate-preview.glass.item is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("crate-preview.glass.item", "GRAY_STAINED_GLASS_PANE");
-
-            save();
-        }
-
         return getString("crate-preview.glass.item", "GRAY_STAINED_GLASS_PANE");
     }
 
     public boolean isStartingKeysEnabled() {
-        String toggle = getString("starting-keys.toggle");
-
-        if (toggle == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: starting-keys.toggle is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("starting-keys.toggle", false);
-
-            save();
-        }
-
         return getBoolean("starting-keys.toggle", false);
     }
 
     public int getStartingKeysAmount() {
-        String amount = getString("starting-keys.amount");
-
-        if (amount == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: starting-keys.amount is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("starting-keys.amount", 1);
-
-            save();
-        }
-
         return getInt("starting-keys.amount", 1);
     }
 
     public boolean isMassOpenEnabled() {
-        String amount = getString("misc.mass-open.toggle");
-
-        if (amount == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: misc.mass-open.toggle is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("misc.mass-open.toggle", false);
-
-            save();
-        }
-
         return getBoolean("misc.mass-open.toggle", false);
     }
 
     public int getMassOpenMin() {
-        String amount = getString("misc.mass-open.min");
-
-        if (amount == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: misc.mass-open.min is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("misc.mass-open.min", 3);
-
-            save();
-        }
-
         return getInt("misc.mass-open.min", 3);
     }
 
     public int getMassOpenMax() {
-        String amount = getString("misc.mass-open.max");
-
-        if (amount == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: misc.mass-open.max is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("misc.mass-open.max", 10);
-
-            save();
-        }
-
         return getInt("misc.mass-open.max", 10);
     }
 
     public boolean isOpeningBroadcastEnabled() {
-        String toggle = getString("misc.opening-broadcast.toggle");
-
-        if (toggle == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: misc.opening-broadcast.toggle is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("misc.opening-broadcast.toggle", false);
-
-            save();
-        }
-
         return getBoolean("misc.opening-broadcast.toggle", false);
     }
 
     public String getOpeningBroadcastMessage() {
-        String message = getString("misc.opening-broadcast.message");
-
-        if (message == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: misc.opening-broadcast.message is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("misc.opening-broadcast.message", "&cWarning: You should change this in " + this.file.getName());
-
-            save();
-        }
-
-        return getString("misc.opening-broadcast.message", "Change this in " + this.file.getName());
+        return getString("misc.opening-broadcast.message", "&cError: Opening broadcast message is missing from &e" + this.file.getName());
     }
 
     public boolean isGuiEnabled() {
-        String toggle = getString("gui.toggle");
-
-        if (toggle == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: gui.toggle is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("gui.toggle", true);
-
-            save();
-        }
-
         return getBoolean("gui.toggle", true);
     }
 
     public int getGuiSlot() {
-        String toggle = getString("gui.slot");
-
-        if (toggle == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: gui.slot is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("gui.slot", 21);
-
-            save();
-        }
-
         return getInt("gui.slot", 22);
     }
 
     public String getGuiDisplayName() {
-        String name = getString("gui.display.name");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: gui.display.name is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("gui.display.name", "&cWarning: You should change this in " + this.file.getName());
-
-            save();
-        }
-
         return getString("gui.display.name", "Change this in " + this.file.getName());
     }
 
     public List<String> getGuiDisplayLore() {
         List<String> lines = getStringList("gui.display.lore");
 
-        String lore = getString("gui.display.lore");
-
-        if (lines.isEmpty() || getString("gui.display.lore") == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: gui.display.lore is empty or missing.",
-                        "Adding the default value or returning an empty list."
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            if (lore == null) {
-                set("gui.display.lore", List.of(
-                        "&cYou should change this in " + this.file.getName()
-                ));
-
-                if (this.verbose) this.plugin.getLogger().warning("Added the default values back to " + this.file.getName());
-
-                save();
-
-                return lines;
-            }
-
-            return Collections.emptyList();
-        }
+        if (lines.isEmpty() || getString("gui.display.lore") == null) return Collections.emptyList();
 
         return lines;
     }
 
     public String getGuiDisplayItem() {
-        String name = getString("gui.display.item");
-
-        if (name == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: gui.display.item is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("gui.display.item", "CHEST");
-
-            save();
-        }
-
         return getString("gui.display.name", "CHEST");
     }
 
     public boolean isGuiItemGlowing() {
-        String toggle = getString("gui.glowing");
-
-        if (toggle == null) {
-            if (this.verbose) {
-                List.of(
-                        "Warning: gui.glowing is missing.",
-                        "Added the default values back to " + this.file.getName()
-                ).forEach(line -> this.plugin.getLogger().warning(line));
-            }
-
-            set("gui.glowing", true);
-
-            save();
-        }
-
         return getBoolean("gui.glowing", false);
     }
 

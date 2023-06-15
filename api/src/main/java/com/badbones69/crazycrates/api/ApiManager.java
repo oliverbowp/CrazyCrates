@@ -77,7 +77,7 @@ public class ApiManager {
 
         jsonCrateHandler.load();
 
-        this.crateManager = new CrateManager(plugin, this.pluginSettings);
+        this.crateManager = new CrateManager(this.pluginSettings);
 
         this.crateManager.loadCrates();
 
