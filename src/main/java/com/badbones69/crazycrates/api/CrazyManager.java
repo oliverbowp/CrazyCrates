@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates.api;
 
 import com.badbones69.crazycrates.CrazyCrates;
+import com.badbones69.crazycrates.ItemUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager.Files;
 import com.badbones69.crazycrates.api.crates.types.CrateType;
@@ -635,7 +636,7 @@ public class CrazyManager {
             boolean hideItemFlags = file.getBoolean("Crate.Prizes." + reward + ".HideItemsFlags", false);
 
             for (String enchantmentName : file.getStringList("Crate.Prizes." + reward + ".DisplayEnchantments")) {
-                Enchantment enchantment = Methods.getEnchantment(enchantmentName.split(":")[0]);
+                Enchantment enchantment = ItemUtils.getEnchantment(enchantmentName.split(":")[0]);
 
                 if (enchantment != null) {
                     enchantments.put(enchantment, Integer.parseInt(enchantmentName.split(":")[1]));
@@ -1307,7 +1308,7 @@ public class CrazyManager {
 
             if (file.contains(path + "DisplayEnchantments")) {
                 for (String enchantmentName : file.getStringList(path + "DisplayEnchantments")) {
-                    Enchantment enchantment = Methods.getEnchantment(enchantmentName.split(":")[0]);
+                    Enchantment enchantment = ItemUtils.getEnchantment(enchantmentName.split(":")[0]);
 
                     if (enchantment != null) itemBuilder.addEnchantments(enchantment, Integer.parseInt(enchantmentName.split(":")[1]));
                 }

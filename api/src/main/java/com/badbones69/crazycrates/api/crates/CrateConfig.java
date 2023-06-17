@@ -4,6 +4,7 @@ import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.api.configs.types.PluginSettings;
 import com.badbones69.crazycrates.api.crates.types.CrateType;
 import org.bukkit.Material;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -238,6 +239,10 @@ public class CrateConfig extends YamlConfiguration {
 
     public String getCrateName() {
         return getFile().getName().replace(".yml", "");
+    }
+
+    public Configuration getConfiguration() {
+        return this;
     }
 
     /**

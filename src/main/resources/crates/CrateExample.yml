@@ -72,7 +72,7 @@ misc:
     # Whether to send the broadcast when opening a crate.
     toggle: true
     # Message that is broadcast when opening the crate.
-    message: '%prefix%&6&l%player%&r &7is opening a &7&lBasic Chest&7.'
+    message: '{prefix}&6&l%player%&r &7is opening a &7&lBasic Chest&7.'
 
 # Settings related to '/cc gui'
 gui:
@@ -86,7 +86,7 @@ gui:
     # The lore displayed on the item.
     lore:
       - '&7This crate contains strange objects.'
-      - '&7You have &6%Keys% keys &7to open this crate with.'
+      - '&7You have &6{keys} keys &7to open this crate with.'
       - '&7&l(&e&l!&7&l) Right click to view rewards.'
     # The item displayed in the gui.
     item: 'CHEST'
@@ -120,24 +120,20 @@ prizes:
         lines:
           - '&7Want a player head?'
           - ''
-          - '&cChance: &e%chance%'
-          - '&cRange: %max-range%'
+          - '&cChance: &e{chance}'
+          - '&cRange: {max-range}'
 
-    unbreakable:
-      # Whether to have the item be unbreakable.
-      toggle: false
+    # If you want the item to be unbreakable.
+    unbreakable: false
 
-    hide-item-flags:
-      # Whether to hide item flags.
-      toggle: false
+    # If you want to hide item flags.
+    hide-item-flags: false
 
-    fireworks:
-      # Whether to have fireworks spawn when this prize is won.
-      toggle: false
+    # If you want fireworks to spawn.
+    fireworks: false
 
-    glowing:
-      # Whether the display item should glow.
-      toggle: false
+    # If you want the item to glow.
+    glowing: false
 
     max-range: 100 # Available values: 100, 1000, 10000, 100000, 1000000, 10000000
     #
@@ -159,14 +155,14 @@ prizes:
       toggle: false
       # The commands to run.
       values:
-        - 'broadcast &6&l%player%&r &7won %reward%! WOW'
+        - 'broadcast &6&l%player%&r &7won {reward}! WOW'
 
     messages:
       # Whether to send messages.
       toggle: false
       # The messages to send.
       values:
-        - '&cYou won a &r%reward%!'
+        - '&cYou won a &r{reward}!'
 
     permissions:
       blacklisted:
@@ -221,24 +217,20 @@ prizes:
         lines:
           - '&7Win a cheap helmet.'
           - ''
-          - '&cChance: &e%chance%'
-          - '&cRange: %max-range%'
+          - '&cChance: &e{chance}'
+          - '&cRange: {max-range}'
 
-    unbreakable:
-      # Whether to have the item be unbreakable.
-      toggle: false
+    # If you want the item to be unbreakable.
+    unbreakable: false
 
-    hide-item-flags:
-      # Whether to hide item flags.
-      toggle: false
+    # If you want to hide item flags.
+    hide-item-flags: false
 
-    fireworks:
-      # Whether to have fireworks spawn when this prize is won.
-      toggle: false
+    # If you want fireworks to spawn.
+    fireworks: false
 
-    glowing:
-      # Whether the display item should glow.
-      toggle: false
+    # If you want the item to glow.
+    glowing: false
 
     max-range: 1000 # Available values: 100, 1000, 10000, 100000, 1000000, 10000000
     #
@@ -260,14 +252,14 @@ prizes:
       toggle: false
       # The commands to run.
       values:
-        - 'broadcast &6&l%player%&r &7won %reward%! WOW'
+        - 'broadcast &6&l%player%&r &7won {reward}! WOW'
 
     messages:
       # Whether to send messages.
       toggle: false
       # The messages to send.
       values:
-        - '&cYou won a &r%reward%!'
+        - '&cYou won a &r{reward}!'
 
     permissions:
       blacklisted:
@@ -322,24 +314,20 @@ prizes:
         lines:
           - '&7Make it rain Money.'
           - ''
-          - '&cChance: &e%chance%'
-          - '&cRange: %max-range%'
+          - '&cChance: &e{chance}'
+          - '&cRange: {max-range}'
 
-    unbreakable:
-      # Whether to have the item be unbreakable.
-      toggle: false
+    # If you want the item to be unbreakable.
+    unbreakable: false
 
-    hide-item-flags:
-      # Whether to hide item flags.
-      toggle: false
+    # If you want to hide item flags.
+    hide-item-flags: false
 
-    fireworks:
-      # Whether to have fireworks spawn when this prize is won.
-      toggle: false
+    # If you want fireworks to spawn.
+    fireworks: false
 
-    glowing:
-      # Whether the display item should glow.
-      toggle: false
+    # If you want the item to glow.
+    glowing: false
 
     max-range: 10000 # Available values: 100, 1000, 10000, 100000, 1000000, 10000000
     #
@@ -371,7 +359,7 @@ prizes:
       toggle: false
       # The messages to send.
       values:
-        - '&cYou won a &r%reward%!'
+        - '&cYou won a &r{reward}!'
 
     permissions:
       blacklisted:
