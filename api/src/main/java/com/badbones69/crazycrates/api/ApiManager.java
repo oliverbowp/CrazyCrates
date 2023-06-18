@@ -2,14 +2,17 @@ package com.badbones69.crazycrates.api;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
+import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.api.configs.ConfigBuilder;
+import com.badbones69.crazycrates.api.configs.types.PluginSettings;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.enums.HologramSupport;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
+import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
-import com.badbones69.crazycrates.api.holograms.types.FancyHologramSupport;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
+import com.badbones69.crazycrates.api.storage.types.file.json.JsonUserManager;
 import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateHandler;
 import com.badbones69.crazycrates.api.storage.types.file.yaml.YamlUserManager;
 import com.ryderbelserion.stick.paper.Stick;
@@ -61,16 +64,6 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildConfigSettings())
                 .create();
 
-        // Initialize any misc options like holograms.
-        //reload(false);
-
-        // Initialize user manager.
-        // TODO() Write a convertor.
-        /*
-        this.userManager = new JsonManager(this.path);
-        this.userManager.load();
-        */
-
         this.crateManager = new CrateManager(this.pluginSettings);
 
         this.crateManager.loadCrates();
@@ -82,7 +75,11 @@ public class ApiManager {
 
         jsonCrateHandler.load();
 
-        this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"));
+        switch (this.pluginSettings.getProperty(PluginSettings.DATA_TYPE)) {
+            case json -> this.userManager = new JsonUserManager(this.path);
+            case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"));
+        }
+
         this.userManager.load();
 
         return this;
@@ -97,28 +94,20 @@ public class ApiManager {
             HologramSupport hologramType = this.pluginSettings.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_TYPE);
 
             switch (hologramType) {
-                //case cmi_holograms -> {
-                    //if (CMIModule.holograms.isEnabled()) {
-                        //this.hologramManager = new CMIHologramSupport();
+                case cmi_holograms -> {
+                    if (CMIModule.holograms.isEnabled()) {
+                        this.hologramManager = new CMIHologramSupport();
 
-                    //    return;
-                    //}
+                        return;
+                    }
 
-                    //this.plugin.getLogger().warning("CMI Hologram Support is currently unavailable.");
-                    //this.plugin.getLogger().warning("Please use another option!");
-
-                    //this.plugin.getLogger().warning("CMI support is enabled by you but the CMI Hologram Module is not enabled.");
-                    //this.plugin.getLogger().warning("Please go to Modules.yml in CMI & turn on the hologram module: Restart is required.");
-                //}
-
-                case fancy_holograms -> {
-                    this.hologramManager = new DecentHologramSupport();
-                    plugin.getLogger().warning("DecentHologram Support is enabled.");
+                    plugin.getLogger().warning("CMI support is enabled by you but the CMI Hologram Module is not enabled.");
+                    plugin.getLogger().warning("Please go to Modules.yml in CMI & turn on the hologram module: Restart is required.");
                 }
 
                 case decent_holograms -> {
-                    this.hologramManager = new FancyHologramSupport();
-                    plugin.getLogger().warning("FancyHologram Support is enabled.");
+                    this.hologramManager = new DecentHologramSupport();
+                    plugin.getLogger().warning("DecentHologram Support is enabled.");
                 }
             }
         }
@@ -129,6 +118,10 @@ public class ApiManager {
             
             this.configSettings.reload();
 
+            this.crateManager = new CrateManager(this.pluginSettings);
+
+            this.crateManager.loadCrates();
+
             JsonCrateHandler jsonCrateHandler = new JsonCrateHandler(
                     this.path,
                     plugin.getServer()
@@ -137,7 +130,12 @@ public class ApiManager {
             jsonCrateHandler.save();
             jsonCrateHandler.load();
 
-            this.crateManager.loadCrates();
+            switch (this.pluginSettings.getProperty(PluginSettings.DATA_TYPE)) {
+                case json -> this.userManager = new JsonUserManager(this.path);
+                case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"));
+            }
+
+            this.userManager.load();
         }
     }
 
