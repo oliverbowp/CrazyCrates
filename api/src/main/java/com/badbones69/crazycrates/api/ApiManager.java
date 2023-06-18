@@ -11,6 +11,7 @@ import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.FancyHologramSupport;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateHandler;
+import com.badbones69.crazycrates.api.storage.types.file.yaml.YamlUserManager;
 import com.ryderbelserion.stick.paper.Stick;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
@@ -70,6 +71,10 @@ public class ApiManager {
         this.userManager.load();
         */
 
+        this.crateManager = new CrateManager(this.pluginSettings);
+
+        this.crateManager.loadCrates();
+
         JsonCrateHandler jsonCrateHandler = new JsonCrateHandler(
                 this.path,
                 plugin.getServer()
@@ -77,9 +82,8 @@ public class ApiManager {
 
         jsonCrateHandler.load();
 
-        this.crateManager = new CrateManager(this.pluginSettings);
-
-        this.crateManager.loadCrates();
+        this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"));
+        this.userManager.load();
 
         return this;
     }

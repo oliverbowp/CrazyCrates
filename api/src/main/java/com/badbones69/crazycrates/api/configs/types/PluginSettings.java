@@ -55,5 +55,5 @@ public class PluginSettings implements SettingsHolder {
             "Available Values: json / yaml",
             "The data type you want for the server."
     })
-    public static final Property<DataSupport> DATA_TYPE = newProperty(DataSupport.class, "data.type", DataSupport.json);
+    public static final Property<DataSupport> DATA_TYPE = newProperty(DataSupport.class, "data.type", DataSupport.yaml);
 }

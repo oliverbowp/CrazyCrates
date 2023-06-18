@@ -130,7 +130,8 @@ prizes:
     hide-item-flags: false
 
     # If you want fireworks to spawn.
-    fireworks: false
+    fireworks:
+      toggle: false
 
     # If you want the item to glow.
     glowing: false

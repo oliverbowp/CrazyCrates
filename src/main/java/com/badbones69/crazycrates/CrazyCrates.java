@@ -59,6 +59,8 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         this.apiManager = new ApiManager(getDataFolder().toPath(), plugin);
         this.apiManager.load();
 
+        getServer().getPluginManager().registerEvents(new DataListener(), this);
+
         /*this.fileManager = new FileManager();
         this.crazyManager = new CrazyManager();
         this.chestStateHandler = new ChestStateHandler();
@@ -120,11 +122,7 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
         pluginManager.registerEvents(this, this);
 
-        if (this.apiManager.getPluginSettings().getProperty(PluginSupportSection.ITEMS_ADDER_SUPPORT)) {
-            pluginManager.registerEvents(new ItemsAdderListener(), this);
-        } else {
-            this.crazyManager.loadCrates();
-        }
+        this.crazyManager.loadCrates();
 
         if (this.apiManager.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) new PlaceholderAPISupport().register();
 

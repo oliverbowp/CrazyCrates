@@ -2,12 +2,12 @@ package com.badbones69.crazycrates.objects;
 
 import com.badbones69.crazycrates.api.crates.CrateConfig;
 import com.badbones69.crazycrates.api.crates.types.CrateType;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.List;
 
 public class Crate {
+
+    private final CrateConfig crateConfig;
 
     private final String crateName;
     private final CrateType crateType;
@@ -21,6 +21,8 @@ public class Crate {
     private final CrateHologram crateHologram;
 
     public Crate(CrateConfig crateConfig) {
+        this.crateConfig = crateConfig;
+
         this.crateName = crateConfig.getCrateName();
         this.crateType = CrateType.getFromName(crateConfig.getType());
 
@@ -30,6 +32,10 @@ public class Crate {
         this.isGlowing = crateConfig.isKeyGlowing();
 
         this.crateHologram = new CrateHologram(crateConfig.isHologramEnabled(), crateConfig.getHologramHeight(), crateConfig.getHologramMessages());
+    }
+
+    public CrateConfig getCrateConfig() {
+        return this.crateConfig;
     }
 
     public String getCrateName() {

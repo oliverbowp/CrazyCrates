@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.UUID;
+
 public class DataListener implements Listener {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
@@ -14,11 +16,14 @@ public class DataListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        //JsonStorage.addUser(event.getPlayer().getUniqueId());
+        UUID uuid = event.getPlayer().getUniqueId();
 
-        //JsonStorage.addKey(event.getPlayer().getUniqueId(), "Example", 3);
-        //JsonStorage.addKey(event.getPlayer().getUniqueId(), "Example x2", 5);
+        apiManager.getUserManager().addUser(uuid, null);
 
-        //JsonStorage.save(apiManager.getCrazyCore().getFileHandler(), plugin.getDataFolder().toPath());
+        apiManager.getCrateManager().getCrates().forEach(crate -> {
+            if (crate.getCrateConfig().isStartingKeysEnabled()) apiManager.getUserManager().addKey(uuid, crate.getCrateConfig().getStartingKeysAmount(), crate);
+        });
+
+        apiManager.getUserManager().save();
     }
 }

@@ -3,6 +3,7 @@ package com.badbones69.crazycrates.api.storage.types.file.json;
 import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
+import com.badbones69.crazycrates.objects.Crate;
 import com.google.gson.GsonBuilder;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import com.ryderbelserion.stick.paper.storage.types.file.json.adapters.LocationTypeAdapter;
@@ -47,64 +48,64 @@ public non-sealed class JsonUserManager extends JsonStorage implements UserManag
     }
 
     @Override
-    public void convert(File file, UUID uuid, StorageType storageType) {
+    public void convert(File file, UUID uuid, StorageType storageType, Crate crate) {
 
     }
 
     @Override
-    public void convertLegacy(File file, UUID uuid, StorageType storageType) {
+    public void convertLegacy(File file, UUID uuid, StorageType storageType, Crate crate) {
         if (!file.exists()) return;
 
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
         ConfigurationSection section = configuration.getConfigurationSection("Players");
 
-        if (section == null) return;
+        if (section != null) {
+            UserData data = new UserData(uuid);
 
-        UserData data = new UserData(uuid);
+            if (!userData.containsKey(uuid)) userData.put(uuid, data);
 
-        if (!userData.containsKey(uuid)) userData.put(uuid, data);
+            section.getConfigurationSection("." + uuid).getKeys(true).forEach(value -> {
+                if (!value.equals("Name")) {
+                    String amount = section.getString("." + uuid + "." + value);
 
-        section.getConfigurationSection("." + uuid).getKeys(true).forEach(value -> {
-            if (!value.equals("Name")) {
-                String amount = section.getString("." + uuid + "." + value);
+                    if (amount != null) {
+                        if (value.equals(crate.getCrateName())) data.addKey(crate, Integer.parseInt(amount));
 
-                if (amount != null) {
-                    data.addKey(value, Integer.parseInt(amount));
-
-                    save();
+                        save();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
-    public void addUser(UUID uuid) {
-        convert(new File(this.path.toFile(), "data.yml"), uuid, StorageType.JSON);
+    public void addUser(UUID uuid, Crate crate) {
+        convert(new File(this.path.toFile(), "data.yml"), uuid, StorageType.JSON, crate);
 
         if (!userData.containsKey(uuid)) userData.put(uuid, new UserData(uuid));
     }
 
     @Override
-    public UserData getUser(UUID uuid) {
-        addUser(uuid);
+    public UserData getUser(UUID uuid, Crate crate) {
+        addUser(uuid, crate);
 
         return userData.get(uuid);
     }
 
     @Override
-    public void addKey(UUID uuid, String crateName, int amount) {
-        if (userData.containsKey(uuid)) userData.get(uuid).addKey(crateName, amount); else addUser(uuid);
+    public void addKey(UUID uuid, int amount, Crate crate) {
+        if (userData.containsKey(uuid)) userData.get(uuid).addKey(crate, amount); else addUser(uuid, crate);
     }
 
     @Override
-    public void removeKey(UUID uuid, String crateName, int amount) {
-        if (userData.containsKey(uuid)) userData.get(uuid).removeKey(crateName, amount); else addUser(uuid);
+    public void removeKey(UUID uuid, int amount, Crate crate) {
+        if (userData.containsKey(uuid)) userData.get(uuid).removeKey(crate, amount); else addUser(uuid, crate);
     }
 
     @Override
-    public Map<String, Integer> getKeys(UUID uuid, String crateName) {
-        return getUser(uuid).getKeys();
+    public Map<String, Integer> getKeys(UUID uuid, Crate crate) {
+        return getUser(uuid, crate).getKeys();
     }
 
     @Override

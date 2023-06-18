@@ -1,5 +1,6 @@
 package com.badbones69.crazycrates.api.storage.objects;
 
+import com.badbones69.crazycrates.objects.Crate;
 import com.google.gson.annotations.Expose;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,39 +20,38 @@ public class UserData {
         this.uuid = uuid;
     }
 
-    public void addKey(String crateName, int amount) {
-        if (getKeys().containsKey(crateName)) {
-
-            keys.put(crateName, getKey(crateName) + amount);
+    public void addKey(Crate crate, int amount) {
+        if (this.keys.containsKey(crate.getCrateName())) {
+            this.keys.put(crate.getCrateName(), this.keys.get(crate.getCrateName()) + amount);
             return;
         }
 
-        keys.put(crateName, amount);
+        this.keys.put(crate.getCrateName(), amount);
     }
 
-    public void removeKey(String crateName, int amount) {
-        if (!getKeys().containsKey(crateName)) {
+    public void removeKey(Crate crate, int amount) {
+        if (!this.keys.containsKey(crate.getCrateName())) {
             Bukkit.getLogger().warning("They don't have any keys to remove.");
             return;
         }
 
-        keys.remove(crateName, keys.get(crateName) - amount);
+        this.keys.remove(crate.getCrateName(), this.keys.get(crate.getCrateName()) - amount);
     }
 
-    public int getKey(String crateName) {
-        if (!getKeys().containsKey(crateName)) {
+    public int getKey(Crate crate) {
+        if (!this.keys.containsKey(crate.getCrateName())) {
             Bukkit.getLogger().warning("They don't have any keys to fetch.");
             return 0;
         }
 
-        return getKeys().get(crateName);
+        return this.keys.get(crate.getCrateName());
     }
 
     public Map<String, Integer> getKeys() {
-        return Collections.unmodifiableMap(keys);
+        return Collections.unmodifiableMap(this.keys);
     }
 
     public Player getPlayer() {
-        return Bukkit.getPlayer(uuid);
+        return Bukkit.getPlayer(this.uuid);
     }
 }

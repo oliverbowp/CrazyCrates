@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates.api.storage.interfaces;
 
 import com.badbones69.crazycrates.api.storage.objects.UserData;
+import com.badbones69.crazycrates.objects.Crate;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 
 import java.io.File;
@@ -13,19 +14,19 @@ public interface UserManager {
 
     void save();
 
-    void convert(File file, UUID uuid, StorageType storageType);
+    void convert(File file, UUID uuid, StorageType storageType, Crate crate);
 
-    void convertLegacy(File file, UUID uuid, StorageType storageType);
+    void convertLegacy(File file, UUID uuid, StorageType storageType, Crate crate);
 
-    void addUser(UUID uuid);
+    void addUser(UUID uuid, Crate crate);
 
-    UserData getUser(UUID uuid);
+    UserData getUser(UUID uuid, Crate crate);
 
-    void addKey(UUID uuid, String crateName, int amount);
+    void addKey(UUID uuid, int amount, Crate crate);
 
-    void removeKey(UUID uuid, String crateName, int amount);
+    void removeKey(UUID uuid, int amount, Crate crate);
 
-    Map<String, Integer> getKeys(UUID uuid, String crateName);
+    Map<String, Integer> getKeys(UUID uuid, Crate crate);
 
     Map<UUID, UserData> getUsers(UUID uuid);
 
