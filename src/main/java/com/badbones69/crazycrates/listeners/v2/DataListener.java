@@ -20,10 +20,10 @@ public class DataListener implements Listener {
 
         apiManager.getUserManager().addUser(uuid, null);
 
+        if (apiManager.getCrateManager().getCrates().isEmpty()) return;
+
         apiManager.getCrateManager().getCrates().forEach(crate -> {
             if (crate.getCrateConfig().isStartingKeysEnabled()) apiManager.getUserManager().addKey(uuid, crate.getCrateConfig().getStartingKeysAmount(), crate);
         });
-
-        apiManager.getUserManager().save();
     }
 }

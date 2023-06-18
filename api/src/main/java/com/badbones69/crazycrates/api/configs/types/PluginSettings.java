@@ -53,7 +53,8 @@ public class PluginSettings implements SettingsHolder {
 
     @Comment({
             "Available Values: json / yaml",
-            "The data type you want for the server."
+            "This is only related to how user data is stored!",
+            "Defaults to users.yml"
     })
     public static final Property<DataSupport> DATA_TYPE = newProperty(DataSupport.class, "data.type", DataSupport.yaml);
 }

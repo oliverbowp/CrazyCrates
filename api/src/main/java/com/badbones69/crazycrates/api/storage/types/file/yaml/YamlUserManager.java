@@ -49,8 +49,6 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     public void save() {
         if (!this.userData.isEmpty()) {
             this.userData.forEach((uuid, user) -> {
-                Bukkit.getLogger().warning(uuid.toString());
-
                 user.getKeys().forEach((crate, keys) -> set("users." + uuid + "." + crate, keys));
 
                 try {
