@@ -74,13 +74,13 @@ public class CrateBaseCommand extends BaseCommand {
 
                         HashMap<String, String> placeholders = new HashMap<>();
 
-                        placeholders.put("%Crate%", crate.getName());
-                        placeholders.put("%Amount%", String.valueOf(amount));
-                        placeholders.put("%Player%", player.getName());
+                        placeholders.put("{crate}", crate.getName());
+                        placeholders.put("{amount}", String.valueOf(amount));
+                        placeholders.put("%player%", player.getName());
 
                         sender.sendMessage(Messages.TRANSFERRED_KEYS.getMessage(placeholders));
 
-                        placeholders.put("%Player%", sender.getName());
+                        placeholders.put("%player%", sender.getName());
 
                         player.sendMessage(Messages.RECEIVED_TRANSFERRED_KEYS.getMessage(placeholders));
 

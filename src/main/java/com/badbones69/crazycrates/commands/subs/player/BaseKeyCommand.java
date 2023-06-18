@@ -1,9 +1,7 @@
 package com.badbones69.crazycrates.commands.subs.player;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
-import com.badbones69.crazycrates.api.objects.Crate;
 import com.google.common.collect.Lists;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.BaseCommand;
@@ -17,8 +15,6 @@ import java.util.List;
 public class BaseKeyCommand extends BaseCommand {
 
     private final CrazyCrates plugin = CrazyCrates.getPlugin();
-
-    private final CrazyManager crazyManager = plugin.getCrazyManager();
 
     @Default
     @Permission("crazycrates.command.player.key")
@@ -38,9 +34,9 @@ public class BaseKeyCommand extends BaseCommand {
             return;
         }
 
-        String header = Messages.OTHER_PLAYER_HEADER.getMessageNoPrefix("%Player%", target.getName());
+        String header = Messages.OTHER_PLAYER_HEADER.getMessageNoPrefix("%player%", target.getName());
 
-        String otherPlayer = Messages.OTHER_PLAYER_NO_VIRTUAL_KEYS.getMessage("%Player%", target.getName());
+        String otherPlayer = Messages.OTHER_PLAYER_NO_VIRTUAL_KEYS.getMessage("%player%", target.getName());
 
         getKeys(target, sender, header, otherPlayer);
     }
@@ -50,18 +46,16 @@ public class BaseKeyCommand extends BaseCommand {
 
         message.add(header);
 
-        HashMap<Crate, Integer> keys = crazyManager.getVirtualKeys(target);
-
         boolean hasKeys = false;
 
-        for (Crate crate : keys.keySet()) {
-            int amount = keys.get(crate);
+        for (com.badbones69.crazycrates.objects.Crate crate : this.plugin.getApiManager().getCrateManager().getCrates()) {
+            int amount = this.plugin.getApiManager().getUserManager().getUser(target.getUniqueId(), crate).getKey(crate);
 
             if (amount > 0) {
                 hasKeys = true;
                 HashMap<String, String> placeholders = new HashMap<>();
-                placeholders.put("%Crate%", crate.getFile().getString("Crate.Name"));
-                placeholders.put("%Keys%", amount + "");
+                placeholders.put("{crate}", crate.getCrateName());
+                placeholders.put("{keys}", String.valueOf(amount));
                 message.add(Messages.PER_CRATE.getMessageNoPrefix(placeholders));
             }
         }

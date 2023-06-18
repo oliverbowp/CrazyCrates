@@ -76,8 +76,8 @@ public class ApiManager {
         jsonCrateHandler.load();
 
         switch (this.pluginSettings.getProperty(PluginSettings.DATA_TYPE)) {
-            case json -> this.userManager = new JsonUserManager(this.path);
-            case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"));
+            case json -> this.userManager = new JsonUserManager(this.path, this.crateManager);
+            case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
         }
 
         this.userManager.load();
@@ -131,8 +131,8 @@ public class ApiManager {
             jsonCrateHandler.load();
 
             switch (this.pluginSettings.getProperty(PluginSettings.DATA_TYPE)) {
-                case json -> this.userManager = new JsonUserManager(this.path);
-                case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"));
+                case json -> this.userManager = new JsonUserManager(this.path, this.crateManager);
+                case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
             }
 
             this.userManager.load();

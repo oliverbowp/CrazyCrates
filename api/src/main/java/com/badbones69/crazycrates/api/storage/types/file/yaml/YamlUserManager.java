@@ -1,10 +1,10 @@
 package com.badbones69.crazycrates.api.storage.types.file.yaml;
 
+import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.badbones69.crazycrates.objects.Crate;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -19,11 +19,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class YamlUserManager extends YamlConfiguration implements UserManager {
 
     private final File file;
+    private final CrateManager crateManager;
 
     private final ConcurrentHashMap<UUID, UserData> userData = new ConcurrentHashMap<>();
 
-    public YamlUserManager(File file) {
+    public YamlUserManager(File file, CrateManager crateManager) {
         this.file = file;
+
+        this.crateManager = crateManager;
     }
 
     @Override
@@ -82,13 +85,17 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     public void addUser(UUID uuid, Crate crate) {
         ConfigurationSection section = getConfigurationSection("users");
 
-        //if (section != null && section.contains("users." + uuid)) {
-        //    int amount = getInt("users." + uuid + "." + crate.getCrateName());
+        if (section != null && section.contains("users." + uuid)) {
+            section.getKeys(false).forEach(value -> {
+                if (crateManager.getCrates().contains(crate) && crate.getCrateName().equals(value)) {
+                    int amount = getInt("users." + uuid + "." + crate.getCrateName());
 
-        //    addKey(uuid, amount, crate);
+                    addKey(uuid, amount, crate);
+                }
+            });
 
-        //    return;
-        //}
+            return;
+        }
 
         if (!this.userData.containsKey(uuid)) this.userData.put(uuid, new UserData(uuid));
     }

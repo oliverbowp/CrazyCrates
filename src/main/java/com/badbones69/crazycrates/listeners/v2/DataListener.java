@@ -18,11 +18,11 @@ public class DataListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
 
-        apiManager.getUserManager().addUser(uuid, null);
-
         if (apiManager.getCrateManager().getCrates().isEmpty()) return;
 
         apiManager.getCrateManager().getCrates().forEach(crate -> {
+            apiManager.getUserManager().addUser(uuid, crate);
+
             if (crate.getCrateConfig().isStartingKeysEnabled()) apiManager.getUserManager().addKey(uuid, crate.getCrateConfig().getStartingKeysAmount(), crate);
         });
     }
