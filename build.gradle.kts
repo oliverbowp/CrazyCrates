@@ -9,6 +9,8 @@ dependencies {
 
     compileOnly(libs.placeholder.api)
 
+    implementation(libs.jorel.cmds)
+
     implementation(libs.config.me)
 
     implementation(libs.stick.api)
@@ -32,6 +34,7 @@ tasks {
     shadowJar {
         listOf(
             "de.tr7zw.changeme.nbtapi",
+            "dev.jorel.commandapi",
             "dev.triumphteam",
             "org.bstats",
             "com.zaxxer",
