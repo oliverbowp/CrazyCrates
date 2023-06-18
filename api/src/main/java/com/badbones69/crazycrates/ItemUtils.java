@@ -3,11 +3,9 @@ package com.badbones69.crazycrates;
 import com.badbones69.crazycrates.api.crates.CrateConfig;
 import com.badbones69.crazycrates.objects.builder.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.HashMap;
 
 public class ItemUtils {

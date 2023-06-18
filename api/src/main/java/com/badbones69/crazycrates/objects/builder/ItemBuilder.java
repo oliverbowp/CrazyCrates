@@ -2,7 +2,6 @@ package com.badbones69.crazycrates.objects.builder;
 
 import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.api.ApiManager;
-import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -939,31 +938,22 @@ public class ItemBuilder {
                 String value = optionString.replace(option + ":", "").replace(option, "");
 
                 switch (option.toLowerCase()) {
-                    case "item":
-                        itemBuilder.setMaterial(value);
-                        break;
-                    case "name":
-                        itemBuilder.setName(value);
-                        break;
-                    case "amount":
+                    case "item" -> itemBuilder.setMaterial(value);
+                    case "name" -> itemBuilder.setName(value);
+                    case "amount" -> {
                         try {
                             itemBuilder.setAmount(Integer.parseInt(value));
                         } catch (NumberFormatException e) {
                             itemBuilder.setAmount(1);
                         }
-                        break;
-                    case "lore":
-                        itemBuilder.setLore(Arrays.asList(value.split(",")));
-                        break;
-                    case "player":
-                        itemBuilder.setPlayerName(value);
-                        break;
-                    case "unbreakable-item":
+                    }
+                    case "lore" -> itemBuilder.setLore(Arrays.asList(value.split(",")));
+                    case "player" -> itemBuilder.setPlayerName(value);
+                    case "unbreakable-item" -> {
                         if (value.isEmpty() || value.equalsIgnoreCase("true")) itemBuilder.setUnbreakable(true);
-                        break;
-                    default:
+                    }
+                    default -> {
                         Enchantment enchantment = getEnchantment(option);
-                        
                         if (enchantment != null && enchantment.getName() != null) {
                             try {
                                 itemBuilder.addEnchantments(enchantment, Integer.parseInt(value));
@@ -973,14 +963,12 @@ public class ItemBuilder {
 
                             break;
                         }
-                        
                         for (ItemFlag itemFlag : ItemFlag.values()) {
                             if (itemFlag.name().equalsIgnoreCase(option)) {
                                 itemBuilder.addItemFlag(itemFlag);
                                 break;
                             }
                         }
-                        
                         try {
                             for (PatternType pattern : PatternType.values()) {
                                 if (option.equalsIgnoreCase(pattern.name()) || value.equalsIgnoreCase(pattern.getIdentifier())) {
@@ -989,8 +977,9 @@ public class ItemBuilder {
                                     break;
                                 }
                             }
-                        } catch (Exception ignored) {}
-                        break;
+                        } catch (Exception ignored) {
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
@@ -1095,40 +1084,57 @@ public class ItemBuilder {
     private static Color getColor(String color) {
         if (color != null) {
             switch (color.toUpperCase()) {
-                case "AQUA":
+                case "AQUA" -> {
                     return Color.AQUA;
-                case "BLACK":
+                }
+                case "BLACK" -> {
                     return Color.BLACK;
-                case "BLUE":
+                }
+                case "BLUE" -> {
                     return Color.BLUE;
-                case "FUCHSIA":
+                }
+                case "FUCHSIA" -> {
                     return Color.FUCHSIA;
-                case "GRAY":
+                }
+                case "GRAY" -> {
                     return Color.GRAY;
-                case "GREEN":
+                }
+                case "GREEN" -> {
                     return Color.GREEN;
-                case "LIME":
+                }
+                case "LIME" -> {
                     return Color.LIME;
-                case "MAROON":
+                }
+                case "MAROON" -> {
                     return Color.MAROON;
-                case "NAVY":
+                }
+                case "NAVY" -> {
                     return Color.NAVY;
-                case "OLIVE":
+                }
+                case "OLIVE" -> {
                     return Color.OLIVE;
-                case "ORANGE":
+                }
+                case "ORANGE" -> {
                     return Color.ORANGE;
-                case "PURPLE":
+                }
+                case "PURPLE" -> {
                     return Color.PURPLE;
-                case "RED":
+                }
+                case "RED" -> {
                     return Color.RED;
-                case "SILVER":
+                }
+                case "SILVER" -> {
                     return Color.SILVER;
-                case "TEAL":
+                }
+                case "TEAL" -> {
                     return Color.TEAL;
-                case "WHITE":
+                }
+                case "WHITE" -> {
                     return Color.WHITE;
-                case "YELLOW":
+                }
+                case "YELLOW" -> {
                     return Color.YELLOW;
+                }
             }
 
             try {
