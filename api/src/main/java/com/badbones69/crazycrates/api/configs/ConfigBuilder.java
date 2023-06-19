@@ -2,8 +2,8 @@ package com.badbones69.crazycrates.api.configs;
 
 import ch.jalu.configme.configurationdata.ConfigurationData;
 import ch.jalu.configme.configurationdata.ConfigurationDataBuilder;
-import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
-import com.badbones69.crazycrates.api.configs.types.PluginSettings;
+import com.badbones69.crazycrates.api.configs.types.Config;
+import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 
 public class ConfigBuilder {
@@ -18,16 +18,16 @@ public class ConfigBuilder {
      *
      * @return configuration data object containing the main crate configurations.
      */
-    public static ConfigurationData buildPluginSettings() {
+    public static ConfigurationData buildPluginConfig() {
         return ConfigurationDataBuilder.createConfiguration(
-                PluginSettings.class,
+                PluginConfig.class,
                 PluginSupportSection.class
         );
     }
 
-    public static ConfigurationData buildConfigSettings() {
+    public static ConfigurationData buildConfig() {
         return ConfigurationDataBuilder.createConfiguration(
-                ConfigSettings.class
+                Config.class
         );
     }
 }

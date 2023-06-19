@@ -4,7 +4,8 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.api.configs.ConfigBuilder;
-import com.badbones69.crazycrates.api.configs.types.PluginSettings;
+import com.badbones69.crazycrates.api.configs.types.Language;
+import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.enums.HologramSupport;
@@ -16,8 +17,11 @@ import com.badbones69.crazycrates.api.storage.types.file.json.JsonUserManager;
 import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateHandler;
 import com.badbones69.crazycrates.api.storage.types.file.yaml.YamlUserManager;
 import com.ryderbelserion.stick.paper.Stick;
+import com.ryderbelserion.stick.paper.utils.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ApiManager {
@@ -36,8 +40,9 @@ public class ApiManager {
     private UserManager userManager;
     private CrateManager crateManager;
 
-    private SettingsManager pluginSettings;
-    private SettingsManager configSettings;
+    private SettingsManager pluginConfig;
+    private Language language;
+    private SettingsManager config;
 
     private HologramManager hologramManager;
 
@@ -46,25 +51,53 @@ public class ApiManager {
         // This handles everything related to my personal plugin core.
         stick = new Stick(this.path, plugin.getName());
 
-        // Create plugin-settings.yml
-        File pluginSettings = new File(this.path.toFile(), "plugin-settings.yml");
+        // Create plugin-config.yml
+        File pluginConfig = new File(this.path + "plugin-config.yml");
 
-        this.pluginSettings = SettingsManagerBuilder
-                .withYamlFile(pluginSettings)
+        this.pluginConfig = SettingsManagerBuilder
+                .withYamlFile(pluginConfig)
                 .useDefaultMigrationService()
-                .configurationData(ConfigBuilder.buildPluginSettings())
+                .configurationData(ConfigBuilder.buildPluginConfig())
                 .create();
+
+        File messages = new File(this.path + "messages.yml");
+        File localeDir = new File(this.path.toFile(), "locale");
+        File newFile = new File(localeDir, "lang-en.yml");
+
+        if (!localeDir.exists()) {
+            if (!localeDir.mkdirs()) {
+                plugin.getLogger().severe("Could not create crates directory! " +  localeDir.getAbsolutePath());
+                return this;
+            }
+
+            if (messages.exists()) {
+                File renamedFile = new File(this.path + "lang-en.yml");
+
+                if (messages.renameTo(renamedFile)) plugin.getLogger().info("Renamed " + messages.getName() + " to " + renamedFile.getName());
+
+                try {
+                    Files.move(renamedFile.toPath(), newFile.toPath());
+                    plugin.getLogger().warning("Moved " + renamedFile.getPath() + " to " + newFile.getPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            FileUtils.extract("/locale/", this.path, false);
+        }
+
+        this.language = new Language(newFile);
 
         // Create config.yml
-        File configSettings = new File(this.path.toFile(), "config.yml");
+        File config = new File(this.path.toFile(), "config.yml");
 
-        this.configSettings = SettingsManagerBuilder
-                .withYamlFile(configSettings)
+        this.config = SettingsManagerBuilder
+                .withYamlFile(config)
                 .useDefaultMigrationService()
-                .configurationData(ConfigBuilder.buildConfigSettings())
+                .configurationData(ConfigBuilder.buildConfig())
                 .create();
 
-        this.crateManager = new CrateManager(this.pluginSettings);
+        this.crateManager = new CrateManager();
 
         this.crateManager.loadCrates();
 
@@ -75,7 +108,7 @@ public class ApiManager {
 
         jsonCrateHandler.load();
 
-        switch (this.pluginSettings.getProperty(PluginSettings.DATA_TYPE)) {
+        switch (this.pluginConfig.getProperty(PluginConfig.DATA_TYPE)) {
             case json -> this.userManager = new JsonUserManager(this.path, this.crateManager);
             case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
         }
@@ -86,12 +119,12 @@ public class ApiManager {
     }
 
     public void reload(boolean reloadCommand) {
-        boolean hologramsToggle = this.pluginSettings.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_ENABLED);
+        boolean hologramsToggle = this.pluginConfig.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_ENABLED);
 
         if (hologramsToggle) {
             if (this.hologramManager != null) this.hologramManager.purge(plugin);
 
-            HologramSupport hologramType = this.pluginSettings.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_TYPE);
+            HologramSupport hologramType = this.pluginConfig.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_TYPE);
 
             switch (hologramType) {
                 case cmi_holograms -> {
@@ -114,11 +147,11 @@ public class ApiManager {
 
         // If the command is /crazycrates reload.
         if (reloadCommand) {
-            this.pluginSettings.reload();
+            this.pluginConfig.reload();
             
-            this.configSettings.reload();
+            this.config.reload();
 
-            this.crateManager = new CrateManager(this.pluginSettings);
+            this.crateManager = new CrateManager();
 
             this.crateManager.loadCrates();
 
@@ -130,7 +163,7 @@ public class ApiManager {
             jsonCrateHandler.save();
             jsonCrateHandler.load();
 
-            switch (this.pluginSettings.getProperty(PluginSettings.DATA_TYPE)) {
+            switch (this.pluginConfig.getProperty(PluginConfig.DATA_TYPE)) {
                 case json -> this.userManager = new JsonUserManager(this.path, this.crateManager);
                 case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
             }
@@ -155,12 +188,16 @@ public class ApiManager {
         return this.crateManager;
     }
 
-    public SettingsManager getPluginSettings() {
-        return this.pluginSettings;
+    public SettingsManager getPluginConfig() {
+        return this.pluginConfig;
     }
 
-    public SettingsManager getConfigSettings() {
-        return this.configSettings;
+    public Language getLocale() {
+        return this.language;
+    }
+
+    public SettingsManager getConfig() {
+        return this.config;
     }
 
     public HologramManager getHolograms() {

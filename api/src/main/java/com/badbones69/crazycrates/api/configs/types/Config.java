@@ -10,9 +10,9 @@ import java.util.List;
 import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
-public class ConfigSettings implements SettingsHolder {
+public class Config implements SettingsHolder {
 
-    public ConfigSettings() {}
+    public Config() {}
 
     private static final String settings = "Settings.";
     

@@ -11,7 +11,7 @@ import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
 import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent.KeyReceiveReason;
 import com.badbones69.crazycrates.api.managers.QuadCrateManager;
 import com.badbones69.crazycrates.api.objects.*;
-import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
+import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.cratetypes.*;
 import com.badbones69.crazycrates.enums.KeyType;
@@ -309,7 +309,7 @@ public class CrazyManager {
 
         switch (crate.getCrateType()) {
             //case MENU -> {
-            //    boolean openMenu = plugin.getConfigSettings().getProperty(ConfigSettings.ENABLE_CRATE_MENU);
+            //    boolean openMenu = plugin.getApiManager().getConfig().getProperty(ConfigSettings.ENABLE_CRATE_MENU);
 
             //    if (openMenu) MenuListener.openGUI(player); else player.sendMessage(Messages.FEATURE_DISABLED.getMessage());
             //}
@@ -381,7 +381,7 @@ public class CrazyManager {
             }
         }
 
-        plugin.getEventLogger().logCrateEvent(player, crate, keyType, plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_FILE), plugin.getConfigSettings().getProperty(ConfigSettings.LOG_CRATE_ACTIONS_CONSOLE));
+        plugin.getEventLogger().logCrateEvent(player, crate, keyType, plugin.getApiManager().getConfig().getProperty(Config.LOG_CRATE_ACTIONS_FILE), plugin.getApiManager().getConfig().getProperty(Config.LOG_CRATE_ACTIONS_CONSOLE));
     }
 
     /**
@@ -605,7 +605,7 @@ public class CrazyManager {
      * @return The time in seconds till kick.
      */
     public Integer getQuadCrateTimer() {
-        return plugin.getConfigSettings().getProperty(ConfigSettings.QUAD_CRATE_TIMER);
+        return plugin.getApiManager().getConfig().getProperty(Config.QUAD_CRATE_TIMER);
     }
 
     /**
@@ -683,7 +683,7 @@ public class CrazyManager {
             for (ItemBuilder item : prize.getItemBuilders()) {
                 ItemBuilder clone = new ItemBuilder(item);
 
-                if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) {
+                if (this.plugin.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) {
                     clone.setName(PlaceholderAPI.setPlaceholders(player, clone.getName()));
                     clone.setLore(PlaceholderAPI.setPlaceholders(player, clone.getLore()));
                 }
@@ -722,13 +722,13 @@ public class CrazyManager {
                     command = command.substring(0, command.length() - 1);
                 }
 
-                if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) command = PlaceholderAPI.setPlaceholders(player, command);
+                if (this.plugin.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) command = PlaceholderAPI.setPlaceholders(player, command);
 
                 Methods.sendCommand(command.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getUpdatedName())));
             }
 
             for (String message : prize.getMessages()) {
-                if (this.plugin.getPluginSettings().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) message = PlaceholderAPI.setPlaceholders(player, message);
+                if (this.plugin.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) message = PlaceholderAPI.setPlaceholders(player, message);
 
                 Methods.sendMessage(player, message.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getName())), false);
             }
@@ -1176,10 +1176,10 @@ public class CrazyManager {
         switch (keyType) {
             case PHYSICAL_KEY -> {
                 if (Methods.isInventoryFull(player)) {
-                    if (plugin.getConfigSettings().getProperty(ConfigSettings.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL)) {
+                    if (plugin.getApiManager().getConfig().getProperty(Config.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL)) {
                         addVirtualKeys(amount, player, crate);
 
-                        if (plugin.getConfigSettings().getProperty(ConfigSettings.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL_MESSAGE)) player.sendMessage(Messages.CANNOT_GIVE_PLAYER_KEYS.getMessage().replaceAll("%amount%", String.valueOf(amount)).replaceAll("%key%", crate.getName()));
+                        if (plugin.getApiManager().getConfig().getProperty(Config.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL_MESSAGE)) player.sendMessage(Messages.CANNOT_GIVE_PLAYER_KEYS.getMessage().replaceAll("%amount%", String.valueOf(amount)).replaceAll("%key%", crate.getName()));
                     } else {
                         player.getWorld().dropItem(player.getLocation(), crate.getKey(amount));
                     }

@@ -1,6 +1,5 @@
 package com.badbones69.crazycrates;
 
-import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.EventLogger;
@@ -8,8 +7,6 @@ import com.badbones69.crazycrates.api.FileManager;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
 import com.badbones69.crazycrates.support.structures.blocks.ChestStateHandler;
-import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -69,13 +66,5 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     public HologramManager getHolograms() {
         return getApiManager().getHolograms();
-    }
-
-    public SettingsManager getConfigSettings() {
-        return getApiManager().getConfigSettings();
-    }
-
-    public SettingsManager getPluginSettings() {
-        return getApiManager().getPluginSettings();
     }
 }

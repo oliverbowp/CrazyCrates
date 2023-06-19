@@ -10,7 +10,6 @@ import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public class PluginSupportSection implements SettingsHolder {
 
-
     public PluginSupportSection() {}
 
     @Override

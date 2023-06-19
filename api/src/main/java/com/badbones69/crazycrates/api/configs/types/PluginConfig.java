@@ -7,15 +7,9 @@ import ch.jalu.configme.properties.Property;
 import com.badbones69.crazycrates.api.enums.DataSupport;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
-/**
- * @author RyderBelserion
- *
- * Description: The plugin-settings.yml options.
- */
-public class PluginSettings implements SettingsHolder {
+public class PluginConfig implements SettingsHolder {
 
-    // Empty constructor required by SettingsHolder
-    public PluginSettings() {}
+    public PluginConfig() {}
 
     @Override
     public void registerComments(CommentsConfiguration conf) {

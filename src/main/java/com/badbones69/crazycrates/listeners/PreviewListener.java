@@ -3,7 +3,7 @@ package com.badbones69.crazycrates.listeners;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.objects.builder.ItemBuilder;
-import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
+import com.badbones69.crazycrates.api.configs.types.Config;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,18 +25,18 @@ public class PreviewListener implements Listener {
 
     public static void loadButtons() {
         menuButton = new ItemBuilder()
-                .setMaterial(plugin.getConfigSettings().getProperty(ConfigSettings.MENU_ITEM))
-                .setName(plugin.getConfigSettings().getProperty(ConfigSettings.MENU_NAME))
-                .setLore(plugin.getConfigSettings().getProperty(ConfigSettings.MENU_LORE))
+                .setMaterial(plugin.getApiManager().getConfig().getProperty(Config.MENU_ITEM))
+                .setName(plugin.getApiManager().getConfig().getProperty(Config.MENU_NAME))
+                .setLore(plugin.getApiManager().getConfig().getProperty(Config.MENU_LORE))
                 .build();
         nextButton = new ItemBuilder()
-                .setMaterial(plugin.getConfigSettings().getProperty(ConfigSettings.NEXT_ITEM))
-                .setName(plugin.getConfigSettings().getProperty(ConfigSettings.NEXT_NAME))
-                .setLore(plugin.getConfigSettings().getProperty(ConfigSettings.NEXT_LORE));
+                .setMaterial(plugin.getApiManager().getConfig().getProperty(Config.NEXT_ITEM))
+                .setName(plugin.getApiManager().getConfig().getProperty(Config.NEXT_NAME))
+                .setLore(plugin.getApiManager().getConfig().getProperty(Config.NEXT_LORE));
         backButton = new ItemBuilder()
-                .setMaterial(plugin.getConfigSettings().getProperty(ConfigSettings.BACK_ITEM))
-                .setName(plugin.getConfigSettings().getProperty(ConfigSettings.BACK_NAME))
-                .setLore(plugin.getConfigSettings().getProperty(ConfigSettings.BACK_LORE));
+                .setMaterial(plugin.getApiManager().getConfig().getProperty(Config.BACK_ITEM))
+                .setName(plugin.getApiManager().getConfig().getProperty(Config.BACK_NAME))
+                .setLore(plugin.getApiManager().getConfig().getProperty(Config.BACK_LORE));
     }
     
     public static void openNewPreview(Player player, Crate crate) {

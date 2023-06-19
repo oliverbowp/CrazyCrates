@@ -4,7 +4,7 @@ import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
-import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
+import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.crates.types.CrateType;
 import com.badbones69.crazycrates.enums.Permissions;
 import com.badbones69.crazycrates.enums.KeyType;
@@ -130,8 +130,8 @@ public class CrateControlListener implements Listener { // Crate Control
                     String keyName = crate.getKey().getItemMeta().getDisplayName();
                     keyName = keyName != null ? keyName : crate.getKey().getType().toString();
 
-                    boolean physAcceptsPhys = plugin.getApiManager().getConfigSettings().getProperty(ConfigSettings.PHYSICAL_ACCEPTS_PHYSICAL_KEYS);
-                    boolean physAcceptsVirtual = plugin.getApiManager().getConfigSettings().getProperty(ConfigSettings.PHYSICAL_ACCEPTS_VIRTUAL_KEYS);
+                    boolean physAcceptsPhys = plugin.getApiManager().getConfig().getProperty(Config.PHYSICAL_ACCEPTS_PHYSICAL_KEYS);
+                    boolean physAcceptsVirtual = plugin.getApiManager().getConfig().getProperty(Config.PHYSICAL_ACCEPTS_VIRTUAL_KEYS);
 
                     if (crate.getCrateType() != CrateType.crate_on_the_go && keyInHand && crazyManager.isKeyFromCrate(key, crate) && physAcceptsPhys) {
                         hasKey = true;
@@ -174,10 +174,10 @@ public class CrateControlListener implements Listener { // Crate Control
                         crazyManager.openCrate(player, crate, keyType, crateLocation.getLocation(), false, true);
                     } else {
                         if (crate.getCrateType() != CrateType.crate_on_the_go) {
-                            if (plugin.getApiManager().getConfigSettings().getProperty(ConfigSettings.CRATE_KNOCK_BACK)) knockBack(player, clickedBlock.getLocation());
+                            if (plugin.getApiManager().getConfig().getProperty(Config.CRATE_KNOCK_BACK)) knockBack(player, clickedBlock.getLocation());
 
-                            if (plugin.getApiManager().getConfigSettings().getProperty(ConfigSettings.NEED_KEY_SOUND_TOGGLE)) {
-                                Sound sound = Sound.valueOf(plugin.getApiManager().getConfigSettings().getProperty(ConfigSettings.NEED_KEY_SOUND));
+                            if (plugin.getApiManager().getConfig().getProperty(Config.NEED_KEY_SOUND_TOGGLE)) {
+                                Sound sound = Sound.valueOf(plugin.getApiManager().getConfig().getProperty(Config.NEED_KEY_SOUND));
 
                                 player.playSound(player.getLocation(), sound, 1f, 1f);
                             }

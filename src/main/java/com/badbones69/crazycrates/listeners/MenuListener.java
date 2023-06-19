@@ -3,7 +3,7 @@ package com.badbones69.crazycrates.listeners;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
-import com.badbones69.crazycrates.api.configs.types.ConfigSettings;
+import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.enums.KeyType;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.objects.Crate;
@@ -28,13 +28,13 @@ public class MenuListener implements Listener {
     private static final CrazyManager crazyManager = plugin.getCrazyManager();
     
     public static void openGUI(Player player) {
-        int size = plugin.getConfigSettings().getProperty(ConfigSettings.INVENTORY_SIZE);
-        Inventory inv = player.getServer().createInventory(null, size, Methods.sanitizeColor(plugin.getConfigSettings().getProperty(ConfigSettings.INVENTORY_NAME)));
+        int size = plugin.getApiManager().getConfig().getProperty(Config.INVENTORY_SIZE);
+        Inventory inv = player.getServer().createInventory(null, size, Methods.sanitizeColor(plugin.getApiManager().getConfig().getProperty(Config.INVENTORY_NAME)));
 
-        if (plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_TOGGLE)) {
-            String id = plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_ITEM);
-            String name = plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_NAME);
-            List<String> lore = plugin.getConfigSettings().getProperty(ConfigSettings.FILLER_LORE);
+        if (plugin.getApiManager().getConfig().getProperty(Config.FILLER_TOGGLE)) {
+            String id = plugin.getApiManager().getConfig().getProperty(Config.FILLER_ITEM);
+            String name = plugin.getApiManager().getConfig().getProperty(Config.FILLER_NAME);
+            List<String> lore = plugin.getApiManager().getConfig().getProperty(Config.FILLER_LORE);
 
             ItemStack item = new ItemBuilder().setMaterial(id).setName(name).setLore(lore).build();
 
@@ -43,8 +43,8 @@ public class MenuListener implements Listener {
             }
         }
 
-        if (plugin.getConfigSettings().getProperty(ConfigSettings.CUSTOMIZER_TOGGLE)) {
-            for (String custom : plugin.getConfigSettings().getProperty(ConfigSettings.CUSTOMIZER)) {
+        if (plugin.getApiManager().getConfig().getProperty(Config.CUSTOMIZER_TOGGLE)) {
+            for (String custom : plugin.getApiManager().getConfig().getProperty(Config.CUSTOMIZER)) {
                 int slot = 0;
                 ItemBuilder item = new ItemBuilder();
                 String[] split = custom.split(", ");
@@ -142,7 +142,7 @@ public class MenuListener implements Listener {
                 //if (crate.getCrateType() != CrateType.MENU && crate.isCrateMenu(e.getView())) return;
             }
 
-            if (e.getView().getTitle().equals(Methods.sanitizeColor(plugin.getConfigSettings().getProperty(ConfigSettings.INVENTORY_NAME)))) {
+            if (e.getView().getTitle().equals(Methods.sanitizeColor(plugin.getApiManager().getConfig().getProperty(Config.INVENTORY_NAME)))) {
                 e.setCancelled(true);
 
                 if (e.getCurrentItem() != null) {
@@ -179,15 +179,15 @@ public class MenuListener implements Listener {
                                 if (crazyManager.getVirtualKeys(player, crate) >= 1) {
                                     hasKey = true;
                                 } else {
-                                    if (plugin.getConfigSettings().getProperty(ConfigSettings.VIRTUAL_ACCEPTS_PHYSICAL_KEYS) && crazyManager.hasPhysicalKey(player, crate, false)) {
+                                    if (plugin.getApiManager().getConfig().getProperty(Config.VIRTUAL_ACCEPTS_PHYSICAL_KEYS) && crazyManager.hasPhysicalKey(player, crate, false)) {
                                         hasKey = true;
                                         keyType = KeyType.PHYSICAL_KEY;
                                     }
                                 }
 
                                 if (!hasKey) {
-                                    if (plugin.getConfigSettings().getProperty(ConfigSettings.NEED_KEY_SOUND_TOGGLE)) {
-                                        Sound sound = Sound.valueOf(plugin.getConfigSettings().getProperty(ConfigSettings.NEED_KEY_SOUND));
+                                    if (plugin.getApiManager().getConfig().getProperty(Config.NEED_KEY_SOUND_TOGGLE)) {
+                                        Sound sound = Sound.valueOf(plugin.getApiManager().getConfig().getProperty(Config.NEED_KEY_SOUND));
 
                                         player.playSound(player.getLocation(), sound, 1f, 1f);
                                     }
@@ -196,7 +196,7 @@ public class MenuListener implements Listener {
                                     return;
                                 }
 
-                                for (String world : plugin.getConfigSettings().getProperty(ConfigSettings.DISABLED_WORLDS)) {
+                                for (String world : plugin.getApiManager().getConfig().getProperty(Config.DISABLED_WORLDS)) {
                                     if (world.equalsIgnoreCase(player.getWorld().getName())) {
                                         player.sendMessage(Messages.WORLD_DISABLED.getMessage("%World%", player.getWorld().getName()));
                                         return;

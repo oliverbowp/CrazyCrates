@@ -1,7 +1,5 @@
 package com.badbones69.crazycrates.api.crates;
 
-import ch.jalu.configme.SettingsManager;
-import com.badbones69.crazycrates.api.configs.types.PluginSettings;
 import com.badbones69.crazycrates.api.crates.types.CrateType;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
@@ -9,7 +7,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -17,18 +14,11 @@ import java.util.*;
 public class CrateConfig extends YamlConfiguration {
 
     private final File file;
-    private final JavaPlugin plugin;
-
-    private final boolean verbose;
 
     private final String path = "Crate.";
 
-    public CrateConfig(File file, JavaPlugin plugin, SettingsManager settingsManager) {
+    public CrateConfig(File file) {
         this.file = file;
-
-        this.plugin = plugin;
-
-        this.verbose = settingsManager.getProperty(PluginSettings.VERBOSE_LOGGING);
     }
 
     public void load() {

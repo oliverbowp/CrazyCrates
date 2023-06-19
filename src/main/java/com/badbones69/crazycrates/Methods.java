@@ -1,7 +1,7 @@
 package com.badbones69.crazycrates;
 
 import com.badbones69.crazycrates.api.CrazyManager;
-import com.badbones69.crazycrates.api.configs.types.PluginSettings;
+import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.badbones69.crazycrates.api.objects.Crate;
@@ -16,7 +16,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -178,11 +177,11 @@ public class Methods {
     }
 
     public static String getPrefix() {
-        return color(plugin.getPluginSettings().getProperty(PluginSettings.COMMAND_PREFIX));
+        return color(plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.COMMAND_PREFIX));
     }
 
     public static String getPrefix(String msg) {
-        return color(plugin.getPluginSettings().getProperty(PluginSettings.COMMAND_PREFIX) + msg);
+        return color(plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.COMMAND_PREFIX) + msg);
     }
 
     public static boolean isInventoryFull(Player player) {
