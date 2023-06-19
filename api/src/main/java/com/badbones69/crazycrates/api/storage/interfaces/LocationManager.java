@@ -12,6 +12,8 @@ public interface LocationManager {
 
     void save();
 
+    void reload();
+
     void convert(File file, StorageType storageType);
 
     void convertLegacy(File file, StorageType storageType);

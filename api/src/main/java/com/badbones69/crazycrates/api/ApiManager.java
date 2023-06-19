@@ -160,8 +160,8 @@ public class ApiManager {
                     plugin.getServer()
             );
 
-            jsonCrateHandler.save();
-            jsonCrateHandler.load();
+            jsonCrateHandler.reload();
+
 
             switch (this.pluginConfig.getProperty(PluginConfig.DATA_TYPE)) {
                 case json -> this.userManager = new JsonUserManager(this.path, this.crateManager);

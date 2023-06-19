@@ -38,6 +38,12 @@ public non-sealed class JsonCrateHandler extends JsonCrateData implements Locati
     }
 
     @Override
+    public void reload() {
+        load();
+        save();
+    }
+
+    @Override
     public void convert(File file, StorageType storageType) {
         //TODO() Switch between data types
     }
