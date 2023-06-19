@@ -3,7 +3,7 @@ package com.badbones69.crazycrates.api.storage.types.file.json.crates;
 import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.storage.CustomLocation;
 import com.badbones69.crazycrates.api.storage.interfaces.LocationManager;
-import com.badbones69.crazycrates.api.storage.CrateLocation;
+import com.badbones69.crazycrates.api.storage.CrateData;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -15,12 +15,12 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 
-public non-sealed class JsonCrateHandler extends JsonCrateData implements LocationManager {
+public non-sealed class JsonCrateManager extends JsonCrateData implements LocationManager {
 
     private final Path path;
     private final Server server;
 
-    public JsonCrateHandler(Path path, Server server) {
+    public JsonCrateManager(Path path, Server server) {
         super(path);
 
         this.path = path;
@@ -80,20 +80,20 @@ public non-sealed class JsonCrateHandler extends JsonCrateData implements Locati
 
     @Override
     public void addLocation(String crateName, Location location) {
-        CrateLocation crateLocation = new CrateLocation();
+        CrateData crateData = new CrateData();
 
         // Check if the crate name already exists.
         if (!hasLocation(crateName)) {
             // Add the first location.
 
-            crates.put(crateName, crateLocation);
+            crates.put(crateName, crateData);
 
-            crateLocation.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
+            crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
 
             return;
         }
 
-        crateLocation.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
+        crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
     }
 
     @Override
@@ -102,7 +102,7 @@ public non-sealed class JsonCrateHandler extends JsonCrateData implements Locati
     }
 
     @Override
-    public CrateLocation getLocation(String crateName) {
+    public CrateData getLocation(String crateName) {
         if (hasLocation(crateName)) return getCrates().get(crateName);
 
         return null;
@@ -114,7 +114,7 @@ public non-sealed class JsonCrateHandler extends JsonCrateData implements Locati
     }
 
     @Override
-    public Map<String, CrateLocation> getCrates() {
+    public Map<String, CrateData> getCrates() {
         return Collections.unmodifiableMap(crates);
     }
 }

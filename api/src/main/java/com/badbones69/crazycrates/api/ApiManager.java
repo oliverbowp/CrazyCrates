@@ -14,7 +14,7 @@ import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.types.file.json.JsonUserManager;
-import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateHandler;
+import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateManager;
 import com.badbones69.crazycrates.api.storage.types.file.yaml.YamlUserManager;
 import com.ryderbelserion.stick.paper.Stick;
 import com.ryderbelserion.stick.paper.utils.FileUtils;
@@ -101,12 +101,12 @@ public class ApiManager {
 
         this.crateManager.loadCrates();
 
-        JsonCrateHandler jsonCrateHandler = new JsonCrateHandler(
+        JsonCrateManager jsonCrateManager = new JsonCrateManager(
                 this.path,
                 plugin.getServer()
         );
 
-        jsonCrateHandler.load();
+        jsonCrateManager.load();
 
         init();
 
@@ -149,12 +149,12 @@ public class ApiManager {
 
             this.crateManager.loadCrates();
 
-            JsonCrateHandler jsonCrateHandler = new JsonCrateHandler(
+            JsonCrateManager jsonCrateManager = new JsonCrateManager(
                     this.path,
                     plugin.getServer()
             );
 
-            jsonCrateHandler.reload();
+            jsonCrateManager.reload();
 
             init();
         }
