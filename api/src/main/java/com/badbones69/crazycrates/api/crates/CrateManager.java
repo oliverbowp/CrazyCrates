@@ -1,6 +1,5 @@
 package com.badbones69.crazycrates.api.crates;
 
-import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.objects.Crate;
 import com.ryderbelserion.stick.paper.utils.FileUtils;
@@ -13,13 +12,10 @@ import java.util.List;
 public class CrateManager {
 
     private final JavaPlugin plugin = ApiManager.getPlugin();
-    private final SettingsManager pluginSettings;
 
     private final ArrayList<Crate> crates = new ArrayList<>();
 
-    public CrateManager(SettingsManager pluginSettings) {
-        this.pluginSettings = pluginSettings;
-    }
+    public CrateManager() {}
 
     public void loadCrates() {
         this.crates.clear();
@@ -45,13 +41,13 @@ public class CrateManager {
         for (File file : crateList) {
             this.plugin.getLogger().info("Loading crate: " + file.getName());
 
-            CrateConfig crateConfig = new CrateConfig(file, this.plugin, this.pluginSettings);
+            CrateConfig crateConfig = new CrateConfig(file);
 
             crateConfig.load();
 
             Crate crate = new Crate(crateConfig);
 
-            // TODO() Get locations of crate if it exists then add them.
+            //TODO() Get locations of crate if it exists then add them.
 
             this.crates.add(crate);
         }
@@ -60,7 +56,7 @@ public class CrateManager {
     private void unloadCrates() {
         this.crates.clear();
 
-        // TODO() unload crates, close inventories, remove holograms, clear hashmap.
+        //TODO() unload crates, close inventories, remove holograms, clear hashmap.
     }
 
     public List<Crate> getCrates() {
