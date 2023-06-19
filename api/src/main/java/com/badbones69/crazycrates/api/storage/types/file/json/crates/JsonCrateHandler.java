@@ -86,6 +86,8 @@ public non-sealed class JsonCrateHandler extends JsonCrateData implements Locati
 
             return;
         }
+
+        crateLocation.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
     }
 
     @Override
