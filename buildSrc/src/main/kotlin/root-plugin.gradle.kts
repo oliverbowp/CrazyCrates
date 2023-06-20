@@ -12,6 +12,8 @@ repositories {
 
     maven("https://repo.crazycrew.us/releases/")
 
+    //maven("https://libraries.minecraft.net/")
+
     maven("https://jitpack.io/")
 
     mavenCentral()

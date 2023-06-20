@@ -21,7 +21,7 @@ val commitLog = getGitHistory().joinToString(separator = "") { formatGitLog(it) 
 
 val desc = """
 ## Changes:
- * Added 1.20 support.
+ * Added 1.20-1.20.1 support.
 
 ## API:
  * N/A
@@ -42,6 +42,7 @@ $commitLog
 """.trimIndent()
 
 val versions = listOf(
+    "1.20.1",
     "1.20"
 )
 
