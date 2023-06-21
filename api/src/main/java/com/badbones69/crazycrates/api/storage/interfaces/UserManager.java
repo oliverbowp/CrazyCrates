@@ -2,6 +2,7 @@ package com.badbones69.crazycrates.api.storage.interfaces;
 
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.badbones69.crazycrates.objects.Crate;
+import com.ryderbelserion.stick.paper.Stick;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 
 import java.io.File;
@@ -10,9 +11,9 @@ import java.util.UUID;
 
 public interface UserManager {
 
-    void load();
+    void load(Stick stick);
 
-    void save();
+    void save(Stick stick);
 
     void convert(File file, UUID uuid, StorageType storageType, Crate crate);
 

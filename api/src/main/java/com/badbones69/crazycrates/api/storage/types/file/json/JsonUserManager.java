@@ -1,11 +1,11 @@
 package com.badbones69.crazycrates.api.storage.types.file.json;
 
-import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.badbones69.crazycrates.objects.Crate;
 import com.google.gson.GsonBuilder;
+import com.ryderbelserion.stick.paper.Stick;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import com.ryderbelserion.stick.paper.storage.types.file.json.adapters.LocationTypeAdapter;
 import org.bukkit.Location;
@@ -19,15 +19,15 @@ import java.util.UUID;
 public non-sealed class JsonUserManager extends JsonStorage implements UserManager {
 
     private final Path path;
-    private final CrateManager crateManager;
+    private final CrateManager crate;
 
-    public JsonUserManager(Path path, CrateManager crateManager) {
+    public JsonUserManager(Path path, CrateManager crate) {
         super(path);
 
         // Assign the path.
         this.path = path;
 
-        this.crateManager = crateManager;
+        this.crate = crate;
     }
 
     GsonBuilder builder = new GsonBuilder().disableHtmlEscaping()
@@ -36,17 +36,17 @@ public non-sealed class JsonUserManager extends JsonStorage implements UserManag
             .registerTypeAdapter(Location.class, new LocationTypeAdapter());
 
     @Override
-    public void load() {
+    public void load(Stick stick) {
         JsonStorage jsonStorage = new JsonStorage(this.path);
 
         jsonStorage.setGsonBuilder(builder);
 
-        ApiManager.getStickCore().getFileHandler().addFile(jsonStorage);
+        stick.getFileHandler().addFile(jsonStorage);
     }
 
     @Override
-    public void save() {
-        ApiManager.getStickCore().getFileHandler().saveFile(new JsonStorage(this.path));
+    public void save(Stick stick) {
+        stick.getFileHandler().saveFile(new JsonStorage(this.path));
     }
 
     @Override

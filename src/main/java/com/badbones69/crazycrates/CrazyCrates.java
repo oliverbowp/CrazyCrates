@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CrazyCrates extends JavaPlugin implements Listener {
+
     private ApiManager apiManager;
 
     private FileManager fileManager;
@@ -19,8 +20,9 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        apiManager = new ApiManager(getDataFolder().toPath());
-        apiManager.load(this);
+        apiManager = new ApiManager(this, getDataFolder().toPath());
+
+        apiManager.load();
 
         //getServer().getPluginManager().registerEvents(new DataListener(), this);
     }
@@ -31,7 +33,7 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
         //QuickCrate.removeAllRewards();
 
-        if (apiManager.getHolograms() != null) apiManager.getHolograms().purge(this);
+        if (apiManager.getHolograms() != null) apiManager.getHolograms().purge();
     }
 
     public ApiManager getApiManager() {

@@ -4,6 +4,7 @@ import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.badbones69.crazycrates.objects.Crate;
+import com.ryderbelserion.stick.paper.Stick;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -30,7 +31,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     }
 
     @Override
-    public void load() {
+    public void load(Stick stick) {
         try {
             if (!this.file.exists()) this.file.createNewFile();
 
@@ -49,7 +50,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     }
 
     @Override
-    public void save() {
+    public void save(Stick stick) {
         if (!this.userData.isEmpty()) {
             this.userData.forEach((uuid, user) -> {
                 user.getKeys().forEach((crate, keys) -> set("users." + uuid + "." + crate, keys));

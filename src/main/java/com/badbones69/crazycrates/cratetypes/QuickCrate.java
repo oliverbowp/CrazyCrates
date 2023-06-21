@@ -136,7 +136,7 @@ public class QuickCrate implements Listener {
         crazyManager.removePlayerFromOpeningList(player);
 
         if (!useQuickCrate) {
-            if (hologramManager != null) hologramManager.create(loc, crate.getHologram(), plugin);
+            if (hologramManager != null) hologramManager.create(loc, crate.getHologram());
         }
     }
     

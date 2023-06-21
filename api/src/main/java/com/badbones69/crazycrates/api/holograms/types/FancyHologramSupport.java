@@ -12,10 +12,16 @@ import java.util.UUID;
 
 public class FancyHologramSupport implements HologramManager {
 
+    private final JavaPlugin plugin;
+
+    public FancyHologramSupport(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     private final HashMap<Location, Hologram> holograms = new HashMap<>();
 
     @Override
-    public void create(Location location, CrateHologram crateHologram, JavaPlugin plugin) {
+    public void create(Location location, CrateHologram crateHologram) {
         if (!crateHologram.isEnabled()) return;
 
         double height = crateHologram.getHeight();
@@ -26,36 +32,36 @@ public class FancyHologramSupport implements HologramManager {
 
         HologramSpigotAdapter spigotAdapter = HologramSpigotAdapter.fromHologram(hologram);
 
-        plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::spawn);
+        this.plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::spawn);
 
-        holograms.put(location, hologram);
+        this.holograms.put(location, hologram);
     }
 
     @Override
-    public void remove(Location location, JavaPlugin plugin) {
-        if (!holograms.containsKey(location)) return;
+    public void remove(Location location) {
+        if (!this.holograms.containsKey(location)) return;
 
-        Hologram hologram = holograms.get(location);
+        Hologram hologram = this.holograms.get(location);
 
         HologramSpigotAdapter spigotAdapter = HologramSpigotAdapter.fromHologram(hologram);
 
-        plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::remove);
+        this.plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::remove);
 
         hologram.delete();
 
-        holograms.remove(location);
+        this.holograms.remove(location);
     }
 
     @Override
-    public void purge(JavaPlugin plugin) {
-        holograms.forEach((key, value) -> {
+    public void purge() {
+        this.holograms.forEach((key, value) -> {
             HologramSpigotAdapter spigotAdapter = HologramSpigotAdapter.fromHologram(value);
 
-            plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::remove);
+            this.plugin.getServer().getOnlinePlayers().forEach(spigotAdapter::remove);
 
             value.delete();
         });
 
-        holograms.clear();
+        this.holograms.clear();
     }
 }

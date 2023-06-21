@@ -6,10 +6,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public interface HologramManager {
 
-    void create(Location location, CrateHologram crateHologram, JavaPlugin plugin);
+    void create(Location location, CrateHologram crateHologram);
 
-    void remove(Location location, JavaPlugin plugin);
+    void remove(Location location);
 
-    void purge(JavaPlugin plugin);
+    void purge();
 
 }

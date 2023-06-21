@@ -15,7 +15,7 @@ public class CMIHologramSupport implements HologramManager {
     private final HashMap<Location, CMIHologram> holograms = new HashMap<>();
 
     @Override
-    public void create(Location location, CrateHologram crateHologram, JavaPlugin plugin) {
+    public void create(Location location, CrateHologram crateHologram) {
         if (!crateHologram.isEnabled()) return;
 
         double height = crateHologram.getHeight();
@@ -34,7 +34,7 @@ public class CMIHologramSupport implements HologramManager {
     }
 
     @Override
-    public void remove(Location location, JavaPlugin plugin) {
+    public void remove(Location location) {
         if (!holograms.containsKey(location)) return;
 
         CMIHologram hologram = holograms.get(location);
@@ -44,7 +44,7 @@ public class CMIHologramSupport implements HologramManager {
     }
 
     @Override
-    public void purge(JavaPlugin plugin) {
+    public void purge() {
         holograms.forEach((Key, value) -> value.remove());
         holograms.clear();
     }

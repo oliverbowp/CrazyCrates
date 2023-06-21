@@ -41,9 +41,9 @@ import static java.util.regex.Matcher.quoteReplacement;
 
 public class CrazyManager {
 
-    private final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final CrazyCrates instance = CrazyCrates.getPlugin(CrazyCrates.class);
 
-    private final FileManager fileManager = plugin.getFileManager();
+    private final FileManager fileManager = instance.getFileManager();
 
     // All the crates that have been loaded.
     private final ArrayList<Crate> crates = new ArrayList<>();
@@ -89,9 +89,9 @@ public class CrazyManager {
         crateLocations.clear();
         crateSchematics.clear();
 
-        if (fileManager.isLogging()) plugin.getLogger().info("Loading all crate information...");
+        if (fileManager.isLogging()) this.instance.getLogger().info("Loading all crate information...");
 
-        for (String crateName : fileManager.getAllCratesNames(plugin)) {
+        for (String crateName : fileManager.getAllCratesNames(instance)) {
             try {
                 FileConfiguration file = fileManager.getFile(crateName).getFile();
                 CrateType crateType = CrateType.crate_on_the_go;
@@ -110,7 +110,7 @@ public class CrazyManager {
 
                 if (crateType == CrateType.cosmic && tiers.isEmpty()) {
                     brokecrates.add(crateName);
-                    plugin.getLogger().warning("No tiers were found for this cosmic crate " + crateName + ".yml file.");
+                    this.instance.getLogger().warning("No tiers were found for this cosmic crate " + crateName + ".yml file.");
                     continue;
                 }
 
@@ -167,7 +167,7 @@ public class CrazyManager {
                 crates.add(new Crate(crateName, previewName, crateType, getKey(file), prizes, file, newPlayersKeys, tiers, maxMassOpen, holo));
             } catch (Exception e) {
                 brokecrates.add(crateName);
-                plugin.getLogger().warning("There was an error while loading the " + crateName + ".yml file.");
+                this.instance.getLogger().warning("There was an error while loading the " + crateName + ".yml file.");
                 e.printStackTrace();
             }
         }
@@ -175,8 +175,8 @@ public class CrazyManager {
         //crates.add(new Crate("Menu", "Menu", CrateType.MENU, new ItemStack(Material.AIR), new ArrayList<>(), null, 0, null, 0, null));
 
         if (fileManager.isLogging()) {
-            plugin.getLogger().info("All crate information has been loaded.");
-            plugin.getLogger().info("Loading all the physical crate locations.");
+            this.instance.getLogger().info("All crate information has been loaded.");
+            this.instance.getLogger().info("Loading all the physical crate locations.");
         }
 
         FileConfiguration locations = Files.LOCATIONS.getFile();
@@ -187,7 +187,7 @@ public class CrazyManager {
             for (String locationName : locations.getConfigurationSection("Locations").getKeys(false)) {
                 try {
                     String worldName = locations.getString("Locations." + locationName + ".World");
-                    World world = plugin.getServer().getWorld(worldName);
+                    World world = this.instance.getServer().getWorld(worldName);
                     int x = locations.getInt("Locations." + locationName + ".X");
                     int y = locations.getInt("Locations." + locationName + ".Y");
                     int z = locations.getInt("Locations." + locationName + ".Z");
@@ -197,7 +197,7 @@ public class CrazyManager {
                     if (world != null && crate != null) {
                         crateLocations.add(new CrateLocation(locationName, crate, location));
 
-                        if (this.plugin.getHolograms() != null) this.plugin.getHolograms().create(location, crate.getHologram(), this.plugin);
+                        if (this.instance.getHolograms() != null) this.instance.getHolograms().create(location, crate.getHologram());
 
                         loadedAmount++;
                     } else {
@@ -215,28 +215,28 @@ public class CrazyManager {
         if (fileManager.isLogging()) {
             if (loadedAmount > 0 || brokeAmount > 0) {
                 if (brokeAmount <= 0) {
-                    plugin.getLogger().info("All physical crate locations have been loaded.");
+                    this.instance.getLogger().info("All physical crate locations have been loaded.");
                 } else {
-                    plugin.getLogger().info("Loaded " + loadedAmount + " physical crate locations.");
-                    plugin.getLogger().info("Failed to load " + brokeAmount + " physical crate locations.");
+                    this.instance.getLogger().info("Loaded " + loadedAmount + " physical crate locations.");
+                    this.instance.getLogger().info("Failed to load " + brokeAmount + " physical crate locations.");
                 }
             }
         }
 
         // Loading schematic files
-        if (fileManager.isLogging()) plugin.getLogger().info("Searching for schematics to load.");
+        if (fileManager.isLogging()) this.instance.getLogger().info("Searching for schematics to load.");
 
-        String[] schems = new File(plugin.getDataFolder() + "/schematics/").list();
+        String[] schems = new File(this.instance.getDataFolder() + "/schematics/").list();
 
         for (String schematicName : schems) {
             if (schematicName.endsWith(".nbt")) {
-                crateSchematics.add(new CrateSchematic(schematicName.replace(".nbt", ""), new File(plugin.getDataFolder() + "/schematics/" + schematicName)));
+                crateSchematics.add(new CrateSchematic(schematicName.replace(".nbt", ""), new File(this.instance.getDataFolder() + "/schematics/" + schematicName)));
 
-                if (fileManager.isLogging()) plugin.getLogger().info(schematicName + " was successfully found and loaded.");
+                if (fileManager.isLogging()) this.instance.getLogger().info(schematicName + " was successfully found and loaded.");
             }
         }
 
-        if (fileManager.isLogging()) plugin.getLogger().info("All schematics were found and loaded.");
+        if (fileManager.isLogging()) this.instance.getLogger().info("All schematics were found and loaded.");
 
         cleanDataFile();
         PreviewListener.loadButtons();
@@ -249,7 +249,7 @@ public class CrazyManager {
         if (data.contains("Players")) {
             boolean logging = fileManager.isLogging();
 
-            if (logging) plugin.getLogger().info("Cleaning up the data.yml file.");
+            if (logging) this.instance.getLogger().info("Cleaning up the data.yml file.");
 
             List<String> removePlayers = new ArrayList<>();
 
@@ -273,14 +273,14 @@ public class CrazyManager {
             }
 
             if (removePlayers.size() > 0) {
-                if (logging) plugin.getLogger().info(removePlayers.size() + " player's data has been marked to be removed.");
+                if (logging) this.instance.getLogger().info(removePlayers.size() + " player's data has been marked to be removed.");
 
                 removePlayers.forEach(uuid -> data.set("Players." + uuid, null));
 
-                if (logging) plugin.getLogger().info("All empty player data has been removed.");
+                if (logging) this.instance.getLogger().info("All empty player data has been removed.");
             }
 
-            if (logging) plugin.getLogger().info("The data.yml file has been cleaned.");
+            if (logging) this.instance.getLogger().info("The data.yml file has been cleaned.");
             Files.DATA.saveFile();
         }
     }
@@ -309,7 +309,7 @@ public class CrazyManager {
 
         switch (crate.getCrateType()) {
             //case MENU -> {
-            //    boolean openMenu = plugin.getApiManager().getConfig().getProperty(ConfigSettings.ENABLE_CRATE_MENU);
+            //    boolean openMenu = this.instance.getApiManager().getConfig().getProperty(ConfigSettings.ENABLE_CRATE_MENU);
 
             //    if (openMenu) MenuListener.openGUI(player); else player.sendMessage(Messages.FEATURE_DISABLED.getMessage());
             //}
@@ -341,7 +341,7 @@ public class CrazyManager {
                         return;
                     } else {
                         CrateControlListener.inUse.put(player, location);
-                        FireCracker.startFireCracker(player, crate, keyType, location, this.plugin.getHolograms());
+                        FireCracker.startFireCracker(player, crate, keyType, location, this.instance.getHolograms());
                     }
                 }
             }
@@ -357,7 +357,7 @@ public class CrazyManager {
                         return;
                     } else {
                         CrateControlListener.inUse.put(player, location);
-                        QuickCrate.openCrate(player, location, crate, keyType, this.plugin.getHolograms());
+                        QuickCrate.openCrate(player, location, crate, keyType, this.instance.getHolograms());
                     }
                 }
             }
@@ -381,7 +381,7 @@ public class CrazyManager {
             }
         }
 
-        plugin.getEventLogger().logCrateEvent(player, crate, keyType, plugin.getApiManager().getConfig().getProperty(Config.LOG_CRATE_ACTIONS_FILE), plugin.getApiManager().getConfig().getProperty(Config.LOG_CRATE_ACTIONS_CONSOLE));
+        this.instance.getEventLogger().logCrateEvent(player, crate, keyType, this.instance.getApiManager().getConfig().getProperty(Config.LOG_CRATE_ACTIONS_FILE), this.instance.getApiManager().getConfig().getProperty(Config.LOG_CRATE_ACTIONS_CONSOLE));
     }
 
     /**
@@ -540,7 +540,7 @@ public class CrazyManager {
 
         crateLocations.add(new CrateLocation(id, crate, location));
 
-        if (this.plugin.getHolograms() != null) this.plugin.getHolograms().create(location, crate.getHologram(), this.plugin);
+        if (this.instance.getHolograms() != null) this.instance.getHolograms().create(location, crate.getHologram());
     }
 
     /**
@@ -563,7 +563,7 @@ public class CrazyManager {
         if (location != null) {
             crateLocations.remove(location);
 
-            if (this.plugin.getHolograms() != null) this.plugin.getHolograms().remove(location.getLocation(), this.plugin);
+            if (this.instance.getHolograms() != null) this.instance.getHolograms().remove(location.getLocation());
         }
     }
 
@@ -577,7 +577,7 @@ public class CrazyManager {
     }
 
     /**
-     * Get a list of all the crates loaded into the plugin.
+     * Get a list of all the crates loaded into the this.instance.
      *
      * @return An ArrayList of all the loaded crates.
      */
@@ -605,7 +605,7 @@ public class CrazyManager {
      * @return The time in seconds till kick.
      */
     public Integer getQuadCrateTimer() {
-        return plugin.getApiManager().getConfig().getProperty(Config.QUAD_CRATE_TIMER);
+        return this.instance.getApiManager().getConfig().getProperty(Config.QUAD_CRATE_TIMER);
     }
 
     /**
@@ -622,7 +622,7 @@ public class CrazyManager {
             slots += 9;
         }
 
-        Inventory inv = plugin.getServer().createInventory(null, slots, Methods.sanitizeColor(file.getString("Crate.Name")));
+        Inventory inv = this.instance.getServer().createInventory(null, slots, Methods.sanitizeColor(file.getString("Crate.Name")));
 
         for (String reward : file.getConfigurationSection("Crate.Prizes").getKeys(false)) {
             String id = file.getString("Crate.Prizes." + reward + ".DisplayItem", "Stone");
@@ -683,7 +683,7 @@ public class CrazyManager {
             for (ItemBuilder item : prize.getItemBuilders()) {
                 ItemBuilder clone = new ItemBuilder(item);
 
-                if (this.plugin.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) {
+                if (this.instance.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) {
                     clone.setName(PlaceholderAPI.setPlaceholders(player, clone.getName()));
                     clone.setLore(PlaceholderAPI.setPlaceholders(player, clone.getLore()));
                 }
@@ -710,8 +710,8 @@ public class CrazyManager {
                                 commandBuilder.append(pickNumber(min, max)).append(" ");
                             } catch (Exception e) {
                                 commandBuilder.append("1 ");
-                                plugin.getLogger().warning("The prize " + prize.getName() + " in the " + prize.getCrate() + " crate has caused an error when trying to run a command.");
-                                plugin.getLogger().warning("Command: " + cmd);
+                                this.instance.getLogger().warning("The prize " + prize.getName() + " in the " + prize.getCrate() + " crate has caused an error when trying to run a command.");
+                                this.instance.getLogger().warning("Command: " + cmd);
                             }
                         } else {
                             commandBuilder.append(word).append(" ");
@@ -722,18 +722,18 @@ public class CrazyManager {
                     command = command.substring(0, command.length() - 1);
                 }
 
-                if (this.plugin.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) command = PlaceholderAPI.setPlaceholders(player, command);
+                if (this.instance.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) command = PlaceholderAPI.setPlaceholders(player, command);
 
                 Methods.sendCommand(command.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getUpdatedName())));
             }
 
             for (String message : prize.getMessages()) {
-                if (this.plugin.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) message = PlaceholderAPI.setPlaceholders(player, message);
+                if (this.instance.getApiManager().getPluginConfig().getProperty(PluginSupportSection.PLACEHOLDERAPI_SUPPORT)) message = PlaceholderAPI.setPlaceholders(player, message);
 
                 Methods.sendMessage(player, message.replaceAll("%player%", player.getName()).replaceAll("%Player%", player.getName()).replaceAll("%reward%", quoteReplacement(prize.getDisplayItemBuilder().getName())), false);
             }
         } else {
-            plugin.getLogger().warning("No prize was found when giving " + player.getName() + " a prize.");
+            this.instance.getLogger().warning("No prize was found when giving " + player.getName() + " a prize.");
         }
     }
 
@@ -805,7 +805,7 @@ public class CrazyManager {
             for (Crate crate : getCrates()) {
                 if (data.contains("Offline-Players." + name + "." + crate.getName())) {
                     PlayerReceiveKeyEvent event = new PlayerReceiveKeyEvent(player, crate, KeyReceiveReason.OFFLINE_PLAYER, 1);
-                    plugin.getServer().getPluginManager().callEvent(event);
+                    this.instance.getServer().getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
                         addKeys(data.getInt("Offline-Players." + name + "." + crate.getName()), player, crate, KeyType.VIRTUAL_KEY);
@@ -1176,10 +1176,10 @@ public class CrazyManager {
         switch (keyType) {
             case PHYSICAL_KEY -> {
                 if (Methods.isInventoryFull(player)) {
-                    if (plugin.getApiManager().getConfig().getProperty(Config.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL)) {
+                    if (this.instance.getApiManager().getConfig().getProperty(Config.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL)) {
                         addVirtualKeys(amount, player, crate);
 
-                        if (plugin.getApiManager().getConfig().getProperty(Config.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL_MESSAGE)) player.sendMessage(Messages.CANNOT_GIVE_PLAYER_KEYS.getMessage().replaceAll("%amount%", String.valueOf(amount)).replaceAll("%key%", crate.getName()));
+                        if (this.instance.getApiManager().getConfig().getProperty(Config.GIVE_VIRTUAL_KEYS_WHEN_INVENTORY_FULL_MESSAGE)) player.sendMessage(Messages.CANNOT_GIVE_PLAYER_KEYS.getMessage().replaceAll("%amount%", String.valueOf(amount)).replaceAll("%key%", crate.getName()));
                     } else {
                         player.getWorld().dropItem(player.getLocation(), crate.getKey(amount));
                     }
@@ -1230,12 +1230,12 @@ public class CrazyManager {
      */
     public void loadSchematics() {
         crateSchematics.clear();
-        String[] schems = new File(plugin.getDataFolder() + "/schematics/").list();
+        String[] schems = new File(this.instance.getDataFolder() + "/schematics/").list();
 
         assert schems != null;
         for (String schematicName : schems) {
             if (schematicName.endsWith(".nbt")) {
-                crateSchematics.add(new CrateSchematic(schematicName.replace(".nbt", ""), new File(plugin.getDataFolder() + "/schematics/" + schematicName)));
+                crateSchematics.add(new CrateSchematic(schematicName.replace(".nbt", ""), new File(this.instance.getDataFolder() + "/schematics/" + schematicName)));
             }
         }
     }

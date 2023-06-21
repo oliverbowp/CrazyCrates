@@ -272,7 +272,7 @@ public class QuadCrateManager {
                 // Restore the old blocks.
                 oldBlocks.keySet().forEach(location -> oldBlocks.get(location).update(true, false));
 
-                if (crate.getHologram().isEnabled() && plugin.getHolograms() != null) plugin.getHolograms().create(spawnLocation, crate.getHologram(), plugin);
+                if (crate.getHologram().isEnabled() && plugin.getHolograms() != null) plugin.getHolograms().create(spawnLocation, crate.getHologram());
 
                 // End the crate.
                 crazyManager.endCrate(player);

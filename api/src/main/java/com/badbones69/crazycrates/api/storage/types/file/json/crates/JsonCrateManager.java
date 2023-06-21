@@ -4,6 +4,7 @@ import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.storage.CustomLocation;
 import com.badbones69.crazycrates.api.storage.interfaces.LocationManager;
 import com.badbones69.crazycrates.api.storage.CrateData;
+import com.ryderbelserion.stick.paper.Stick;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -17,24 +18,26 @@ import java.util.Map;
 
 public non-sealed class JsonCrateManager extends JsonCrateData implements LocationManager {
 
+    private final Stick stick;
     private final Path path;
     private final Server server;
 
-    public JsonCrateManager(Path path, Server server) {
+    public JsonCrateManager(Stick stick, Path path, Server server) {
         super(path);
 
+        this.stick = stick;
         this.path = path;
         this.server = server;
     }
 
     @Override
     public void load() {
-        ApiManager.getStickCore().getFileHandler().addFile(new JsonCrateData(this.path));
+        this.stick.getFileHandler().addFile(new JsonCrateData(this.path));
     }
 
     @Override
     public void save() {
-        ApiManager.getStickCore().getFileHandler().saveFile(new JsonCrateData(this.path));
+        this.stick.getFileHandler().saveFile(new JsonCrateData(this.path));
     }
 
     @Override

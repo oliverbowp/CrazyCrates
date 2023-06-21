@@ -14,7 +14,7 @@ public class DecentHologramSupport implements HologramManager {
     private final HashMap<Location, Hologram> holograms = new HashMap<>();
 
     @Override
-    public void create(Location location, CrateHologram crateHologram, JavaPlugin plugin) {
+    public void create(Location location, CrateHologram crateHologram) {
         if (!crateHologram.isEnabled()) return;
 
         double height = crateHologram.getHeight();
@@ -27,7 +27,7 @@ public class DecentHologramSupport implements HologramManager {
     }
 
     @Override
-    public void remove(Location location, JavaPlugin plugin) {
+    public void remove(Location location) {
         if (!holograms.containsKey(location)) return;
 
         Hologram hologram = holograms.get(location);
@@ -37,7 +37,7 @@ public class DecentHologramSupport implements HologramManager {
     }
 
     @Override
-    public void purge(JavaPlugin plugin) {
+    public void purge() {
         holograms.forEach((key, value) -> value.delete());
         holograms.clear();
     }
