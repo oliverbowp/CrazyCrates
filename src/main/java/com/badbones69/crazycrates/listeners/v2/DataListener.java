@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class DataListener implements Listener {
 
-    private final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private final ApiManager apiManager = plugin.getApiManager();
 

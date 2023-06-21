@@ -25,7 +25,7 @@ import java.util.HashMap;
 public class War implements Listener {
     
     private static final String crateNameString = "Crate.CrateName";
-    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private static final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private static final CrazyManager crazyManager = plugin.getCrazyManager();
     private static HashMap<ItemStack, String> colorCodes;

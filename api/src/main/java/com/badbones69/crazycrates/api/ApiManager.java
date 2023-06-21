@@ -29,12 +29,9 @@ public class ApiManager {
     private static Stick stick;
 
     private final Path path;
-    private static JavaPlugin plugin;
 
-    public ApiManager(Path path, JavaPlugin javaPlugin) {
+    public ApiManager(Path path) {
         this.path = path;
-
-        plugin = javaPlugin;
     }
 
     private UserManager userManager;
@@ -46,10 +43,10 @@ public class ApiManager {
 
     private HologramManager hologramManager;
 
-    public ApiManager load() {
+    public ApiManager load(JavaPlugin instance) {
         // This must go first.
         // This handles everything related to my personal plugin core.
-        stick = new Stick(this.path, plugin.getName());
+        stick = new Stick(this.path, instance.getName());
 
         // Create plugin-config.yml
         File pluginConfig = new File(this.path + "plugin-config.yml");
@@ -66,18 +63,18 @@ public class ApiManager {
 
         if (!localeDir.exists()) {
             if (!localeDir.mkdirs()) {
-                plugin.getLogger().severe("Could not create crates directory! " +  localeDir.getAbsolutePath());
+                instance.getLogger().severe("Could not create crates directory! " +  localeDir.getAbsolutePath());
                 return this;
             }
 
             if (messages.exists()) {
                 File renamedFile = new File(this.path + "lang-en.yml");
 
-                if (messages.renameTo(renamedFile)) plugin.getLogger().info("Renamed " + messages.getName() + " to " + renamedFile.getName());
+                if (messages.renameTo(renamedFile)) instance.getLogger().info("Renamed " + messages.getName() + " to " + renamedFile.getName());
 
                 try {
                     Files.move(renamedFile.toPath(), newFile.toPath());
-                    plugin.getLogger().warning("Moved " + renamedFile.getPath() + " to " + newFile.getPath());
+                    instance.getLogger().warning("Moved " + renamedFile.getPath() + " to " + newFile.getPath());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -97,13 +94,13 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildConfig())
                 .create();
 
-        this.crateManager = new CrateManager();
+        this.crateManager = new CrateManager(instance);
 
         this.crateManager.loadCrates();
 
         JsonCrateManager jsonCrateManager = new JsonCrateManager(
                 this.path,
-                plugin.getServer()
+                instance.getServer()
         );
 
         jsonCrateManager.load();
@@ -113,11 +110,11 @@ public class ApiManager {
         return this;
     }
 
-    public void reload(boolean reloadCommand) {
+    public void reload(boolean reloadCommand, JavaPlugin instance) {
         boolean hologramsToggle = this.pluginConfig.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_ENABLED);
 
         if (hologramsToggle) {
-            if (this.hologramManager != null) this.hologramManager.purge(plugin);
+            if (this.hologramManager != null) this.hologramManager.purge(instance);
 
             HologramSupport hologramType = this.pluginConfig.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_TYPE);
 
@@ -129,13 +126,13 @@ public class ApiManager {
                         return;
                     }
 
-                    plugin.getLogger().warning("CMI support is enabled by you but the CMI Hologram Module is not enabled.");
-                    plugin.getLogger().warning("Please go to Modules.yml in CMI & turn on the hologram module: Restart is required.");
+                    instance.getLogger().warning("CMI support is enabled by you but the CMI Hologram Module is not enabled.");
+                    instance.getLogger().warning("Please go to Modules.yml in CMI & turn on the hologram module: Restart is required.");
                 }
 
                 case decent_holograms -> {
                     this.hologramManager = new DecentHologramSupport();
-                    plugin.getLogger().warning("DecentHologram Support is enabled.");
+                    instance.getLogger().warning("DecentHologram Support is enabled.");
                 }
             }
         }
@@ -145,13 +142,13 @@ public class ApiManager {
             this.pluginConfig.reload();
             this.config.reload();
 
-            this.crateManager = new CrateManager();
+            this.crateManager = new CrateManager(instance);
 
             this.crateManager.loadCrates();
 
             JsonCrateManager jsonCrateManager = new JsonCrateManager(
                     this.path,
-                    plugin.getServer()
+                    instance.getServer()
             );
 
             jsonCrateManager.reload();
@@ -167,10 +164,6 @@ public class ApiManager {
         }
 
         this.userManager.load();
-    }
-
-    public static JavaPlugin getPlugin() {
-        return plugin;
     }
 
     public static Stick getStickCore() {

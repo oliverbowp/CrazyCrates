@@ -10,8 +10,6 @@ import java.util.List;
 
 public class CommandInfo {
 
-    //private Map<String, CommandEngine> commands = new HashMap<>();
-
     private final CommandSender sender;
     private Player player;
     private final ArrayList<String> args;
@@ -59,8 +57,4 @@ public class CommandInfo {
     public String getCurrentCommand() {
         return this.currentCommand;
     }
-
-    //public void addCommand(CommandEngine engine) {
-    //    this.commands.put("", engine);
-    //}
 }

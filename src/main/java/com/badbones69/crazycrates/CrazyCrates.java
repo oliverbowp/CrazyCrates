@@ -5,15 +5,11 @@ import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.EventLogger;
 import com.badbones69.crazycrates.api.FileManager;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
-import com.badbones69.crazycrates.listeners.v2.DataListener;
 import com.badbones69.crazycrates.support.structures.blocks.ChestStateHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CrazyCrates extends JavaPlugin implements Listener {
-
-    private static CrazyCrates plugin;
-
     private ApiManager apiManager;
 
     private FileManager fileManager;
@@ -23,12 +19,10 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        plugin = this;
+        apiManager = new ApiManager(getDataFolder().toPath());
+        apiManager.load(this);
 
-        this.apiManager = new ApiManager(getDataFolder().toPath(), plugin);
-        this.apiManager.load();
-
-        getServer().getPluginManager().registerEvents(new DataListener(), this);
+        //getServer().getPluginManager().registerEvents(new DataListener(), this);
     }
 
     @Override
@@ -37,15 +31,15 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
         //QuickCrate.removeAllRewards();
 
-        if (this.apiManager.getHolograms() != null) this.apiManager.getHolograms().purge(this);
-    }
-
-    public static CrazyCrates getPlugin() {
-        return plugin;
+        if (apiManager.getHolograms() != null) apiManager.getHolograms().purge(this);
     }
 
     public ApiManager getApiManager() {
-        return this.apiManager;
+        return apiManager;
+    }
+
+    public HologramManager getHolograms() {
+        return getApiManager().getHolograms();
     }
 
     public FileManager getFileManager() {
@@ -62,9 +56,5 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     public EventLogger getEventLogger() {
         return this.eventLogger;
-    }
-
-    public HologramManager getHolograms() {
-        return getApiManager().getHolograms();
     }
 }

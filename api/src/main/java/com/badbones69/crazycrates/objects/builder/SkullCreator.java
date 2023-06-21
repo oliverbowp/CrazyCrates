@@ -1,13 +1,11 @@
 package com.badbones69.crazycrates.objects.builder;
 
-import com.badbones69.crazycrates.api.ApiManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Base64;
@@ -21,8 +19,6 @@ import java.util.UUID;
  * @author Dean B on 12/28/2016.
  */
 public class SkullCreator {
-
-    private static final JavaPlugin plugin = ApiManager.getPlugin();
     
     /**
      * Creates a player skull based on a player's name.
@@ -53,7 +49,7 @@ public class SkullCreator {
         notNull(item, "item");
         notNull(name, "name");
         
-        return plugin.getServer().getUnsafe().modifyItemStack(item,
+        return Bukkit.getServer().getUnsafe().modifyItemStack(item,
         "{SkullOwner:\"" + name + "\"}"
         );
     }
@@ -82,7 +78,7 @@ public class SkullCreator {
         notNull(id, "id");
         
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwningPlayer(plugin.getServer().getOfflinePlayer(id));
+        meta.setOwningPlayer(Bukkit.getServer().getOfflinePlayer(id));
         item.setItemMeta(meta);
         
         return item;
@@ -138,7 +134,7 @@ public class SkullCreator {
         notNull(base64, "base64");
         
         UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
-        return plugin.getServer().getUnsafe().modifyItemStack(item,
+        return Bukkit.getServer().getUnsafe().modifyItemStack(item,
         "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
         );
     }
@@ -208,9 +204,9 @@ public class SkullCreator {
         );
         
         if (newerApi()) {
-            plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "data merge block " + args);
+            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "data merge block " + args);
         } else {
-            plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "blockdata " + args);
+            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "blockdata " + args);
         }
     }
     

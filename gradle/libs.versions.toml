@@ -47,6 +47,8 @@ stick_api = "com.ryderbelserion.stick:stick-paper:2.2.0.19"
 # Plugins
 essentialsx = "net.essentialsx:EssentialsX:2.19.0"
 
+kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21"
+
 [plugins]
 
 run-paper = "xyz.jpenilla.run-paper:2.1.0"

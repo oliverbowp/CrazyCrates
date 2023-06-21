@@ -29,7 +29,7 @@ import static java.util.regex.Matcher.quoteReplacement;
 @SuppressWarnings("deprecation")
 public class Methods {
 
-    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private static final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private static final CrazyManager crazyManager = plugin.getCrazyManager();
     private static final Random random = new Random();

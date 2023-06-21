@@ -35,7 +35,7 @@ import java.util.concurrent.CompletableFuture;
 @Command(value = "crates", alias = {"crazycrates", "cc", "crate", "crazycrate"})
 public class CrateBaseCommand extends BaseCommand {
 
-    private final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private final CrazyManager crazyManager = plugin.getCrazyManager();
 
@@ -480,10 +480,8 @@ public class CrateBaseCommand extends BaseCommand {
     }
 
     public record CustomPlayer(String name) {
-        private static final CrazyCrates plugin = CrazyCrates.getPlugin();
-
-        public CompletableFuture<UUID> getUUID() {
-            Player player = plugin.getServer().getPlayer(name);
+        public CompletableFuture<UUID> getUUID(CrazyCrates instance) {
+            Player player = instance.getServer().getPlayer(name);
 
             return CompletableFuture.supplyAsync(() -> (player != null && player.isOnline()) ? player.getUniqueId() : Bukkit.getOfflinePlayer(name).getUniqueId());
         }
@@ -495,8 +493,8 @@ public class CrateBaseCommand extends BaseCommand {
         KeyType type = KeyType.getFromName(keyType);
         Crate crate = crazyManager.getCrateFromName(crateName);
 
-        Player player = plugin.getServer().getPlayer(target.getUUID().join());
-        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(target.getUUID().join());
+        Player player = plugin.getServer().getPlayer(target.getUUID(plugin).join());
+        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(target.getUUID(plugin).join());
 
         Player person;
 

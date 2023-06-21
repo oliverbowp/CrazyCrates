@@ -15,7 +15,7 @@ import java.util.List;
 // Only use for this class is to check if for broken locations and to try and fix them when the server loads the world.
 public class BrokeLocationsListener implements Listener {
 
-    private final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private final CrazyManager crazyManager = plugin.getCrazyManager();
 

@@ -37,7 +37,7 @@ public class CrateControlListener implements Listener { // Crate Control
     // A list of crate locations that are in use.
     public static HashMap<Player, Location> inUse = new HashMap<>();
 
-    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private static final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private static final CrazyManager crazyManager = plugin.getCrazyManager();
     

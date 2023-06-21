@@ -3,6 +3,8 @@ import org.gradle.kotlin.dsl.maven
 plugins {
     `java-library`
     `maven-publish`
+
+    id("kotlin-plugin")
 }
 
 repositories {

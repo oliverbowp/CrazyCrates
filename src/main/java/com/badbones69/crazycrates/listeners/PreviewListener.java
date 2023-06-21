@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class PreviewListener implements Listener {
 
-    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private static final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
     
     private static final HashMap<UUID, Integer> playerPage = new HashMap<>();
     private static final HashMap<UUID, Crate> playerCrate = new HashMap<>();

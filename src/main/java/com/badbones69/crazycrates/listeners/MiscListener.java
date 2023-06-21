@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 
 public class MiscListener implements Listener {
 
-    private final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private final CrazyManager crazyManager = plugin.getCrazyManager();
 

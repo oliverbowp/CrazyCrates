@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Roulette implements Listener {
 
-    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private static final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private static final CrazyManager crazyManager = plugin.getCrazyManager();
     
