@@ -390,6 +390,7 @@ public class CrateConfig extends YamlConfiguration {
                     getCrateName(),
                     section.getString("display.name", "&cError"),
                     section.getString("display.item", "STONE"),
+                    section.getString("display.trim", ""),
                     section.getString("display.player", ""),
                     section.getInt("display.amount", 1),
                     section.getStringList("display.enchantments"),

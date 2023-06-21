@@ -240,6 +240,10 @@ prizes:
       name: '&b&lCheap Helmet'
       # The item the prize will look like.
       item: 'GOLDEN_HELMET'
+      # An example of how to add trim patterns.
+      # https://jd.papermc.io/paper/1.20/org/bukkit/inventory/meta/trim/TrimPattern.html
+      # Only works if it's armor.
+      trim: 'VEX'
       # You can get these textures from https://minecraft-heads.com/!
       # You do not need HeadDataBase since they get their heads from minecraft-heads.com.
       # You can also use player names like Rukkhadevata. If you don't want a custom texture, Leave it blank.

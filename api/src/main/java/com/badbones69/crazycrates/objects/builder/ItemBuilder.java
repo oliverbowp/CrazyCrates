@@ -13,6 +13,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -25,6 +28,7 @@ public class ItemBuilder {
     
     // Item Data
     private Material material;
+    private TrimMaterial trimMaterial;
     private int damage;
     private String itemName;
     private final List<String> itemLore;
@@ -87,6 +91,7 @@ public class ItemBuilder {
     public ItemBuilder() {
         this.nbtItem = null;
         this.material = Material.STONE;
+        this.trimMaterial = null;
         this.damage = 0;
         this.itemName = "";
         this.itemLore = new ArrayList<>();
@@ -134,6 +139,7 @@ public class ItemBuilder {
     public ItemBuilder(ItemBuilder itemBuilder) {
         this.nbtItem = itemBuilder.nbtItem;
         this.material = itemBuilder.material;
+        this.trimMaterial = itemBuilder.trimMaterial;
         this.damage = itemBuilder.damage;
         this.itemName = itemBuilder.itemName;
         this.itemLore = new ArrayList<>(itemBuilder.itemLore);
@@ -190,7 +196,14 @@ public class ItemBuilder {
     public Material getMaterial() {
         return material;
     }
-    
+
+    /**
+     * @return trim material
+     */
+    public TrimMaterial getTrimMaterial() {
+        return trimMaterial;
+    }
+
     /**
      * Checks if the item is a banner.
      */
@@ -340,7 +353,15 @@ public class ItemBuilder {
                     }
                 }
             }
-            
+
+            if (isArmor()) {
+                ArmorMeta armorMeta = (ArmorMeta) item.getItemMeta();
+
+                ArmorTrim armorTrim = new ArmorTrim(this.trimMaterial, TrimPattern.EYE);
+
+                armorMeta.setTrim(armorTrim);
+            }
+
             item.setAmount(itemAmount);
             ItemMeta itemMeta = item.getItemMeta();
             itemMeta.setDisplayName(getUpdatedName());
@@ -417,6 +438,11 @@ public class ItemBuilder {
         this.isHead = material == Material.PLAYER_HEAD;
         return this;
     }
+
+    public ItemBuilder setTrimMaterial(TrimMaterial trimMaterial) {
+        this.trimMaterial = trimMaterial;
+        return this;
+    }
     
     /**
      * Set the type of item and its metadata in the builder.
@@ -475,6 +501,12 @@ public class ItemBuilder {
         if (this.material.name().contains("BANNER")) this.isBanner = true;
 
         return this;
+    }
+
+    private boolean isArmor() {
+        String name = this.material.name();
+
+        return name.endsWith("_HELMET") || name.endsWith("_CHESTPLATE") || name.endsWith("_LEGGINGS") || name.endsWith("_BOOTS");
     }
     
     // Sets the "Crate Name" for the item.
