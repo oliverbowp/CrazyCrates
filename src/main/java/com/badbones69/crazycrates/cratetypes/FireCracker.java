@@ -26,7 +26,7 @@ public class FireCracker {
             return;
         }
 
-        if (hologramManager != null) hologramManager.remove(loc, plugin);
+        if (hologramManager != null) hologramManager.remove(loc);
 
         final ArrayList<Color> colors = new ArrayList<>();
         colors.add(Color.RED);

@@ -28,7 +28,7 @@ import java.util.Random;
 
 public class QuadCrateManager {
 
-    private final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     private final ChestStateHandler chestStateHandler = plugin.getChestStateHandler();
 
@@ -178,7 +178,7 @@ public class QuadCrateManager {
             return;
         }
 
-        if (this.plugin.getHolograms() != null) this.plugin.getHolograms().remove(spawnLocation, this.plugin);
+        if (this.plugin.getHolograms() != null) this.plugin.getHolograms().remove(spawnLocation);
 
         // Shove other players away from the player opening the crate.
         shovePlayers.forEach(entity -> entity.getLocation().toVector().subtract(spawnLocation.clone().toVector()).normalize().setY(1));

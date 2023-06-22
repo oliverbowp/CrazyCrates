@@ -9,15 +9,17 @@ dependencies {
 
     compileOnly(libs.placeholder.api)
 
+    implementation(libs.nbt.api)
+
     implementation(libs.config.me)
 
     implementation(libs.stick.api)
 
-    implementation(libs.bstats.bukkit)
+    implementation(libs.jorel.cmds)
 
     implementation(libs.triumph.cmds)
 
-    implementation(libs.nbt.api)
+    implementation(libs.bstats.bukkit)
 }
 
 tasks {
@@ -32,6 +34,7 @@ tasks {
     shadowJar {
         listOf(
             "de.tr7zw.changeme.nbtapi",
+            "dev.jorel.commandapi",
             "dev.triumphteam",
             "org.bstats",
             "com.zaxxer",

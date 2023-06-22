@@ -87,7 +87,7 @@ public class QuickCrate implements Listener {
             displayItem = nbtItem.getItem();
             Item reward;
 
-            if (hologramManager != null) hologramManager.remove(loc, plugin);
+            if (hologramManager != null) hologramManager.remove(loc);
 
             try {
                 reward = player.getWorld().dropItem(loc.clone().add(.5, 1, .5), displayItem);

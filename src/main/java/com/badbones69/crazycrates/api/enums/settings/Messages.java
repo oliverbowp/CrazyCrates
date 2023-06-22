@@ -123,7 +123,7 @@ public enum Messages {
         return message.toString();
     }
 
-    private static final CrazyCrates plugin = CrazyCrates.getPlugin();
+    private static final CrazyCrates plugin = CrazyCrates.getPlugin(CrazyCrates.class);
 
     /**
      * Adds any missing messages to the Messages.yml file based on values in the Messages enum.

@@ -16,7 +16,7 @@ turtle = "com.lordcodes.turtle:turtle:0.8.0"
 # Cmd Frameworks
 triumph_cmds = "dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT"
 
-jorel_cmds = "dev.jorel:commandapi-bukkit-core:9.0.3"
+jorel_cmds = "dev.jorel:commandapi-bukkit-shade:9.0.3"
 jorel_annotations = "dev.jorel:commandapi-annotations:9.0.3"
 jorel_processor = "dev.jorel:commandapi-annotations:9.0.3"
 
