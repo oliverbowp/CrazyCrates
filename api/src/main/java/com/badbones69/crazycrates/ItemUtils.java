@@ -51,15 +51,13 @@ public class ItemUtils {
         boolean isLoreEnabled = section.getBoolean(path + "lore.toggle", false);
 
         if (isLoreEnabled) {
-            builder
-                    .addLorePlaceholder("{chance}", String.valueOf(chance))
+            builder.addLorePlaceholder("{chance}", String.valueOf(chance))
                     .addLorePlaceholder("{max-range}", String.valueOf(maxRange))
                     .addLorePlaceholder("{crate}", crateConfig.getDisplayName())
                     .setLore(section.getStringList(path + "lore.lines"));
         }
 
-        builder
-                .setUnbreakable(section.getBoolean(path + "unbreakable", false))
+        builder.setUnbreakable(section.getBoolean(path + "unbreakable", false))
                 .hideItemFlags(section.getBoolean(path + "hide-item-flags", false))
                 .setGlow(section.getBoolean(path + "glowing", false));
 

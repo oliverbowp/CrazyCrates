@@ -1,8 +1,6 @@
 package com.badbones69.crazycrates.api.crates;
 
 import com.badbones69.crazycrates.api.crates.types.CrateType;
-import org.bukkit.inventory.meta.trim.TrimPattern;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -12,20 +10,22 @@ public class PrizeConfig {
     private final String crateName;
     private final String displayName;
     private final String item;
-    private final String trim;
+    private final String trimPattern;
+    private final String trimMaterial;
     private final String player;
     private final int amount;
     private final List<String> enchantments;
     private final boolean hasLore;
     private final List<String> lore;
 
-    public PrizeConfig(CrateType crateType, String crateName, String displayName, String item, String trim, String player, int amount, List<String> enchantments, boolean hasLore, List<String> lore) {
+    public PrizeConfig(CrateType crateType, String crateName, String displayName, String item, String trimPattern, String trimMaterial, String player, int amount, List<String> enchantments, boolean hasLore, List<String> lore) {
         this.crateType = crateType;
         this.crateName = crateName;
         this.displayName = displayName;
 
         this.item = item;
-        this.trim = trim;
+        this.trimPattern = trimPattern;
+        this.trimMaterial = trimMaterial;
         this.player = player;
         this.amount = amount;
         this.enchantments = enchantments != null ? enchantments : Collections.emptyList();
@@ -53,8 +53,12 @@ public class PrizeConfig {
         return this.item;
     }
 
-    public String getTrim() {
-        return this.trim;
+    public String getTrimMaterial() {
+        return trimMaterial;
+    }
+
+    public String getTrimPattern() {
+        return trimPattern;
     }
 
     public String getPlayer() {
