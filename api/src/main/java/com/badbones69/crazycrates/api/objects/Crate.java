@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.objects;
+package com.badbones69.crazycrates.api.objects;
 
 import com.badbones69.crazycrates.api.crates.CrateConfig;
 import com.badbones69.crazycrates.api.crates.types.CrateType;

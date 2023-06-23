@@ -4,7 +4,7 @@ import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
-import com.badbones69.crazycrates.enums.KeyType;
+import com.badbones69.crazycrates.api.enums.KeyType;
 import com.badbones69.crazycrates.api.objects.Crate;
 import org.bukkit.Color;
 import org.bukkit.Location;

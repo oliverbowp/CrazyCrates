@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.quadcrates;
+package com.badbones69.crazycrates.api.crates.types.quadcrates;
 
 import java.io.File;
 

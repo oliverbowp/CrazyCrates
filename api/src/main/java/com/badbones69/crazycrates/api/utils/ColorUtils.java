@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates;
+package com.badbones69.crazycrates.api.utils;
 
 import org.bukkit.ChatColor;
 import java.util.regex.Matcher;

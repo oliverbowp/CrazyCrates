@@ -48,7 +48,7 @@ public class BaseKeyCommand extends BaseCommand {
 
         boolean hasKeys = false;
 
-        for (com.badbones69.crazycrates.objects.Crate crate : this.plugin.getApiManager().getCrateManager().getCrates()) {
+        for (com.badbones69.crazycrates.api.objects.Crate crate : this.plugin.getApiManager().getCrateManager().getCrates()) {
             int amount = this.plugin.getApiManager().getUserManager().getUser(target.getUniqueId(), crate).getKey(crate);
 
             if (amount > 0) {

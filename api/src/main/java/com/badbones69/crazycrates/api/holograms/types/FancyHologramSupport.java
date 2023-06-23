@@ -1,7 +1,8 @@
 package com.badbones69.crazycrates.api.holograms.types;
 
+/*
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
-import com.badbones69.crazycrates.objects.CrateHologram;
+import com.badbones69.crazycrates.api.objects.CrateHologram;
 import de.oliver.fancyholograms.Hologram;
 import de.oliver.fancyholograms.utils.HologramSpigotAdapter;
 import net.minecraft.world.entity.Display;
@@ -65,3 +66,4 @@ public class FancyHologramSupport implements HologramManager {
         this.holograms.clear();
     }
 }
+ */

@@ -1,7 +1,7 @@
 package com.badbones69.crazycrates.commands.subs;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ColorUtils;
+import com.badbones69.crazycrates.api.utils.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.EventLogger;
@@ -14,8 +14,8 @@ import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.objects.CrateLocation;
 import com.badbones69.crazycrates.api.objects.Prize;
 import com.badbones69.crazycrates.api.configs.types.Config;
-import com.badbones69.crazycrates.enums.Permissions;
-import com.badbones69.crazycrates.enums.KeyType;
+import com.badbones69.crazycrates.api.enums.Permissions;
+import com.badbones69.crazycrates.api.enums.KeyType;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
 import com.badbones69.crazycrates.listeners.MenuListener;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;

@@ -1,13 +1,13 @@
 package com.badbones69.crazycrates.listeners;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ColorUtils;
+import com.badbones69.crazycrates.api.utils.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.crates.types.CrateType;
-import com.badbones69.crazycrates.enums.Permissions;
-import com.badbones69.crazycrates.enums.KeyType;
+import com.badbones69.crazycrates.api.enums.Permissions;
+import com.badbones69.crazycrates.api.enums.KeyType;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PhysicalCrateKeyCheckEvent;
 import com.badbones69.crazycrates.api.objects.Crate;

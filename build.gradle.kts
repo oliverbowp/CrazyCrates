@@ -1,7 +1,5 @@
 plugins {
     id("paper-plugin")
-
-    id("xyz.jpenilla.run-paper") version "2.1.0"
 }
 
 dependencies {
@@ -14,8 +12,6 @@ dependencies {
     implementation(libs.config.me)
 
     implementation(libs.stick.api)
-
-    implementation(libs.jorel.cmds)
 
     implementation(libs.triumph.cmds)
 
@@ -32,18 +28,11 @@ tasks {
     }
 
     shadowJar {
-        listOf(
-            "de.tr7zw.changeme.nbtapi",
-            "dev.jorel.commandapi",
-            "dev.triumphteam",
-            "org.bstats",
-            "com.zaxxer",
-            "ch.jalu"
-        ).forEach { pack -> relocate(pack, "${rootProject.group}.$pack") }
-    }
+        fun reloc(pkg: String) = relocate(pkg, "${rootProject.group}.dependency.$pkg")
 
-    runServer {
-        minecraftVersion("1.20.1")
+        reloc("de.tr7zw.changeme.nbtapi")
+        reloc("org.bstats")
+        reloc("ch.jalu")
     }
 
     processResources {

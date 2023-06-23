@@ -5,9 +5,9 @@ import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PlayerPrizeEvent;
 import com.badbones69.crazycrates.api.objects.Crate;
-import com.badbones69.crazycrates.objects.builder.ItemBuilder;
+import com.badbones69.crazycrates.api.objects.builder.ItemBuilder;
 import com.badbones69.crazycrates.api.objects.Prize;
-import com.badbones69.crazycrates.enums.Permissions;
+import com.badbones69.crazycrates.api.enums.Permissions;
 import com.badbones69.crazycrates.listeners.FireworkDamageListener;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -23,7 +23,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import java.util.*;
-import static com.badbones69.crazycrates.ColorUtils.color;
+import static com.badbones69.crazycrates.api.utils.ColorUtils.color;
 import static java.util.regex.Matcher.quoteReplacement;
 
 @SuppressWarnings("deprecation")

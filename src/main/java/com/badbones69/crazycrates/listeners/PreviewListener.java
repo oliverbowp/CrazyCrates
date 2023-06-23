@@ -2,7 +2,7 @@ package com.badbones69.crazycrates.listeners;
 
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.api.objects.Crate;
-import com.badbones69.crazycrates.objects.builder.ItemBuilder;
+import com.badbones69.crazycrates.api.objects.builder.ItemBuilder;
 import com.badbones69.crazycrates.api.configs.types.Config;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

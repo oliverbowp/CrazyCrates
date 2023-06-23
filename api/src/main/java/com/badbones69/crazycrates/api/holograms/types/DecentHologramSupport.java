@@ -1,11 +1,11 @@
 package com.badbones69.crazycrates.api.holograms.types;
 
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
-import com.badbones69.crazycrates.objects.CrateHologram;
+import com.badbones69.crazycrates.api.objects.CrateHologram;
 import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
-import org.bukkit.plugin.java.JavaPlugin;
+
 import java.util.HashMap;
 import java.util.UUID;
 

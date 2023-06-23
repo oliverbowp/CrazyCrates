@@ -1,7 +1,7 @@
 package com.badbones69.crazycrates.api.enums.settings;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ColorUtils;
+import com.badbones69.crazycrates.api.utils.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager;
 import org.bukkit.configuration.file.FileConfiguration;

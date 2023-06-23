@@ -17,11 +17,6 @@ dependencies {
     implementation(libs.featherweight)
 
     implementation(libs.minotaur)
-    //implementation(libs.hangar)
 
     implementation(libs.shadow)
-
-    implementation(libs.turtle)
-
-    implementation(libs.kotlin)
 }

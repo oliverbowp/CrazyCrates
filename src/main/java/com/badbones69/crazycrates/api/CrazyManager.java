@@ -1,7 +1,6 @@
 package com.badbones69.crazycrates.api;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.ItemUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager.Files;
 import com.badbones69.crazycrates.api.crates.types.CrateType;
@@ -13,13 +12,14 @@ import com.badbones69.crazycrates.api.managers.QuadCrateManager;
 import com.badbones69.crazycrates.api.objects.*;
 import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
+import com.badbones69.crazycrates.api.utils.ItemUtils;
 import com.badbones69.crazycrates.cratetypes.*;
-import com.badbones69.crazycrates.enums.KeyType;
+import com.badbones69.crazycrates.api.enums.KeyType;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
 import com.badbones69.crazycrates.listeners.PreviewListener;
-import com.badbones69.crazycrates.objects.CrateHologram;
-import com.badbones69.crazycrates.objects.builder.ItemBuilder;
-import com.badbones69.crazycrates.quadcrates.CrateSchematic;
+import com.badbones69.crazycrates.api.objects.CrateHologram;
+import com.badbones69.crazycrates.api.objects.builder.ItemBuilder;
+import com.badbones69.crazycrates.api.crates.types.quadcrates.CrateSchematic;
 import com.badbones69.crazycrates.support.structures.StructureHandler;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;

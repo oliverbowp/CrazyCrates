@@ -3,7 +3,7 @@ package com.badbones69.crazycrates.api.storage.types.file.yaml;
 import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
-import com.badbones69.crazycrates.objects.Crate;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.ryderbelserion.stick.paper.Stick;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 import org.bukkit.configuration.Configuration;

@@ -1,6 +1,6 @@
 package com.badbones69.crazycrates.api.crates;
 
-import com.badbones69.crazycrates.objects.Crate;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.ryderbelserion.stick.paper.utils.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;

@@ -1,7 +1,7 @@
 package com.badbones69.crazycrates.api.storage.interfaces;
 
 import com.badbones69.crazycrates.api.storage.objects.UserData;
-import com.badbones69.crazycrates.objects.Crate;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.ryderbelserion.stick.paper.Stick;
 import com.ryderbelserion.stick.paper.storage.enums.StorageType;
 

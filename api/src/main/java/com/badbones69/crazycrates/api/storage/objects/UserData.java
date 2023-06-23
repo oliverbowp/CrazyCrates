@@ -1,6 +1,6 @@
 package com.badbones69.crazycrates.api.storage.objects;
 
-import com.badbones69.crazycrates.objects.Crate;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.google.gson.annotations.Expose;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

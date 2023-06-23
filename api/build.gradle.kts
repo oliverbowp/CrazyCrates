@@ -15,11 +15,6 @@ dependencies {
 
     compileOnly(libs.nbt.api)
 
-    //compileOnly(libs.brigadier)
-
-    compileOnly(libs.fancy.holograms)
-    compileOnly(libs.fancy.npcs)
-
     compileOnly("cmi-api:CMI-API")
     compileOnly("cmi-lib:CMILib")
 

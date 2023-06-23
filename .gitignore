@@ -1,12 +1,5 @@
 .gradle
 .idea
 
-jars
 build
-
 api/build
-api/.gradle
-
-!run/eula.txt
-
-run

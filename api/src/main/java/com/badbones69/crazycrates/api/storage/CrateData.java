@@ -2,7 +2,7 @@ package com.badbones69.crazycrates.api.storage;
 
 import com.badbones69.crazycrates.api.crates.CrateConfig;
 import com.badbones69.crazycrates.api.storage.objects.CrateLogData;
-import com.badbones69.crazycrates.enums.KeyType;
+import com.badbones69.crazycrates.api.enums.KeyType;
 import com.google.gson.annotations.Expose;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
