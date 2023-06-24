@@ -28,7 +28,9 @@ public class ItemBuilder {
     
     // Item Data
     private Material material;
+    private boolean isArmor;
     private TrimMaterial trimMaterial;
+    private TrimPattern trimPattern;
     private int damage;
     private String itemName;
     private final List<String> itemLore;
@@ -354,13 +356,7 @@ public class ItemBuilder {
                 }
             }
 
-            if (isArmor()) {
-                ArmorMeta armorMeta = (ArmorMeta) item.getItemMeta();
-
-                ArmorTrim armorTrim = new ArmorTrim(this.trimMaterial, TrimPattern.EYE);
-
-                armorMeta.setTrim(armorTrim);
-            }
+            if (this.isArmor) ((ArmorMeta) item.getItemMeta()).setTrim(new ArmorTrim(this.trimMaterial, this.trimPattern));
 
             item.setAmount(itemAmount);
             ItemMeta itemMeta = item.getItemMeta();
@@ -439,8 +435,10 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setTrimMaterial(TrimMaterial trimMaterial) {
+    public ItemBuilder setTrim(TrimMaterial trimMaterial, TrimPattern trimPattern) {
         this.trimMaterial = trimMaterial;
+        this.trimPattern = trimPattern;
+
         return this;
     }
     
@@ -497,6 +495,10 @@ public class ItemBuilder {
             case "BANNER" -> this.isBanner = true;
             case "SHIELD" -> this.isShield = true;
         }
+
+        String name = this.material.name();
+
+        this.isArmor = name.endsWith("_HELMET") || name.endsWith("_CHESTPLATE") || name.endsWith("_LEGGINGS") || name.endsWith("_BOOTS");
         
         if (this.material.name().contains("BANNER")) this.isBanner = true;
 
