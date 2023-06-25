@@ -29,8 +29,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionDefault;
 import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
 
 @Command(value = "crates", alias = {"crazycrates", "cc", "crate", "crazycrate"})
 public class CrateBaseCommand extends BaseCommand {
@@ -498,10 +496,12 @@ public class CrateBaseCommand extends BaseCommand {
     public record CustomPlayer(String name) {
         private static final CrazyCrates plugin = CrazyCrates.getPlugin();
 
-        public UUID getUUID() {
+        public Player getPlayer() {
             Player player = plugin.getServer().getPlayer(name);
 
-            return (player != null && player.isOnline()) ? player.getUniqueId() : Objects.requireNonNull(Bukkit.getOfflinePlayerIfCached(name)).getUniqueId();
+            if (player != null && player.isOnline()) return player;
+
+            return Bukkit.getOfflinePlayerIfCached(name).getPlayer();
         }
     }
 
@@ -511,14 +511,7 @@ public class CrateBaseCommand extends BaseCommand {
         KeyType type = KeyType.getFromName(keyType);
         Crate crate = crazyManager.getCrateFromName(crateName);
 
-        Player player = plugin.getServer().getPlayer(target.getUUID());
-        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(target.getUUID());
-
-        Player person;
-
-        if (player != null) person = player; else person = offlinePlayer.getPlayer();
-
-        String name;
+        Player person = target.getPlayer();
 
         if (type == null || type == KeyType.FREE_KEY) {
             sender.sendMessage(Methods.color(Methods.getPrefix() + "&cPlease use Virtual/V or Physical/P for a Key type."));
@@ -542,13 +535,14 @@ public class CrateBaseCommand extends BaseCommand {
                     if (person != null && person.isOnline()) {
                         crazyManager.addKeys(amount, person, crate, type);
                     } else {
-                        if (!crazyManager.addOfflineKeys(offlinePlayer.getName(), crate, amount)) {
+                        assert person != null;
+                        if (!crazyManager.addOfflineKeys(person.getName(), crate, amount)) {
                             sender.sendMessage(Messages.INTERNAL_ERROR.getMessage());
                         } else {
                             HashMap<String, String> placeholders = new HashMap<>();
 
-                            placeholders.put("%Amount%", amount + "");
-                            placeholders.put("%Player%", offlinePlayer.getName());
+                            placeholders.put("%Amount%", String.valueOf(amount));
+                            placeholders.put("%Player%", person.getName());
 
                             sender.sendMessage(Messages.GIVEN_OFFLINE_PLAYER_KEYS.getMessage(placeholders));
                         }
@@ -559,20 +553,21 @@ public class CrateBaseCommand extends BaseCommand {
 
                 HashMap<String, String> placeholders = new HashMap<>();
 
-                placeholders.put("%Amount%", amount + "");
-                placeholders.put("%Player%", player.getName());
+                placeholders.put("%Amount%", String.valueOf(amount));
+                assert person != null;
+                placeholders.put("%Player%", person.getName());
                 placeholders.put("%Key%", crate.getKey().getItemMeta().getDisplayName());
 
                 boolean fullMessage = FileManager.Files.CONFIG.getFile().getBoolean("Settings.Give-Virtual-Keys-When-Inventory-Full-Message");
                 boolean inventoryCheck = FileManager.Files.CONFIG.getFile().getBoolean("Settings.Give-Virtual-Keys-When-Inventory-Full");
 
                 sender.sendMessage(Messages.GIVEN_A_PLAYER_KEYS.getMessage(placeholders));
-                if (!inventoryCheck || !fullMessage && !Methods.isInventoryFull(player) && player.isOnline()) player.sendMessage(Messages.OBTAINING_KEYS.getMessage(placeholders));
+                if (!inventoryCheck || !fullMessage && !Methods.isInventoryFull(person) && person.isOnline()) person.sendMessage(Messages.OBTAINING_KEYS.getMessage(placeholders));
 
                 boolean logFile = FileManager.Files.CONFIG.getFile().getBoolean("Settings.Crate-Actions.Log-File");
                 boolean logConsole = FileManager.Files.CONFIG.getFile().getBoolean("Settings.Crate-Actions.Log-Console");
 
-                eventLogger.logKeyEvent(player, sender, crate, type, EventLogger.KeyEventType.KEY_EVENT_GIVEN, logFile, logConsole);
+                eventLogger.logKeyEvent(person, sender, crate, type, EventLogger.KeyEventType.KEY_EVENT_GIVEN, logFile, logConsole);
             }
 
             return;
