@@ -1,13 +1,13 @@
 package com.badbones69.crazycrates.api.storage.types.file.json;
 
 import com.badbones69.crazycrates.api.crates.CrateManager;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
-import com.badbones69.crazycrates.api.objects.Crate;
 import com.google.gson.GsonBuilder;
+import com.ryderbelserion.stick.core.storage.enums.StorageType;
 import com.ryderbelserion.stick.paper.Stick;
-import com.ryderbelserion.stick.paper.storage.enums.StorageType;
-import com.ryderbelserion.stick.paper.storage.types.file.json.adapters.LocationTypeAdapter;
+import com.ryderbelserion.stick.paper.adapters.LocationTypeAdapter;
 import org.bukkit.Location;
 import java.io.File;
 import java.lang.reflect.Modifier;

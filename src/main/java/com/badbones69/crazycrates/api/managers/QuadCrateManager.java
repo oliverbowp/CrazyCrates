@@ -3,7 +3,7 @@ package com.badbones69.crazycrates.api.managers;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
-import com.badbones69.crazycrates.api.objects.Crate;
+import com.badbones69.crazycrates.api.oldobjects.Crate;
 import com.badbones69.crazycrates.api.enums.KeyType;
 import com.badbones69.crazycrates.api.crates.types.quadcrates.CrateParticles;
 import com.badbones69.crazycrates.support.structures.QuadCrateSpiralHandler;

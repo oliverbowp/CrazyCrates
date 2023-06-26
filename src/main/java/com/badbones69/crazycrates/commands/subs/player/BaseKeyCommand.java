@@ -2,6 +2,7 @@ package com.badbones69.crazycrates.commands.subs.player;
 
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.google.common.collect.Lists;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.BaseCommand;
@@ -48,7 +49,7 @@ public class BaseKeyCommand extends BaseCommand {
 
         boolean hasKeys = false;
 
-        for (com.badbones69.crazycrates.api.objects.Crate crate : this.plugin.getApiManager().getCrateManager().getCrates()) {
+        for (Crate crate : this.plugin.getApiManager().getCrateManager().getCrates()) {
             int amount = this.plugin.getApiManager().getUserManager().getUser(target.getUniqueId(), crate).getKey(crate);
 
             if (amount > 0) {

@@ -1,7 +1,7 @@
 package com.badbones69.crazycrates.api;
 
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.api.objects.Crate;
+import com.badbones69.crazycrates.api.oldobjects.Crate;
 import com.badbones69.crazycrates.api.enums.KeyType;
 import com.badbones69.crazycrates.api.utils.ColorUtils;
 import org.bukkit.command.CommandSender;

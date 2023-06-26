@@ -6,7 +6,7 @@ import com.badbones69.crazycrates.api.CrazyManager;
 import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.enums.KeyType;
 import com.badbones69.crazycrates.api.enums.settings.Messages;
-import com.badbones69.crazycrates.api.objects.Crate;
+import com.badbones69.crazycrates.api.oldobjects.Crate;
 import com.badbones69.crazycrates.api.objects.builder.ItemBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Sound;

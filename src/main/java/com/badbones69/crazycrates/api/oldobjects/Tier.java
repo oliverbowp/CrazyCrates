@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.objects;
+package com.badbones69.crazycrates.api.oldobjects;
 
 import com.badbones69.crazycrates.api.objects.builder.ItemBuilder;
 import org.bukkit.inventory.ItemStack;

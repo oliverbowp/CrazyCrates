@@ -1,6 +1,8 @@
-package com.badbones69.crazycrates.api.objects;
+package com.badbones69.crazycrates.api.oldobjects;
 
 import com.badbones69.crazycrates.CrazyCrates;
+import com.badbones69.crazycrates.api.objects.CrateHologram;
+import com.badbones69.crazycrates.api.objects.CrateManager;
 import com.badbones69.crazycrates.api.utils.ColorUtils;
 import com.badbones69.crazycrates.Methods;
 import com.badbones69.crazycrates.api.FileManager;

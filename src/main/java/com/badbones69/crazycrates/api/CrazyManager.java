@@ -9,7 +9,7 @@ import com.badbones69.crazycrates.api.enums.settings.Messages;
 import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent;
 import com.badbones69.crazycrates.api.events.PlayerReceiveKeyEvent.KeyReceiveReason;
 import com.badbones69.crazycrates.api.managers.QuadCrateManager;
-import com.badbones69.crazycrates.api.objects.*;
+import com.badbones69.crazycrates.api.oldobjects.*;
 import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.api.utils.ItemUtils;

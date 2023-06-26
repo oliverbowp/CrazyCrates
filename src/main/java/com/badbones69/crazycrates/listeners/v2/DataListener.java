@@ -5,7 +5,6 @@ import com.badbones69.crazycrates.api.ApiManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
 import java.util.UUID;
 
 public class DataListener implements Listener {
