@@ -2,20 +2,23 @@ plugins {
     id("paper-plugin")
 }
 
+repositories {
+    flatDir {
+        dirs("libs")
+    }
+}
+
 dependencies {
     api(project(":crazycrates-api"))
 
-    compileOnly(libs.placeholder.api)
+    compileOnly("me.clip", "placeholderapi", "2.11.3")
+    compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.8.2")
 
-    implementation(libs.nbt.api)
+    implementation("de.tr7zw", "item-nbt-api", "2.11.3")
 
-    implementation(libs.config.me)
+    implementation("dev.triumphteam", "triumph-cmd-bukkit", "2.0.0-SNAPSHOT")
 
-    implementation(libs.stick.api)
-
-    implementation(libs.triumph.cmds)
-
-    implementation(libs.bstats.bukkit)
+    implementation("org.bstats", "bstats-bukkit", "3.0.0")
 }
 
 tasks {
@@ -28,7 +31,7 @@ tasks {
     }
 
     shadowJar {
-        fun reloc(pkg: String) = relocate(pkg, "${rootProject.group}.dependency.$pkg")
+        fun reloc(pkg: String) = relocate(pkg, "${rootProject.group}.dep.$pkg")
 
         reloc("de.tr7zw.changeme.nbtapi")
         reloc("org.bstats")

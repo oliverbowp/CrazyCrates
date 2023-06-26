@@ -9,14 +9,14 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.config.me)
+    api("ch.jalu", "configme", "1.3.0")
 
-    compileOnly(libs.decent.holograms)
+    compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.8.2")
 
-    compileOnly(libs.nbt.api)
+    compileOnly("de.tr7zw", "item-nbt-api", "2.11.3")
 
     compileOnly("cmi-api:CMI-API")
     compileOnly("cmi-lib:CMILib")
 
-    compileOnly(libs.stick.api)
+    api("com.ryderbelserion.stick", "stick-paper", "2.2.1-snapshot")
 }
