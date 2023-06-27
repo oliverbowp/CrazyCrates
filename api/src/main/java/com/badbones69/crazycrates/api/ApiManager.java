@@ -42,7 +42,7 @@ public class ApiManager {
     private CrateManager crateManager;
 
     private SettingsManager pluginConfig;
-    private Language language;
+    private Locale locale;
     private SettingsManager config;
 
     private HologramManager hologramManager;
@@ -57,33 +57,14 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildPluginConfig())
                 .create();
 
-        File messages = new File(this.path + "messages.yml");
+        // Migrate the locale files.
         File localeDir = new File(this.path.toFile(), "locale");
-        File newFile = new File(localeDir, "lang-en.yml");
+        migrateLocale(localeDir);
 
-        if (!localeDir.exists()) {
-            if (!localeDir.mkdirs()) {
-                this.plugin.getLogger().severe("Could not create crates directory! " +  localeDir.getAbsolutePath());
-                return this;
-            }
+        // Load the locale file.
+        File localeFile = new File(localeDir, this.pluginConfig.getProperty(PluginConfig.LOCALE_FILE));
 
-            if (messages.exists()) {
-                File renamedFile = new File(this.path + "lang-en.yml");
-
-                if (messages.renameTo(renamedFile)) this.plugin.getLogger().info("Renamed " + messages.getName() + " to " + renamedFile.getName());
-
-                try {
-                    Files.move(renamedFile.toPath(), newFile.toPath());
-                    this.plugin.getLogger().warning("Moved " + renamedFile.getPath() + " to " + newFile.getPath());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            FileUtils.extract("/locale/", this.path, false);
-        }
-
-        this.language = new Language(newFile);
+        this.locale = new Locale(localeFile);
 
         // Create config.yml
         File config = new File(this.path.toFile(), "config.yml");
@@ -165,16 +146,40 @@ public class ApiManager {
             case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
         }
 
-        this.userManager.load(this.stick);
+    private void migrateLocale(File localeDir) {
+        File messages = new File(this.path + "messages.yml");
+        File newFile = new File(localeDir, "en-US.yml");
+
+        if (!localeDir.exists()) {
+            if (!localeDir.mkdirs()) {
+                this.plugin.getLogger().severe("Could not create crates directory! " +  localeDir.getAbsolutePath());
+                return;
+            }
+
+            if (messages.exists()) {
+                File renamedFile = new File(this.path + "en-US.yml");
+
+                if (messages.renameTo(renamedFile)) this.plugin.getLogger().info("Renamed " + messages.getName() + " to " + renamedFile.getName());
+
+                try {
+                    Files.move(renamedFile.toPath(), newFile.toPath());
+                    this.plugin.getLogger().warning("Moved " + renamedFile.getPath() + " to " + newFile.getPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        FileUtils.extract("/locale/", this.path, false);
     }
 
-    // Config Management
+    // Config Management.
     public SettingsManager getPluginConfig() {
         return this.pluginConfig;
     }
 
-    public Language getLocale() {
-        return this.language;
+    public Locale getLocale() {
+        return this.locale;
     }
 
     public SettingsManager getConfig() {
