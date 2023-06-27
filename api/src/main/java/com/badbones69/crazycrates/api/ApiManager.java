@@ -4,7 +4,7 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.api.configs.ConfigBuilder;
-import com.badbones69.crazycrates.api.configs.types.Language;
+import com.badbones69.crazycrates.api.configs.types.Locale;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.api.crates.CrateManager;
@@ -13,7 +13,6 @@ import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
-import com.badbones69.crazycrates.api.storage.types.file.json.JsonUserManager;
 import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateManager;
 import com.badbones69.crazycrates.api.storage.types.file.yaml.YamlUserManager;
 import com.ryderbelserion.stick.core.utils.FileUtils;
@@ -45,7 +44,7 @@ public class ApiManager {
     private Locale locale;
     private SettingsManager config;
 
-    private HologramManager hologramManager;
+    private HologramManager holograms;
 
     public ApiManager load() {
         // Create plugin-config.yml
@@ -75,34 +74,41 @@ public class ApiManager {
                 .configurationData(ConfigBuilder.buildConfig())
                 .create();
 
+        // Re-initialize crate manager.
         this.crateManager = new CrateManager(this.plugin);
         this.crateManager.loadCrates();
 
+        // Create new instance.
         JsonCrateManager jsonCrateManager = new JsonCrateManager(
                 this.path,
                 this.plugin.getServer(),
                 this.stick
         );
 
+        // Load the data.
         jsonCrateManager.load();
 
+        // Initialize user data.
         init();
 
         return this;
     }
 
     public void reload(boolean reloadCommand) {
+        // If holograms are enabled.
         boolean hologramsToggle = this.pluginConfig.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_ENABLED);
 
         if (hologramsToggle) {
-            if (this.hologramManager != null) this.hologramManager.purge();
+            // If not null, purge all holograms.
+            if (this.holograms != null) this.holograms.purge();
 
             HologramSupport hologramType = this.pluginConfig.getProperty(PluginSupportSection.HOLOGRAMS_SUPPORT_TYPE);
 
+            // Switch hologram support based on the config option.
             switch (hologramType) {
                 case cmi_holograms -> {
                     if (CMIModule.holograms.isEnabled()) {
-                        this.hologramManager = new CMIHologramSupport();
+                        this.holograms = new CMIHologramSupport();
 
                         return;
                     }
@@ -112,7 +118,7 @@ public class ApiManager {
                 }
 
                 case decent_holograms -> {
-                    this.hologramManager = new DecentHologramSupport();
+                    this.holograms = new DecentHologramSupport();
                     this.plugin.getLogger().warning("DecentHologram Support is enabled.");
                 }
             }
@@ -120,20 +126,25 @@ public class ApiManager {
 
         // If the command is /crazycrates reload.
         if (reloadCommand) {
+            // Reload configs.
             this.pluginConfig.reload();
             this.config.reload();
 
+            // Re-initialize crate manager.
             this.crateManager = new CrateManager(this.plugin);
             this.crateManager.loadCrates();
 
+            // Create new instance.
             JsonCrateManager jsonCrateManager = new JsonCrateManager(
                     this.path,
                     this.plugin.getServer(),
                     this.stick
             );
 
+            // Reload the data.
             jsonCrateManager.reload();
 
+            // Initialize user data.
             init();
         }
     }
@@ -184,16 +195,17 @@ public class ApiManager {
         return this.config;
     }
 
-    // Crate Management
+    // Crate Management.
     public HologramManager getHolograms() {
-        return this.hologramManager;
-    }
-
-    public UserManager getUserManager() {
-        return this.userManager;
+        return this.holograms;
     }
 
     public CrateManager getCrateManager() {
         return this.crateManager;
+    }
+
+    // User Management.
+    public UserManager getUserManager() {
+        return this.userManager;
     }
 }
