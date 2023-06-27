@@ -32,11 +32,6 @@ public class PluginSupportSection implements SettingsHolder {
     public static final Property<Boolean> PLACEHOLDERAPI_SUPPORT = newProperty("support.placeholderapi", false);
 
     @Comment({
-            "ItemsAdder is required for this option to be true!"
-    })
-    public static final Property<Boolean> ITEMS_ADDER_SUPPORT = newProperty("support.custom-items.itemsadder", false);
-
-    @Comment({
             "Whether you want holograms support to be enabled or not.",
             "You must have a holograms plugin on your server before this is enabled."
     })
