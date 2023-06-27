@@ -25,6 +25,8 @@ public class DataListener implements Listener {
             apiManager.getUserManager().addUser(uuid, crate);
 
             if (crate.getCrateConfig().isStartingKeysEnabled()) apiManager.getUserManager().addKey(uuid, crate.getCrateConfig().getStartingKeysAmount(), crate);
+
+            apiManager.getUserManager().save();
         });
     }
 }
