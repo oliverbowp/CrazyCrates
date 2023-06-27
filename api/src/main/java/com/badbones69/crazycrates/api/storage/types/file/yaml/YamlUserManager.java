@@ -81,7 +81,23 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
 
     @Override
     public void convertLegacy(File file, UUID uuid, StorageType storageType, Crate crate) {
-        //TODO() Convert old files
+        YamlConfiguration legacy = YamlConfiguration.loadConfiguration(file);
+
+        ConfigurationSection section = legacy.getConfigurationSection("Players");
+
+        addUser(uuid, crate);
+
+        if (section != null && section.contains("Players." + uuid)) {
+            section.getKeys(false).forEach(value -> {
+                int amount = legacy.getInt("Players." + uuid + "." + value);
+
+                Bukkit.getLogger().warning("Keys: " + amount + " UUID:" + uuid + " Crate: " + value);
+
+                addKey(uuid, amount, crate);
+
+                save();
+            });
+        }
     }
 
     @Override
