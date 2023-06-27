@@ -27,7 +27,8 @@ public class PluginSupportSection implements SettingsHolder {
     }
 
     @Comment({
-            "PlaceholderAPI is required for this option to be true!"
+            "PlaceholderAPI is required for this option to be true!",
+            "Download: https://www.spigotmc.org/resources/placeholderapi.6245/"
     })
     public static final Property<Boolean> PLACEHOLDERAPI_SUPPORT = newProperty("support.placeholderapi", false);
 
@@ -38,8 +39,11 @@ public class PluginSupportSection implements SettingsHolder {
     public static final Property<Boolean> HOLOGRAMS_SUPPORT_ENABLED = newProperty("support.holograms.toggle", false);
 
     @Comment({
-            "Available Values: decent_holograms, cmi_holograms, fancy_holograms, internal_holograms",
-            "You must have at least one of these plugins on your server in order for this to work!"
+            "Available Values: decent_holograms, cmi_holograms",
+            "You must have at least one of these plugins on your server in order for this to work!",
+            "",
+            "CMI: https://www.spigotmc.org/resources/cmi-298-commands-insane-kits-portals-essentials-economy-mysql-sqlite-much-more.3742/",
+            "DecentHolograms: https://www.spigotmc.org/resources/decentholograms-1-8-1-20-1-papi-support-no-dependencies.96927/"
     })
     public static final Property<HologramSupport> HOLOGRAMS_SUPPORT_TYPE = newProperty(HologramSupport.class, "support.holograms.type", HologramSupport.decent_holograms);
 }
