@@ -8,16 +8,8 @@ import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSectio
 
 public class ConfigBuilder {
 
-    /**
-     * Private constructor to prevent instantiation
-     */
     private ConfigBuilder() {}
 
-    /**
-     * Builds the core configuration data.
-     *
-     * @return configuration data object containing the main crate configurations.
-     */
     public static ConfigurationData buildPluginConfig() {
         return ConfigurationDataBuilder.createConfiguration(
                 PluginConfig.class,
