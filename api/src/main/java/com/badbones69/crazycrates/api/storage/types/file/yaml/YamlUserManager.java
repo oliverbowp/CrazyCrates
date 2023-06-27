@@ -52,6 +52,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     private void saveFile() {
         try {
             save(this.file);
+            load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,17 +60,33 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
 
     @Override
     public void save() {
-        if (!this.userData.isEmpty()) {
-            this.userData.forEach((uuid, user) -> {
-                user.getKeys().forEach((crate, keys) -> set("users." + uuid + "." + crate, keys));
+        // If user data empty return.
+        if (this.userData.isEmpty()) return;
 
-                saveFile();
-            });
+        // If the player is not leaving, continue here as we are stopping the server or doing periodic save.
+        this.userData.forEach((id, user) -> {
+            user.getKeys().forEach((crateMap, keys) -> set("users." + id + "." + crateMap, keys));
 
-            return;
+            // Save the file then load the changes back in.
+            saveFile();
+        });
+    }
+
+    @Override
+    public void saveSingular(UUID uuid) {
+        // If user data empty return.
+        if (this.userData.isEmpty()) return;
+
+        // Check if user data contains keys.
+        if (this.userData.containsKey(uuid)) {
+            // Add keys to file.
+            this.userData.get(uuid).getKeys().forEach((crateMap, keys) -> set("users." + uuid + "." + crateMap, keys));
+            // Remove user when done.
+            this.userData.remove(uuid);
+
+            // Save the file then load the changes back in.
+            saveFile();
         }
-
-        saveFile();
     }
 
     @Override
@@ -86,7 +103,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
 
         addUser(uuid, crate);
 
-        if (section != null && section.contains("Players." + uuid)) {
+        if (section != null && section.contains(String.valueOf(uuid))) {
             section.getKeys(false).forEach(value -> {
                 int amount = legacy.getInt("Players." + uuid + "." + value);
 
@@ -103,7 +120,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     public void addUser(UUID uuid, Crate crate) {
         ConfigurationSection section = getConfigurationSection("users");
 
-        if (section != null && section.contains("users." + uuid)) {
+        if (section != null && section.contains(String.valueOf(uuid))) {
             section.getKeys(false).forEach(value -> {
                 if (this.crateManager.getCrates().contains(crate) && crate.getCrateName().equals(value)) {
                     int amount = getInt("users." + uuid + "." + crate.getCrateName());
@@ -120,16 +137,69 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
 
     @Override
     public UserData getUser(UUID uuid, Crate crate) {
+        if (Bukkit.getPlayer(uuid) == null) {
+            ConfigurationSection section = getConfigurationSection("users");
+
+            if (section != null && section.contains(String.valueOf(uuid))) {
+                // Add user if it doesn't exist.
+                addUser(uuid, crate);
+
+                // Loop through the section and get the amount of each crate.
+                section.getKeys(false).forEach(value -> {
+                    int currentAmount = getInt("users." + uuid + "." + value);
+
+                    // Populate the hashmap.
+                    addKey(uuid, currentAmount, crate);
+                });
+            }
+        }
+
         return this.userData.get(uuid);
     }
 
     @Override
     public void addKey(UUID uuid, int amount, Crate crate) {
+        if (Bukkit.getPlayer(uuid) == null) {
+            ConfigurationSection section = getConfigurationSection("users");
+
+            if (section != null && section.contains(String.valueOf(uuid))) {
+                int currentAmount = getInt("users." + uuid + "." + crate.getCrateName());
+
+                set("users." + uuid + "." + crate.getCrateName(), currentAmount+amount);
+                saveFile();
+
+                return;
+            }
+
+            return;
+        }
+
         if (this.userData.containsKey(uuid)) this.userData.get(uuid).addKey(crate, amount);
     }
 
     @Override
     public void removeKey(UUID uuid, int amount, Crate crate) {
+        //TODO() If the user is not online, remove directly from the yml file.
+        if (Bukkit.getPlayer(uuid) == null) {
+            ConfigurationSection section = getConfigurationSection("users");
+
+            if (section != null && section.contains(String.valueOf(uuid))) {
+                int currentAmount = getInt("users." + uuid + "." + crate.getCrateName());
+
+                if (currentAmount-amount < 0) {
+                    Bukkit.getLogger().warning("Amount cannot be less then 0.");
+                    return;
+                }
+
+                set("users." + uuid + "." + crate.getCrateName(), currentAmount-amount);
+                saveFile();
+
+                return;
+            }
+
+            return;
+        }
+
         if (this.userData.containsKey(uuid)) this.userData.get(uuid).removeKey(crate, amount);
     }
 

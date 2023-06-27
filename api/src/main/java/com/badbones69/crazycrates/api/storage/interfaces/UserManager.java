@@ -13,6 +13,8 @@ public interface UserManager {
 
     void save();
 
+    void saveSingular(UUID uuid);
+
     void convert(File file, UUID uuid, StorageType storageType, Crate crate);
 
     void convertLegacy(File file, UUID uuid, StorageType storageType, Crate crate);

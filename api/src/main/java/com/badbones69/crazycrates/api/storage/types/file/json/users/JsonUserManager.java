@@ -53,6 +53,11 @@ public non-sealed class JsonUserManager extends JsonStorage implements UserManag
     }
 
     @Override
+    public void saveSingular(UUID uuid) {
+        // NOT NEEDED FOR JSON USER MANAGER.
+    }
+
+    @Override
     public void convert(File file, UUID uuid, StorageType storageType, Crate crate) {
 
     }
@@ -64,7 +69,7 @@ public non-sealed class JsonUserManager extends JsonStorage implements UserManag
 
     @Override
     public void addUser(UUID uuid, Crate crate) {
-        convert(new File(this.path.toFile(), "data.yml"), uuid, StorageType.JSON, crate);
+        //convert(new File(this.path.toFile(), "data.yml"), uuid, StorageType.JSON, crate);
 
         if (!userData.containsKey(uuid)) userData.put(uuid, new UserData(uuid));
     }

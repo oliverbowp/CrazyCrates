@@ -87,7 +87,6 @@ public non-sealed class JsonCrateManager extends JsonCrateData implements Locati
         // Check if the crate name already exists.
         if (!hasLocation(crateName)) {
             // Add the first location.
-
             crates.put(crateName, crateData);
 
             crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
@@ -95,6 +94,7 @@ public non-sealed class JsonCrateManager extends JsonCrateData implements Locati
             return;
         }
 
+        // Add the location if no previous location found.
         crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
     }
 

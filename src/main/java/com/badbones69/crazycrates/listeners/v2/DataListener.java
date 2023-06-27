@@ -5,6 +5,8 @@ import com.badbones69.crazycrates.api.ApiManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
 import java.util.UUID;
 
 public class DataListener implements Listener {
@@ -26,7 +28,12 @@ public class DataListener implements Listener {
 
             if (crate.getCrateConfig().isStartingKeysEnabled()) apiManager.getUserManager().addKey(uuid, crate.getCrateConfig().getStartingKeysAmount(), crate);
 
-            apiManager.getUserManager().save();
+            //apiManager.getUserManager().save(false, uuid);
         });
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        apiManager.getUserManager().saveSingular(event.getPlayer().getUniqueId());
     }
 }
