@@ -31,7 +31,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     }
 
     @Override
-    public void load(Stick stick) {
+    public void load() {
         try {
             if (!this.file.exists()) this.file.createNewFile();
 

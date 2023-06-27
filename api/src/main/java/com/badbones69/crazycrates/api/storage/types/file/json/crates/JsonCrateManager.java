@@ -17,16 +17,16 @@ import java.util.Map;
 
 public non-sealed class JsonCrateManager extends JsonCrateData implements LocationManager {
 
-    private final Stick stick;
     private final Path path;
     private final Server server;
+    private final Stick stick;
 
-    public JsonCrateManager(Stick stick, Path path, Server server) {
+    public JsonCrateManager(Path path, Server server, Stick stick) {
         super(path);
 
-        this.stick = stick;
         this.path = path;
         this.server = server;
+        this.stick = stick;
     }
 
     @Override

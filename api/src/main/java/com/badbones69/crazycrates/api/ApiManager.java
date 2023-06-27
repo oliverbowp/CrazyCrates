@@ -26,13 +26,13 @@ import java.nio.file.Path;
 
 public class ApiManager {
 
-    private final Stick stick;
-
     private final JavaPlugin plugin;
     private final Path path;
+    private final Stick stick;
 
     public ApiManager(JavaPlugin plugin, Path path) {
         this.plugin = plugin;
+
         this.path = path;
 
         this.stick = new Stick(path, plugin.getName());
@@ -99,9 +99,9 @@ public class ApiManager {
         this.crateManager.loadCrates();
 
         JsonCrateManager jsonCrateManager = new JsonCrateManager(
-                this.stick,
                 this.path,
-                this.plugin.getServer()
+                this.plugin.getServer(),
+                this.stick
         );
 
         jsonCrateManager.load();
@@ -148,9 +148,9 @@ public class ApiManager {
             this.crateManager.loadCrates();
 
             JsonCrateManager jsonCrateManager = new JsonCrateManager(
-                    this.stick,
                     this.path,
-                    this.plugin.getServer()
+                    this.plugin.getServer(),
+                    this.stick
             );
 
             jsonCrateManager.reload();
