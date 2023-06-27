@@ -7,11 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class Language extends YamlConfiguration {
+public class Locale extends YamlConfiguration {
 
     private final File file;
 
-    public Language(File file) {
+    public Locale(File file) {
         this.file = file;
     }
 
@@ -33,12 +33,10 @@ public class Language extends YamlConfiguration {
                 set("errors.no-prizes-found", getString(path + "No-Prizes-Found", "&c{crate} contains no prizes that you can win."));
                 set("errors.no-schematics-found", getString(path + "No-Schematics-Found", "&cNo schematic were found, Please re-generate them by deleting the folder or checking for errors!"));
 
-                List<String> defaultOptions = List.of(
+                set("errors.prize-error", List.of(
                         "&cAn error has occurred while trying to give you the prize &6{prize}.",
                         "&eThis has occurred in &6{crate}. &ePlease notify your owner."
-                );
-
-                set("errors.prize-error", defaultOptions);
+                ));
 
                 set("errors.internal-error", getString(path + "Internal-Error", "&cAn internal error has occurred. Please check the console for the full error."));
 
@@ -75,17 +73,15 @@ public class Language extends YamlConfiguration {
                 set("crates.need-more-room", getString(path + "Needs-More-Room", "&cThere is not enough space to open {crate} here."));
                 set("crates.world-disabled", getString(path + "World-Disabled", "&cCrates are disabled in &6{world}."));
 
-                List<String> crateNewDefault = List.of(
-                        "&7You have set that block to &6{crate}.",
-                        "&7To remove &6{crate}, &7Shift Click Break in Creative to remove."
-                );
-
                 List<String> crateNew = getStringList(path + "Created-Physical-Crate");
 
                 if (!crateNew.isEmpty()) {
                     set("crates.physical-crate.created", getStringList(path + "Created-Physical-Crate"));
                 } else {
-                    set("crates.physical-crate.created", crateNewDefault);
+                    set("crates.physical-crate.created", List.of(
+                            "&7You have set that block to &6{crate}.",
+                            "&7To remove &6{crate}, &7Shift Click Break in Creative to remove."
+                    ));
                 }
 
                 set("crates.physical-crate.removed", getString(path + "Removed-Physical-Crate", "&7You have removed &6{id}."));
@@ -111,30 +107,26 @@ public class Language extends YamlConfiguration {
 
                 set("command.keys.personal.no-virtual-keys", getString(path + "Keys.Personal.No-Virtual-Keys", "&8(&6!&8) &7You currently do not have any virtual keys."));
 
-                List<String> defaultPersonalHeader = List.of(
-                        "&8(&6!&8) &7A list of your current amount of keys."
-                );
-
                 List<String> virtualPersonalHeader = getStringList(path + "Keys.Personal.Header");
 
                 if (!virtualPersonalHeader.isEmpty()) {
                     set("command.keys.personal.header", virtualPersonalHeader);
                 } else {
-                    set("command.keys.personal.header", defaultPersonalHeader);
+                    set("command.keys.personal.header", List.of(
+                            "&8(&6!&8) &7A list of your current amount of keys."
+                    ));
                 }
 
                 set("command.keys.personal.no-virtual-keys", getString(path + "Keys.Personal.No-Virtual-Keys", "&8(&6!&8) &7You currently do not have any virtual keys."));
-
-                List<String> defaultOtherHeader = List.of(
-                        "&8(&6!&8) &7A list of &c{player}''s &7current amount of keys."
-                );
 
                 List<String> virtualOtherHeader = getStringList(path + "Keys.Other-Player.Header");
 
                 if (!virtualOtherHeader.isEmpty()) {
                     set("command.keys.other-player.header", virtualOtherHeader);
                 } else {
-                    set("command.keys.other-player.header", defaultOtherHeader);
+                    set("command.keys.other-player.header", List.of(
+                            "&8(&6!&8) &7A list of &c{player}''s &7current amount of keys."
+                    ));
                 }
 
                 set("command.keys.other-player.no-virtual-keys", getString(path + "Keys.Other-Player.No-Virtual-Keys", "&8(&6!&8) &7The player &c{player} &7does not have any keys."));
@@ -145,8 +137,8 @@ public class Language extends YamlConfiguration {
 
                 save();
             }
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+        } catch (IOException | InvalidConfigurationException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -206,7 +198,12 @@ public class Language extends YamlConfiguration {
         List<String> prizeError = getStringList("errors.prize-error");
 
         if (get("errors.prize-error") == null) {
-            set("errors.prize-error", prizeError);
+            set("errors.prize-error", List.of(
+                    "&cAn error has occurred while trying to give you the prize &6{prize}.",
+                    "&eThis has occurred in &6{crate}. &ePlease notify your owner."
+            ));
+
+            save();
 
             return prizeError;
         }
@@ -306,7 +303,12 @@ public class Language extends YamlConfiguration {
         List<String> physicalCrateCreated = getStringList("crates.physical-crate.created");
 
         if (get("crates.physical-crate.created") == null) {
-            set("crates.physical-crate.created", physicalCrateCreated);
+            set("crates.physical-crate.created", List.of(
+                    "&7You have set that block to &6{crate}.",
+                    "&7To remove &6{crate}, &7Shift Click Break in Creative to remove."
+            ));
+
+            save();
 
             return physicalCrateCreated;
         }
@@ -374,7 +376,11 @@ public class Language extends YamlConfiguration {
         List<String> noVirtualKeysPersonalHeader = getStringList("command.keys.personal.no-virtual-keys.header");
 
         if (get("command.keys.personal.no-virtual-keys.header") == null) {
-            set("command.keys.personal.no-virtual-keys.header", noVirtualKeysPersonalHeader);
+            set("command.keys.personal.no-virtual-keys.header", List.of(
+                    "8(&6!&8) &7A list of your current amount of keys."
+            ));
+
+            save();
 
             return noVirtualKeysPersonalHeader;
         }
@@ -390,7 +396,9 @@ public class Language extends YamlConfiguration {
         List<String> noVirtualKeysOtherHeader = getStringList("command.keys.other-player.no-virtual-keys.header");
 
         if (get("command.keys.other-player.no-virtual-keys.header") == null) {
-            set("command.keys.other-player.no-virtual-keys.header", noVirtualKeysOtherHeader);
+            set("command.keys.other-player.no-virtual-keys.header", List.of(
+                    "&8(&6!&8) &7A list of &c{player}''s &7current amount of keys."
+            ));
 
             return noVirtualKeysOtherHeader;
         }
