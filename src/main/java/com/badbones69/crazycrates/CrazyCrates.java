@@ -1,10 +1,8 @@
 package com.badbones69.crazycrates;
 
-import com.badbones69.crazycrates.api.ApiManager;
-import com.badbones69.crazycrates.api.CrazyManager;
-import com.badbones69.crazycrates.api.EventLogger;
-import com.badbones69.crazycrates.api.FileManager;
+import com.badbones69.crazycrates.api.*;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
+import com.badbones69.crazycrates.listeners.v2.DataListener;
 import com.badbones69.crazycrates.support.structures.blocks.ChestStateHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,11 +18,10 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        apiManager = new ApiManager(this, getDataFolder().toPath());
-
+        apiManager = new ApiManager(this, this.getDataFolder().toPath());
         apiManager.load();
 
-        //getServer().getPluginManager().registerEvents(new DataListener(), this);
+        getServer().getPluginManager().registerEvents(new DataListener(), this);
     }
 
     @Override
