@@ -74,7 +74,8 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
 
     @Override
     public void convert(File file, UUID uuid, StorageType storageType, Crate crate) {
-        //TODO() Switch between data types
+        //TODO() Add a second data type.
+        //TODO() Convert from it.
     }
 
     @Override
