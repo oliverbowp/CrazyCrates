@@ -18,5 +18,9 @@ dependencies {
     compileOnly("cmi-api:CMI-API")
     compileOnly("cmi-lib:CMILib")
 
-    api("com.ryderbelserion.stick", "stick-paper", "2.2.1-snapshot")
+    api("com.ryderbelserion.stick", "stick-paper", "2.2.1-snapshot") {
+        exclude("com.google.code.gson", "gson")
+        exclude("me.carleslc.Simple-YAML", "Simple-Yaml")
+        exclude("org.jetbrains", "annotations")
+    }
 }
