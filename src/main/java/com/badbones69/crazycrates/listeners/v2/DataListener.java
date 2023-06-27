@@ -15,6 +15,8 @@ public class DataListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if (event.getPlayer().hasPlayedBefore()) return;
+
         UUID uuid = event.getPlayer().getUniqueId();
 
         if (apiManager.getCrateManager().getCrates().isEmpty()) return;
