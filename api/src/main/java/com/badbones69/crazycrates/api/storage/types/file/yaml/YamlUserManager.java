@@ -49,27 +49,27 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
         return this;
     }
 
+    private void saveFile() {
+        try {
+            save(this.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void save(Stick stick) {
         if (!this.userData.isEmpty()) {
             this.userData.forEach((uuid, user) -> {
                 user.getKeys().forEach((crate, keys) -> set("users." + uuid + "." + crate, keys));
 
-                try {
-                    save(this.file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                saveFile();
             });
 
             return;
         }
 
-        try {
-            save(this.file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveFile();
     }
 
     @Override
