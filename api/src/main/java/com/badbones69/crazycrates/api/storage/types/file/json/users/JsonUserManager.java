@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.types.file.json;
+package com.badbones69.crazycrates.api.storage.types.file.json.users;
 
 import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.objects.Crate;
@@ -20,14 +20,17 @@ public non-sealed class JsonUserManager extends JsonStorage implements UserManag
 
     private final Path path;
     private final CrateManager crate;
+    private final Stick stick;
 
-    public JsonUserManager(Path path, CrateManager crate) {
+    public JsonUserManager(Path path, CrateManager crate, Stick stick) {
         super(path);
 
         // Assign the path.
         this.path = path;
 
         this.crate = crate;
+
+        this.stick = stick;
     }
 
     GsonBuilder builder = new GsonBuilder().disableHtmlEscaping()
@@ -36,17 +39,17 @@ public non-sealed class JsonUserManager extends JsonStorage implements UserManag
             .registerTypeAdapter(Location.class, new LocationTypeAdapter());
 
     @Override
-    public void load(Stick stick) {
+    public void load() {
         JsonStorage jsonStorage = new JsonStorage(this.path);
 
         jsonStorage.setGsonBuilder(builder);
 
-        stick.getFileHandler().addFile(jsonStorage);
+        this.stick.getFileHandler().addFile(jsonStorage);
     }
 
     @Override
-    public void save(Stick stick) {
-        stick.getFileHandler().saveFile(new JsonStorage(this.path));
+    public void save() {
+        this.stick.getFileHandler().saveFile(new JsonStorage(this.path));
     }
 
     @Override

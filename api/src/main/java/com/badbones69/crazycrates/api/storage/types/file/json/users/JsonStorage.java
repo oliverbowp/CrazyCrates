@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.types.file.json;
+package com.badbones69.crazycrates.api.storage.types.file.json.users;
 
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.google.gson.annotations.Expose;
