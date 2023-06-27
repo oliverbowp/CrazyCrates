@@ -49,7 +49,7 @@ public class ApiManager {
 
     public ApiManager load() {
         // Create plugin-config.yml
-        File pluginConfig = new File(this.path + "plugin-config.yml");
+        File pluginConfig = new File(this.path.toFile(), "plugin-config.yml");
 
         this.pluginConfig = SettingsManagerBuilder
                 .withYamlFile(pluginConfig)
