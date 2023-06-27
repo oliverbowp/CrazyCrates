@@ -5,7 +5,6 @@ import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.ryderbelserion.stick.core.storage.enums.StorageType;
-import com.ryderbelserion.stick.paper.Stick;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
