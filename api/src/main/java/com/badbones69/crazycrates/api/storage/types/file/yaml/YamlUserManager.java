@@ -6,6 +6,7 @@ import com.badbones69.crazycrates.api.storage.objects.UserData;
 import com.badbones69.crazycrates.api.objects.Crate;
 import com.ryderbelserion.stick.core.storage.enums.StorageType;
 import com.ryderbelserion.stick.paper.Stick;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -35,7 +36,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
         try {
             if (!this.file.exists()) this.file.createNewFile();
 
-            load(file);
+            load(this.file);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
@@ -58,7 +59,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
     }
 
     @Override
-    public void save(Stick stick) {
+    public void save() {
         if (!this.userData.isEmpty()) {
             this.userData.forEach((uuid, user) -> {
                 user.getKeys().forEach((crate, keys) -> set("users." + uuid + "." + crate, keys));
@@ -89,7 +90,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
 
         if (section != null && section.contains("users." + uuid)) {
             section.getKeys(false).forEach(value -> {
-                if (crateManager.getCrates().contains(crate) && crate.getCrateName().equals(value)) {
+                if (this.crateManager.getCrates().contains(crate) && crate.getCrateName().equals(value)) {
                     int amount = getInt("users." + uuid + "." + crate.getCrateName());
 
                     addKey(uuid, amount, crate);
