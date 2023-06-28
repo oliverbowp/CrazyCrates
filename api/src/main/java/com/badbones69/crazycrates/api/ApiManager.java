@@ -4,6 +4,7 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.api.configs.ConfigBuilder;
+import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.configs.types.Locale;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
@@ -155,7 +156,7 @@ public class ApiManager {
             case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
         }*/
 
-        this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
+        this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager, this.plugin, this.pluginConfig.getProperty(PluginConfig.VERBOSE_LOGGING));
 
         this.userManager.load();
     }
