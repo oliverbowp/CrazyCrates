@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates;
 
 import com.badbones69.crazycrates.api.*;
+import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.commands.v2.TestCommand;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
@@ -37,11 +38,17 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
         //QuickCrate.removeAllRewards();
 
+        if (apiManager.getUserManager() != null) apiManager.getUserManager().save();
+
         if (apiManager.getHolograms() != null) apiManager.getHolograms().purge();
     }
 
     public ApiManager getApiManager() {
         return apiManager;
+    }
+
+    public boolean verbose() {
+        return getApiManager().getPluginConfig().getProperty(PluginConfig.VERBOSE_LOGGING);
     }
 
     public HologramManager getHolograms() {
