@@ -4,7 +4,6 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.api.configs.ConfigBuilder;
-import com.badbones69.crazycrates.api.configs.types.Config;
 import com.badbones69.crazycrates.api.configs.types.Locale;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
@@ -124,6 +123,8 @@ public class ApiManager {
                 }
             }
         }
+
+        if (this.userManager != null) this.userManager.save();
 
         // If the command is /crazycrates reload.
         if (reloadCommand) {
