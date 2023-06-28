@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.storage.types.file.yaml;
+package com.badbones69.crazycrates.api.storage.types.file.yaml.users;
 
 import com.badbones69.crazycrates.api.crates.CrateManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
@@ -55,7 +55,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
         }
     }
 
-    private void saveFile() {
+    private void reload() {
         try {
             save(this.file);
             load();
@@ -74,7 +74,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
             user.getKeys().forEach((crateMap, keys) -> set("users." + id + "." + crateMap, keys));
 
             // Save the file then load the changes back in.
-            saveFile();
+            reload();
         });
     }
 
@@ -91,7 +91,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
             this.userData.remove(uuid);
 
             // Save the file then load the changes back in.
-            saveFile();
+            reload();
         }
     }
 
@@ -140,7 +140,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
                     set("users." + uuid, Collections.emptySet());
 
                     // Save file.
-                    saveFile();
+                    reload();
                 }
 
                 // Return since we're done.
@@ -213,7 +213,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
                 // Set the uuid and new key amount.
                 set("users." + uuid + "." + crate.getCrateName(), currentAmount+amount);
                 // Save the file.
-                saveFile();
+                reload();
 
                 // We're done.
                 return;
@@ -251,7 +251,7 @@ public class YamlUserManager extends YamlConfiguration implements UserManager {
                 // Set the uuid and new key amount.
                 set("users." + uuid + "." + crate.getCrateName(), currentAmount-amount);
                 // Save the file.
-                saveFile();
+                reload();
 
                 // We're done.
                 return;
