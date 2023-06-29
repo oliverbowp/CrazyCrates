@@ -12,9 +12,10 @@ import com.badbones69.crazycrates.api.enums.HologramSupport;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
+import com.badbones69.crazycrates.api.storage.interfaces.LocationManager;
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
-import com.badbones69.crazycrates.api.storage.types.file.json.crates.JsonCrateManager;
-import com.badbones69.crazycrates.api.storage.types.file.yaml.YamlUserManager;
+import com.badbones69.crazycrates.api.storage.types.file.yaml.crates.YamlCrateManager;
+import com.badbones69.crazycrates.api.storage.types.file.yaml.users.YamlUserManager;
 import com.ryderbelserion.stick.core.utils.FileUtils;
 import com.ryderbelserion.stick.paper.Stick;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +39,7 @@ public class ApiManager {
     }
 
     private UserManager userManager;
+    private LocationManager locationManager;
     private CrateManager crateManager;
 
     private SettingsManager pluginConfig;
@@ -141,6 +143,7 @@ public class ApiManager {
 
         this.locationManager = new YamlCrateManager(new File(this.path.toFile(), "locations.yml"), this.plugin);
         this.locationManager.load();
+
         this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager, this.plugin, this.pluginConfig.getProperty(PluginConfig.VERBOSE_LOGGING));
         this.userManager.load();
     }
