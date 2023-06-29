@@ -13,6 +13,7 @@ public class MiscUtils {
                 .replaceAll("%amount%", "{amount}")
                 .replaceAll("%world%", "{world}")
                 .replaceAll("%id%", "{id}")
+                .replaceAll("%prefix%", "{prefix}")
                 .replaceAll("%number%", "{number}")
                 .replaceAll("%cratetype%", "{cratetype}")
                 .replaceAll("%keys%", "{keys}");

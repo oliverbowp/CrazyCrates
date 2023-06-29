@@ -1,12 +1,9 @@
 package com.badbones69.crazycrates.api.configs.types.legacy;
 
 import com.badbones69.crazycrates.api.utils.MiscUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public enum MessageEnum {
