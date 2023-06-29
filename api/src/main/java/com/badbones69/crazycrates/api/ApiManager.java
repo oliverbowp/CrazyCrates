@@ -146,7 +146,7 @@ public class ApiManager {
     }
 
     private void migrateLocale(File localeDir) {
-        File messages = new File(this.path + "messages.yml");
+        File messages = new File(this.path.toFile(), "messages.yml");
         File newFile = new File(localeDir, "en-US.yml");
 
         if (!localeDir.exists()) {
@@ -156,7 +156,7 @@ public class ApiManager {
             }
 
             if (messages.exists()) {
-                File renamedFile = new File(this.path + "en-US.yml");
+                File renamedFile = new File(this.path.toFile(), "en-US.yml");
 
                 if (messages.renameTo(renamedFile)) this.plugin.getLogger().info("Renamed " + messages.getName() + " to " + renamedFile.getName());
 
