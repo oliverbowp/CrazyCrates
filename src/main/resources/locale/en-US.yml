@@ -82,4 +82,4 @@ command:
       no-virtual-keys: '&8(&6!&8) &7The player &c{player} &7does not have any keys.'
       header:
         - '&8(&6!&8) &7A list of &c{player}''s &7current amount of keys.'
-    crate-format: '{crate} &8» &6{keys} keys.' # Related to what will show in the output above.
+    crate-format: '{crate} &8» &6{keys} keys.'
