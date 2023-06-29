@@ -17,9 +17,7 @@ misc:
 errors:
   no-prizes-found: '&c{crate} contains no prizes that you can win.'
   no-schematics-found: '&cNo schematic were found, Please re-generate them by deleting the folder or checking for errors!'
-  prize-error:
-    - '&cAn error has occurred while trying to give you the prize &6{prize}.'
-    - '&eThis has occurred in &6{crate}. &ePlease notify your owner.'
+  prize-error: '&cAn error has occurred in &6{crate} &cfor &6#{prize}. &eContact your owner!'
   internal-error: '&cAn internal error has occurred. Please check the console for the full error.'
 
 player:
