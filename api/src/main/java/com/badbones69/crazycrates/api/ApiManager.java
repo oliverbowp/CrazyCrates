@@ -78,16 +78,6 @@ public class ApiManager {
         this.crateManager = new CrateManager(this.plugin);
         this.crateManager.loadCrates();
 
-        // Create new instance.
-        JsonCrateManager jsonCrateManager = new JsonCrateManager(
-                this.path,
-                this.plugin.getServer(),
-                this.stick
-        );
-
-        // Load the data.
-        jsonCrateManager.load();
-
         // Initialize user data.
         init();
 
@@ -136,16 +126,6 @@ public class ApiManager {
             this.crateManager = new CrateManager(this.plugin);
             this.crateManager.loadCrates();
 
-            // Create new instance.
-            JsonCrateManager jsonCrateManager = new JsonCrateManager(
-                    this.path,
-                    this.plugin.getServer(),
-                    this.stick
-            );
-
-            // Reload the data.
-            jsonCrateManager.reload();
-
             // Initialize user data.
             init();
         }
@@ -157,8 +137,9 @@ public class ApiManager {
             case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
         }*/
 
+        this.locationManager = new YamlCrateManager(new File(this.path.toFile(), "locations.yml"), this.plugin);
+        this.locationManager.load();
         this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager, this.plugin, this.pluginConfig.getProperty(PluginConfig.VERBOSE_LOGGING));
-
         this.userManager.load();
     }
 
@@ -209,6 +190,10 @@ public class ApiManager {
 
     public CrateManager getCrateManager() {
         return this.crateManager;
+    }
+
+    public LocationManager getLocationManager() {
+        return this.locationManager;
     }
 
     // User Management.

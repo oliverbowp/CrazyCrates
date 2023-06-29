@@ -1,6 +1,5 @@
 package com.badbones69.crazycrates.api.storage.types.file.json.crates;
 
-import com.badbones69.crazycrates.api.storage.CustomLocation;
 import com.badbones69.crazycrates.api.storage.interfaces.LocationManager;
 import com.badbones69.crazycrates.api.storage.CrateData;
 import com.ryderbelserion.stick.core.storage.enums.StorageType;
@@ -89,13 +88,13 @@ public non-sealed class JsonCrateManager extends JsonCrateData implements Locati
             // Add the first location.
             crates.put(crateName, crateData);
 
-            crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
+            //crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
 
             return;
         }
 
         // Add the location if no previous location found.
-        crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
+        //crateData.addLocation(new CustomLocation(location.x(), location.y(), location.x()));
     }
 
     @Override
@@ -104,14 +103,14 @@ public non-sealed class JsonCrateManager extends JsonCrateData implements Locati
     }
 
     @Override
-    public CrateData getLocation(String crateName) {
+    public CrateData getCrateLocation(String crateName) {
         if (hasLocation(crateName)) return getCrates().get(crateName);
 
         return null;
     }
 
     @Override
-    public void removeLocation(String crateName) {
+    public void removeLocation(String crateName, int id) {
         if (hasLocation(crateName)) crates.remove(crateName);
     }
 

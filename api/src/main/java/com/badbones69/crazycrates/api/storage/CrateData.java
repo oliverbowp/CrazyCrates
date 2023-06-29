@@ -1,11 +1,6 @@
 package com.badbones69.crazycrates.api.storage;
 
-import com.badbones69.crazycrates.api.crates.CrateConfig;
-import com.badbones69.crazycrates.api.storage.objects.CrateLogData;
-import com.badbones69.crazycrates.api.enums.KeyType;
 import com.google.gson.annotations.Expose;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +10,7 @@ public class CrateData {
     @Expose
     private final ArrayList<CustomLocation> locations = new ArrayList<>();
 
-    @Expose
+    /*@Expose
     private final ArrayList<CrateLogData> logs = new ArrayList<>();
 
     public void logCrateEvent(Player player, CrateConfig crateConfig, KeyType keyType) {
@@ -38,7 +33,7 @@ public class CrateData {
         CrateLogData crateLogData = new CrateLogData(name, senderName, null, null, keyName, null, keyType.getName());
 
         this.logs.add(crateLogData);
-    }
+    }*/
 
     public void addLocation(CustomLocation location) {
         this.locations.add(location);
@@ -48,11 +43,11 @@ public class CrateData {
         this.locations.remove(location);
     }
 
-    public List<CrateLogData> getLogs() {
+    /*public List<CrateLogData> getLogs() {
         return Collections.unmodifiableList(this.logs);
-    }
+    }*/
 
-    public List<CustomLocation> getLocation() {
+    public List<CustomLocation> getLocations() {
         return Collections.unmodifiableList(this.locations);
     }
 }

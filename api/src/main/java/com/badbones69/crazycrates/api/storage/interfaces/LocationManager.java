@@ -22,9 +22,9 @@ public interface LocationManager {
 
     boolean hasLocation(String crateName);
 
-    CrateData getLocation(String crateName);
+    CrateData getCrateLocation(String crateName);
 
-    void removeLocation(String crateName);
+    void removeLocation(String crateName, int id);
 
     Map<String, CrateData> getCrates();
 
