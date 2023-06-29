@@ -25,9 +25,9 @@ public class Locale extends YamlConfiguration {
         try {
             load(this.file);
 
-            ConfigurationSection section = getConfigurationSection("Messages");
+            ConfigurationSection legacySection = getConfigurationSection("Messages");
 
-            if (section != null) {
+            if (legacySection != null) {
                 for (MessageEnum value : MessageEnum.values()) {
                     value.setMessage(getConfiguration(), this.plugin);
 
