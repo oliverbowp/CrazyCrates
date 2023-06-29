@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -102,7 +103,16 @@ public enum MessageEnum {
                 if (configuration.isList(getLegacyPath())) {
                     List<String> legacy = configuration.getStringList(getLegacyPath());
 
-                    legacy.forEach(line -> configuration.set(getNewPath(), MiscUtils.convertLegacyPlaceholders(line)));
+                    if (legacy.isEmpty()) {
+                        configuration.set(getNewPath(), this.defaultList);
+                        return;
+                    }
+
+                    ArrayList<String> newList = new ArrayList<>();
+
+                    legacy.forEach(line -> newList.add(MiscUtils.convertLegacyPlaceholders(line)));
+
+                    configuration.set(getNewPath(), newList);
                 } else {
                     configuration.set(getNewPath(), MiscUtils.convertLegacyPlaceholders(getValue(configuration)));
                 }
