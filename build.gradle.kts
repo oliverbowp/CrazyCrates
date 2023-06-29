@@ -6,8 +6,6 @@ repositories {
     flatDir {
         dirs("libs")
     }
-
-    maven("https://repo.aikar.co/content/groups/aikar/")
 }
 
 dependencies {

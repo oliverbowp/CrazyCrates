@@ -13,6 +13,8 @@ dependencies {
 
     compileOnly("com.github.decentsoftware-eu", "decentholograms", "2.8.2")
 
+    compileOnly("co.aikar", "acf-core", "0.5.1-SNAPSHOT")
+
     compileOnly("de.tr7zw", "item-nbt-api", "2.11.3")
 
     compileOnly("cmi-api:CMI-API")

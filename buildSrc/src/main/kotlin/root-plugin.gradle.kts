@@ -6,6 +6,8 @@ plugins {
 }
 
 repositories {
+    maven("https://repo.aikar.co/content/groups/aikar/")
+
     maven("https://repo.crazycrew.us/first-party/")
 
     maven("https://repo.crazycrew.us/third-party/")
