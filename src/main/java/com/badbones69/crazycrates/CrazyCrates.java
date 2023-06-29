@@ -44,7 +44,7 @@ public class CrazyCrates extends JavaPlugin implements Listener {
     }
 
     public ApiManager getApiManager() {
-        return apiManager;
+        return this.apiManager;
     }
 
     public boolean verbose() {
