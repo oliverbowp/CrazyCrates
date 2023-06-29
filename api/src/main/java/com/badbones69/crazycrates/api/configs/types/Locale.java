@@ -1,6 +1,8 @@
 package com.badbones69.crazycrates.api.configs.types;
 
+import com.badbones69.crazycrates.api.configs.types.legacy.MessageEnum;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
@@ -19,122 +21,16 @@ public class Locale extends YamlConfiguration {
         try {
             load(this.file);
 
-            if (getConfigurationSection("Messages") != null) {
-                String path = "Messages.";
+            ConfigurationSection section = getConfigurationSection("Messages");
 
-                set("misc.unknown-command", getString(path + "Unknown-Command", "&cThe command {command} is not known."));
-                set("misc.no-teleporting", getString(path + "No-Teleporting", "&cYou may not teleport away while opening &6{crate}."));
-                set("misc.no-commands", getString(path + "No-Commands-While-In-Crate", "&cYou are not allowed to use commands while opening &6{crate}."));
-                set("misc.no-keys", getString(path + "No-Key", "&cYou need a {key} &cin your hand to use &6{crate}."));
-                set("misc.no-virtual-keys", getString(path + "No-Virtual-Key", "&cYou need {key} &cto open &6{crate}."));
-                set("misc.feature-disabled", getString(path + "Feature-Disabled", "&cThis feature is disabled. We have no ETA on when this will function."));
-                set("misc.correct-usage", getString(path + "Correct-Usage", "&cThe correct usage for this command is &e{usage}"));
+            if (section != null) {
+                for (MessageEnum value : MessageEnum.values()) {
+                    value.setMessage(getConfiguration());
 
-                set("errors.no-prizes-found", getString(path + "No-Prizes-Found", "&c{crate} contains no prizes that you can win."));
-                set("errors.no-schematics-found", getString(path + "No-Schematics-Found", "&cNo schematic were found, Please re-generate them by deleting the folder or checking for errors!"));
-
-                set("errors.prize-error", List.of(
-                        "&cAn error has occurred while trying to give you the prize &6{prize}.",
-                        "&eThis has occurred in &6{crate}. &ePlease notify your owner."
-                ));
-
-                set("errors.internal-error", getString(path + "Internal-Error", "&cAn internal error has occurred. Please check the console for the full error."));
-
-                set("players.requirements.too-many-args", "&cYou put more arguments then I can handle.");
-                set("players.requirements.not-enough-args", "&cYou did not supply enough arguments.");
-
-                set("players.requirements.must-be-player", getString(path + "Must-Be-A-Player", "&cYou must be a player to use this command."));
-                set("players.requirements.must-be-console-sender", getString(path + "Must-Be-A-Console-Sender", "&cYou must be using console to use this command."));
-                set("players.requirements.must-be-looking-at-block", getString(path + "Must-Be-Looking-At-A-Block", "&cYou must be looking at a block."));
-
-                set("players.target-not-online", getString(path + "Not-Online", "&cThe player &6{player} &cis not online."));
-                set("players.target-same-player", getString(path + "Same-Player", "&cYou cannot use this command on yourself."));
-
-                set("players.no-permission", getString(path + "No-Permission", "&cYou do not have permission to use that command!"));
-
-                set("players.inventory-not-empty", getString(path + "Inventory-Full", "&cInventory is not empty, Please make room before opening &6{crate}."));
-
-                set("players.obtaining-keys", getString(path + "Obtaining-Keys", "&7You have been given &6{amount} {key} &7keys."));
-
-                set("players.too-close-to-another-player", getString(path + "To-Close-To-Another-Player", "&cYou are too close to a player that is opening their Crate."));
-
-                set("crates.requirements.not-a-crate", getString(path + "Not-A-Crate", "&cThere is no crate called &6{crate}."));
-                set("crates.requirements.not-a-number", getString(path + "Not-A-Number", "&6{number} &cis not a number."));
-
-                set("crates.not-on-block", getString(path + "Not-On-Block", "&cYou must be standing on a block to use &6{crate}."));
-                set("crates.out-of-time", getString(path + "Out-Of-Time", "&cYou took &a5 Minutes &cto open the &6{crate} &cso it closed."));
-
-                set("crates.preview-disabled", getString(path + "Preview-Disabled", "&cThe preview for &6{crate} &7is currently disabled."));
-                set("crates.already-open", getString(path + "Already-Opening-Crate", "&cYou are already opening &6{crate}."));
-                set("crates.in-use", getString(path + "Quick-Crate-In-Use", "&6{crate} &cis already in use. Please wait until it finishes!"));
-
-                set("crates.cannot-be-a-virtual-crate", getString(path + "Cant-Be-A-Virtual-Crate", "&6{crate} &ccannot be used as a Virtual Crate. You have it set to &6{cratetype}."));
-
-                set("crates.need-more-room", getString(path + "Needs-More-Room", "&cThere is not enough space to open {crate} here."));
-                set("crates.world-disabled", getString(path + "World-Disabled", "&cCrates are disabled in &6{world}."));
-
-                List<String> crateNew = getStringList(path + "Created-Physical-Crate");
-
-                if (!crateNew.isEmpty()) {
-                    set("crates.physical-crate.created", getStringList(path + "Created-Physical-Crate"));
-                } else {
-                    set("crates.physical-crate.created", List.of(
-                            "&7You have set that block to &6{crate}.",
-                            "&7To remove &6{crate}, &7Shift Click Break in Creative to remove."
-                    ));
+                    save();
                 }
-
-                set("crates.physical-crate.removed", getString(path + "Removed-Physical-Crate", "&7You have removed &6{id}."));
-
-                set("command.open.opened-a-crate", getString(path + "Opened-A-Crate", "&7You have opened the &6{crate} &7crate for &6{player}."));
-
-                set("command.give.given-player-keys", getString(path + "Given-A-Player-Keys", "&7You have given &6{player} {amount} keys."));
-                set("command.give.cannot-give-player-keys", getString(path + "Cannot-Give-Player-Keys", "&7You have been given &6{amount} {key} &7virtual keys because your inventory was full."));
-                set("command.given-everyone-keys", getString(path + "Given-Everyone-Keys", "&7You have given everyone &6{amount} keys."));
-                set("command.given-offline-player-keys", getString(path + "Given-Offline-PlayerKeys", "&7You have given &6{amount} key(s) &7to the offline player &6{player}."));
-
-                set("command.take-player-keys", getString(path + "Take-A-Player-Keys", "&7You have taken &6{amount} key(s) &7from &6{player}."));
-                set("command.take-offline-player-keys", getString(path + "Take-Offline-Player-Keys", "&7You have taken &6{amount} key(s) &7from the offline player &6{player}."));
-
-                set("command.additem.no-item-hand", getString(path + "No-Item-In-Hand", "&cYou need to have an item in your hand to add it to &6{crate}."));
-                set("command.additem.add-item-from-hand", getString(path + "Added-Item-With-Editor", "&7The item has been added to &6{crate} &7as &6Prize #{prize}."));
-
-                set("command.reload-plugin", getString(path + "Reload", "&eYou have reloaded the plugin!"));
-
-                set("command.transfer.not-enough-keys", getString(path + "Transfer-Keys.Not-Enough-Keys", "&cYou do not have enough keys to transfer."));
-                set("command.transferred-keys", getString(path + "Transfer-Keys.Transferred-Keys", "&7You have transferred &c{amount} {crate} &7keys to &c{player}."));
-                set("command.transferred-keys-received", getString(path + "Transfer-Keys.Received-Transferred-Keys", "&7You have received &c{amount} {crate} &7keys from &c{player}."));
-
-                set("command.keys.personal.no-virtual-keys", getString(path + "Keys.Personal.No-Virtual-Keys", "&8(&6!&8) &7You currently do not have any virtual keys."));
-
-                List<String> virtualPersonalHeader = getStringList(path + "Keys.Personal.Header");
-
-                if (!virtualPersonalHeader.isEmpty()) {
-                    set("command.keys.personal.header", virtualPersonalHeader);
-                } else {
-                    set("command.keys.personal.header", List.of(
-                            "&8(&6!&8) &7A list of your current amount of keys."
-                    ));
-                }
-
-                set("command.keys.personal.no-virtual-keys", getString(path + "Keys.Personal.No-Virtual-Keys", "&8(&6!&8) &7You currently do not have any virtual keys."));
-
-                List<String> virtualOtherHeader = getStringList(path + "Keys.Other-Player.Header");
-
-                if (!virtualOtherHeader.isEmpty()) {
-                    set("command.keys.other-player.header", virtualOtherHeader);
-                } else {
-                    set("command.keys.other-player.header", List.of(
-                            "&8(&6!&8) &7A list of &c{player}''s &7current amount of keys."
-                    ));
-                }
-
-                set("command.keys.other-player.no-virtual-keys", getString(path + "Keys.Other-Player.No-Virtual-Keys", "&8(&6!&8) &7The player &c{player} &7does not have any keys."));
-
-                set("command.keys.crate-format", getString(path + "Keys.Per-Crate", "{crate} &8» &6{keys} keys."));
 
                 set("Messages", null);
-
                 save();
             }
         } catch (IOException | InvalidConfigurationException exception) {
@@ -194,21 +90,8 @@ public class Locale extends YamlConfiguration {
         return getString("errors.no-schematics-found", "&cNo schematic were found, Please re-generate them by deleting the folder or checking for errors!");
     }
 
-    public List<String> PRIZE_ERROR() {
-        List<String> prizeError = getStringList("errors.prize-error");
-
-        if (get("errors.prize-error") == null) {
-            set("errors.prize-error", List.of(
-                    "&cAn error has occurred while trying to give you the prize &6{prize}.",
-                    "&eThis has occurred in &6{crate}. &ePlease notify your owner."
-            ));
-
-            save();
-
-            return prizeError;
-        }
-
-        return prizeError;
+    public String PRIZE_ERROR() {
+        return getString("errors.prize-error", "&cAn error has occurred in &6{crate} &cfor &6#{prize}. &eContact your owner!");
     }
 
     public String INTERNAL_ERROR() {
@@ -373,11 +256,11 @@ public class Locale extends YamlConfiguration {
     }
 
     public List<String> NO_VIRTUAL_KEYS_PERSONAL_HEADER() {
-        List<String> noVirtualKeysPersonalHeader = getStringList("command.keys.personal.no-virtual-keys.header");
+        List<String> noVirtualKeysPersonalHeader = getStringList("command.keys.personal.header");
 
-        if (get("command.keys.personal.no-virtual-keys.header") == null) {
-            set("command.keys.personal.no-virtual-keys.header", List.of(
-                    "8(&6!&8) &7A list of your current amount of keys."
+        if (get("command.keys.personal.header") == null) {
+            set("command.keys.personal.header", List.of(
+                    "&8(&6!&8) &7A list of your current amount of keys."
             ));
 
             save();
@@ -393,10 +276,10 @@ public class Locale extends YamlConfiguration {
     }
 
     public List<String> NO_VIRTUAL_KEYS_OTHER_HEADER() {
-        List<String> noVirtualKeysOtherHeader = getStringList("command.keys.other-player.no-virtual-keys.header");
+        List<String> noVirtualKeysOtherHeader = getStringList("command.keys.other-player.header");
 
-        if (get("command.keys.other-player.no-virtual-keys.header") == null) {
-            set("command.keys.other-player.no-virtual-keys.header", List.of(
+        if (get("command.keys.other-player.header") == null) {
+            set("command.keys.other-player.header", List.of(
                     "&8(&6!&8) &7A list of &c{player}''s &7current amount of keys."
             ));
 
