@@ -6,10 +6,12 @@ import co.aikar.commands.HelpEntry;
 import co.aikar.commands.annotation.*;
 import com.badbones69.crazycrates.CrazyCrates;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
-import com.badbones69.crazycrates.api.utils.ColorUtils;
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
+import static com.badbones69.crazycrates.api.utils.MessageUtils.*;
 
 @CommandAlias("crazycrates")
 @Description("Manage or use CrazyCrates.")
@@ -30,17 +32,20 @@ public class CrateBaseCommand extends BaseCommand {
         int start = maxPage * (page - 1);
 
         String invalidPage = this.plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.INVALID_HELP_PAGE)
-                .replace("{page}", String.valueOf(page));
+                .replaceAll("\\{page}", String.valueOf(page));
 
         if (page <= 0 || start >= entries.size()) {
-            sender.sendMessage(ColorUtils.color(invalidPage));
+            send(sender, invalidPage, this.plugin.getApiManager());
             return;
         }
 
-        String header = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_HEADER)
-                .replace("{page}", String.valueOf(page));
+        String hoverFormat = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_HOVER_FORMAT);
+        String hoverAction = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_HOVER_ACTION);
 
-        sender.sendMessage(ColorUtils.color(header));
+        String header = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_HEADER)
+                .replaceAll("\\{page}", String.valueOf(page));
+
+        send(sender, header, false, this.plugin.getApiManager());
 
         for (int i = start; i < (start + maxPage); i++) {
             if (entries.size()-1 < i) continue;
@@ -53,14 +58,40 @@ public class CrateBaseCommand extends BaseCommand {
             String desc = command.getDescription();
 
             String format = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_FORMAT)
-                    .replace("{command}", name)
-                    .replace("{description}", desc);
+                    .replaceAll("\\{command}", name)
+                    .replaceAll("\\{description}", desc);
 
-            sender.sendMessage(ColorUtils.color(format));
+            String builtCommand = command.getParameters().length > 0 ? format.replaceAll("%args%", command.getParameterSyntax()) : format;
+
+            if (sender instanceof Player player) {
+                hover(
+                        player,
+                        builtCommand,
+                        hoverFormat.replaceAll("%command%", name).replaceAll("%args%", command.getParameterSyntax()),
+                        name,
+                        ClickEvent.Action.valueOf(hoverAction.toUpperCase()));
+            } else {
+                send(sender, format, false, this.plugin.getApiManager());
+            }
         }
 
+        String pageTag = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_GO_TO_PAGE);
         String footer = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_FOOTER);
+        String backButton = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_BACK);
+        String nextButton = plugin.getApiManager().getPluginConfig().getProperty(PluginConfig.HELP_PAGE_NEXT);
 
-        sender.sendMessage(ColorUtils.color(footer));
+        if (sender instanceof Player player) {
+            if (page > 1) {
+                int number = page-1;
+
+                hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), backButton,"/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
+            } else if (page < entries.size()) {
+                int number = page+1;
+
+                hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), nextButton,"/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
+            }
+        } else {
+            send(sender, footer.replaceAll("%page%", String.valueOf(page)), false, this.plugin.getApiManager());
+        }
     }
 }
