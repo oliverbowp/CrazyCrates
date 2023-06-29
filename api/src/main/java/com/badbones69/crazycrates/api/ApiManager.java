@@ -65,7 +65,7 @@ public class ApiManager {
         // Load the locale file.
         File localeFile = new File(localeDir, this.pluginConfig.getProperty(PluginConfig.LOCALE_FILE) + ".yml");
 
-        this.locale = new Locale(localeFile);
+        this.locale = new Locale(localeFile, this.plugin);
         // Load the file.
         this.locale.load();
 

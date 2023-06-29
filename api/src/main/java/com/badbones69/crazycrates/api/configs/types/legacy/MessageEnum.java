@@ -3,6 +3,8 @@ package com.badbones69.crazycrates.api.configs.types.legacy;
 import com.badbones69.crazycrates.api.utils.MiscUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -94,7 +96,7 @@ public enum MessageEnum {
         return configuration.contains(value);
     }
 
-    public void setMessage(Configuration configuration) {
+    public void setMessage(Configuration configuration, JavaPlugin plugin) {
         try {
             if (contains(configuration, getLegacyPath())) {
                 if (configuration.isList(getLegacyPath())) {
@@ -106,8 +108,8 @@ public enum MessageEnum {
                 }
             }
         } catch (Exception exception) {
-            Bukkit.getLogger().warning("Failed to set: " + getNewPath());
-            Bukkit.getLogger().warning("Tried to use: " + getLegacyPath());
+            plugin.getLogger().warning("Failed to set: " + getNewPath());
+            plugin.getLogger().warning("Tried to use: " + getLegacyPath());
         }
     }
 

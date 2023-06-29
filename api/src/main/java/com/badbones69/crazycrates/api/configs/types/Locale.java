@@ -5,6 +5,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -12,9 +13,12 @@ import java.util.List;
 public class Locale extends YamlConfiguration {
 
     private final File file;
+    private final JavaPlugin plugin;
 
-    public Locale(File file) {
+    public Locale(File file, JavaPlugin plugin) {
         this.file = file;
+
+        this.plugin = plugin;
     }
 
     public void load() {
@@ -25,7 +29,7 @@ public class Locale extends YamlConfiguration {
 
             if (section != null) {
                 for (MessageEnum value : MessageEnum.values()) {
-                    value.setMessage(getConfiguration());
+                    value.setMessage(getConfiguration(), this.plugin);
 
                     save();
                 }
