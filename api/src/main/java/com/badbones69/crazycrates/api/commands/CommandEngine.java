@@ -74,13 +74,13 @@ public abstract class CommandEngine {
                     .replaceAll("\\{command}", command);
                     //.replaceAll("\\{description}", desc);
 
-            //String builtCommand = command.getParameters().length > 0 ? format.replaceAll("%args%", command.getParameterSyntax()) : format;
+            //String builtCommand = command.getParameters().length > 0 ? format.replaceAll("\\{args}", command.getParameterSyntax()) : format;
 
             /*if (sender instanceof Player player) {
                 hover(
                         player,
                         builtCommand,
-                        hoverFormat.replaceAll("%command%", name).replaceAll("%args%", command.getParameterSyntax()),
+                        hoverFormat.replaceAll("\\{command}", name).replaceAll("\\{args}", command.getParameterSyntax()),
                         name,
                         ClickEvent.Action.valueOf(hoverAction.toUpperCase()));
             } else {
@@ -99,14 +99,14 @@ public abstract class CommandEngine {
             if (page > 1) {
                 int number = page-1;
 
-                hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), backButton,"/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
+                hover(player, footer.replaceAll("\\{page}", String.valueOf(page)),  pageTag.replaceAll("\\{page}", String.valueOf(number)), backButton,"/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
             } else if (page < aliases.size()) {
                 int number = page+1;
 
-                hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), nextButton,"/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
+                hover(player, footer.replaceAll("\\{page}", String.valueOf(page)),  pageTag.replaceAll("\\{page}", String.valueOf(number)), nextButton,"/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
             }
         } else {
-            send(sender, footer.replaceAll("%page%", String.valueOf(page)), false, apiManager);
+            send(sender, footer.replaceAll("\\{page}", String.valueOf(page)), false, apiManager);
         }
     }
 
