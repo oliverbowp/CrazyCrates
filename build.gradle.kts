@@ -16,9 +16,7 @@ dependencies {
 
     implementation("de.tr7zw", "item-nbt-api", "2.11.3")
 
-    implementation("dev.triumphteam", "triumph-cmd-bukkit", "2.0.0-SNAPSHOT")
-
-    implementation("co.aikar", "acf-paper", "0.5.1-SNAPSHOT")
+    compileOnly("dev.triumphteam", "triumph-cmd-bukkit", "2.0.0-SNAPSHOT")
 
     implementation("org.bstats", "bstats-bukkit", "3.0.0")
 }

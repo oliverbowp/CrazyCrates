@@ -1,17 +1,13 @@
 package com.badbones69.crazycrates;
 
-import co.aikar.commands.PaperCommandManager;
 import com.badbones69.crazycrates.api.*;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
-import com.badbones69.crazycrates.api.utils.ColorUtils;
-import com.badbones69.crazycrates.commands.v2.CrateBaseCommand;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
 import com.badbones69.crazycrates.support.structures.blocks.ChestStateHandler;
 import com.ryderbelserion.stick.paper.utils.PaperUtils;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.List;
 
 public class CrazyCrates extends JavaPlugin implements Listener {
@@ -46,10 +42,6 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         this.apiManager.load();
 
         getServer().getPluginManager().registerEvents(new DataListener(), this);
-
-        PaperCommandManager manager = new PaperCommandManager(this);
-
-        manager.registerCommand(new CrateBaseCommand());
 
         this.isEnabled = true;
     }
