@@ -4,19 +4,27 @@ import com.badbones69.crazycrates.api.ApiManager;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirements;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import net.kyori.adventure.text.event.ClickEvent;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import static com.badbones69.crazycrates.api.utils.MessageUtils.hover;
 import static com.badbones69.crazycrates.api.utils.MessageUtils.send;
 
-public abstract class CommandEngine {
+public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
     private final LinkedList<String> aliases = new LinkedList<>();
+    private final LinkedList<CommandEngine> subCommands = new LinkedList<>();
 
     private CommandRequirements requirements;
+    private String prefix;
 
     public void run(CommandInfo info) {
         String alias = info.getAlias();
@@ -34,11 +42,51 @@ public abstract class CommandEngine {
         this.aliases.add(alias);
     }
 
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getPrefix() {
+        return this.prefix;
+    }
+
     public void removeAlias(String alias) {
         this.aliases.remove(alias);
     }
 
+    public void addSubCommand(CommandEngine engine) {
+        subCommands.add(engine);
+    }
+
+    public void removeSubCommand(CommandEngine engine) {
+        this.subCommands.forEach(command -> {
+            if (command.aliases.getFirst().equals(engine.aliases.getFirst())) {
+                this.subCommands.remove(engine);
+            }
+        });
+    }
+
     protected abstract boolean execute(CommandInfo info);
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        run(new CommandInfo(sender, ""));
+
+        return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length == 1) {
+            List<String> completions = new ArrayList<>();
+
+            subCommands.forEach(value -> completions.add(value.aliases.get(0)));
+
+            return completions;
+        }
+
+        return null;
+    }
 
     @SuppressWarnings("SameParameterValue")
     protected void generateHelp(int page, int maxPage, CommandSender sender, ApiManager apiManager) {
@@ -112,5 +160,9 @@ public abstract class CommandEngine {
 
     public List<String> getAliases() {
         return Collections.unmodifiableList(this.aliases);
+    }
+
+    public List<CommandEngine> getSubCommands() {
+        return Collections.unmodifiableList(this.subCommands);
     }
 }

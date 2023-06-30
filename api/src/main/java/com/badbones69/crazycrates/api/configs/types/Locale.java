@@ -59,131 +59,131 @@ public class Locale extends YamlConfiguration {
     }
 
     public String UNKNOWN_COMMAND() {
-        return getString("misc.unknown-command", "&cThe command {command} is not known.");
+        return getString("misc.unknown-command", "<red>The command {command} is not known.</red>");
     }
 
     public String NO_TELEPORTING() {
-        return getString("misc.no-teleporting", "&cYou may not teleport away while opening &6{crate}.");
+        return getString("misc.no-teleporting", "<red>You may not teleport away while opening</red> <gold>{crate}.</gold>");
     }
 
     public String NO_COMMANDS() {
-        return getString("misc.no-commands", "&cYou are not allowed to use commands while opening &6{crate}.");
+        return getString("misc.no-commands", "<red>You are not allowed to use commands while opening</red> <gold>{crate}.</gold>");
     }
 
     public String NO_KEYS() {
-        return getString("misc.no-keys", "&cYou need a {key} &cin your hand to use &6{crate}.");
+        return getString("misc.no-keys", "<red>You need a</red> {key} <red>in your hand to use</red> <gold>{crate}.</gold>");
     }
 
     public String NO_VIRTUAL_KEYS() {
-        return getString("misc.no-virtual-keys", "&cYou need {key} &cto open &6{crate}.");
+        return getString("misc.no-virtual-keys", "<red>You need</red> {key} <red>to open</red> <gold>{crate}.</gold>");
     }
 
     public String FEATURE_DISABLED() {
-        return getString("misc.feature-disabled", "&cThis feature is disabled. We have no ETA on when this will function.");
+        return getString("misc.feature-disabled", "<red>This feature is disabled. We have no ETA on when this will function.</red>");
     }
 
     public String CORRECT_USAGE() {
-        return getString("misc.correct-usage", "&cThe correct usage for this command is &e{usage}");
+        return getString("misc.correct-usage", "<red>The correct usage for this command is</red> <gold>{usage}</gold>");
     }
 
     public String NO_PRIZES_FOUND() {
-        return getString("errors.no-prizes.found", "&c{crate} contains no prizes that you can win.");
+        return getString("errors.no-prizes.found", "<red>{crate} contains no prizes that you can win.</red>");
     }
 
     public String NO_SCHEMATICS_FOUND() {
-        return getString("errors.no-schematics-found", "&cNo schematic were found, Please re-generate them by deleting the folder or checking for errors!");
+        return getString("errors.no-schematics-found", "<red>No schematic were found, Please re-generate them by deleting the folder or checking for errors!</red>");
     }
 
     public String PRIZE_ERROR() {
-        return getString("errors.prize-error", "&cAn error has occurred in &6{crate} &cfor &6#{prize}. &eContact your owner!");
+        return getString("errors.prize-error", "<red>An error has occurred in</red> <gold>{crate}</gold> <red>for</red> <gold>#{prize}. Contact your owner!</gold>");
     }
 
     public String INTERNAL_ERROR() {
-        return getString("errors.internal-error", "&cAn internal error has occurred. Please check the console for the full error.");
+        return getString("errors.internal-error", "<red>An internal error has occurred. Please check the console for the full error.</red>");
     }
 
     public String TOO_MANY_ARGS() {
-        return getString("player.requirements.too-many-args", "&cYou put more arguments then I can handle.");
+        return getString("player.requirements.too-many-args", "<red>You put more arguments then I can handle.</red>");
     }
 
     public String NOT_ENOUGH_ARGS() {
-        return getString("player.requirements.not-enough-args", "&cYou did not supply enough arguments.");
+        return getString("player.requirements.not-enough-args", "<red>You did not supply enough arguments.</red>");
     }
 
     public String MUST_BE_PLAYER() {
-        return getString("player.requirements.must-be-player", "&cYou must be a player to use this command.");
+        return getString("player.requirements.must-be-player", "<red>You must be a player to use this command.</red>");
     }
 
     public String MUST_BE_CONSOLE_SENDER() {
-        return getString("player.requirements.must-be-console-sender", "&cYou must be using console to use this command.");
+        return getString("player.requirements.must-be-console-sender", "<red>You must be using console to use this command.</red>");
     }
 
     public String MUST_BE_LOOKING_AT_BLOCK() {
-        return getString("player.requirements.must-be-looking-at-block", "&cYou must be looking at a block.");
+        return getString("player.requirements.must-be-looking-at-block", "<red>You must be looking at a block.</red>");
     }
 
     public String TARGET_NOT_ONLINE() {
-        return getString("player.target-not-online", "&cThe player &6{player} &cis not online.");
+        return getString("player.target-not-online", "<red>The player</red> <gold>{player}</gold> <red>is not online.</red>");
     }
 
     public String TARGET_SAME_PLAYER() {
-        return getString("player.target-same-player", "&cYou cannot use this command on yourself.");
+        return getString("player.target-same-player", "<red>You cannot use this command on yourself.</red>");
     }
 
     public String NO_PERMISSION() {
-        return getString("player.no-permission", "&cYou do not have permission to use that command!");
+        return getString("player.no-permission", "<red>You do not have permission to use that command!</red>");
     }
 
     public String INVENTORY_NOT_EMPTY() {
-        return getString("player.inventory-not-empty", "&cInventory is not empty, Please make room before opening &6{crate}.");
+        return getString("player.inventory-not-empty", "<red>Inventory is not empty, Please make room before opening</red> <gold>{crate}.</gold>");
     }
 
     public String OBTAINING_KEYS() {
-        return getString("player.obtaining-keys", "&7You have been given &6{amount} {key} &7keys.");
+        return getString("player.obtaining-keys", "<gray>You have been given</gray> <gold>{amount} {key}</gold> <gray>keys.</gray>");
     }
 
     public String TOO_CLOSE_TO_ANOTHER_PLAYER() {
-        return getString("player.too-close-to-another-player", "&cYou are too close to a player that is opening their crate.");
+        return getString("player.too-close-to-another-player", "<red>You are too close to a player that is opening their crate.</red>");
     }
 
     public String NOT_A_CRATE() {
-        return getString("crates.requirements.not-a-crate", "&cThere is no crate called &6{crate}.");
+        return getString("crates.requirements.not-a-crate", "<red>There is no crate called</red> <gold>{crate}.</gold>");
     }
 
     public String NOT_A_NUMBER() {
-        return getString("crates.requirements.not-a-number", "&6{number} &cis not a number.");
+        return getString("crates.requirements.not-a-number", "<gold>{number}</gold> <red>is not a number.</red>");
     }
 
     public String NOT_ON_BLOCK() {
-        return getString("crates.not-on-block", "&cYou must be standing on a block to use &6{crate}.");
+        return getString("crates.not-on-block", "<red>You must be standing on a block to use</red> <gold>{crate}.</gold>");
     }
 
     public String OUT_OF_TIME() {
-        return getString("crates.out-of-time", "&cYou took &a5 Minutes &cto open the &6{crate} &cso it closed.");
+        return getString("crates.out-of-time", "<red>You took</red> <green>5 Minutes</green> <red>to open the</red> <gold>{crate}</gold> <red>so it closed.</red>");
     }
 
     public String PREVIEW_DISABLED() {
-        return getString("crates.preview-disabled", "&cThe preview for &6{crate} &7is currently disabled.");
+        return getString("crates.preview-disabled", "<red>The preview for</red> <gold>{crate}</gold> <gray>is currently disabled.</gray>");
     }
 
     public String ALREADY_OPEN() {
-        return getString("crates.already-open", "&cYou are already opening &6{crate}.");
+        return getString("crates.already-open", "<red>You are already opening</red> <gold>{crate}.</gold>");
     }
 
     public String IN_USE() {
-        return getString("crates.in-use", "&6{crate} &cis already in use. Please wait until it finishes!");
+        return getString("crates.in-use", "<gold>{crate}</gold> <red>is already in use. Please wait until it finishes!</red>");
     }
 
     public String CANNOT_BE_VIRTUAL_CRATE() {
-        return getString("crates.cannot-be-a-virtual-crate", "&6{crate} &ccannot be used as a Virtual Crate. You have it set to &6{cratetype}.");
+        return getString("crates.cannot-be-a-virtual-crate", "<gold>{crate}</gold> <red>cannot be used as a Virtual Crate. You have it set to</red> <gold>{cratetype}.</gold>");
     }
 
     public String NEED_MORE_ROOM() {
-        return getString("crates.need-more-room", "&cThere is not enough space to open {crate} here.");
+        return getString("crates.need-more-room", "<red>There is not enough space to open {crate} here.</red>");
     }
 
     public String WORLD_DISABLED() {
-        return getString("crates.world-disabled", "&cCrates are disabled in &6{world}.");
+        return getString("crates.world-disabled", "<red>Crates are disabled in</red> <gold>{world}.</gold>");
     }
 
     public List<String> PHYSICAL_CRATE_CREATED() {
@@ -191,8 +191,8 @@ public class Locale extends YamlConfiguration {
 
         if (get("crates.physical-crate.created") == null) {
             set("crates.physical-crate.created", List.of(
-                    "&7You have set that block to &6{crate}.",
-                    "&7To remove &6{crate}, &7Shift Click Break in Creative to remove."
+                    "<gray>You have set that block to</gray> <gold>{crate}.</gold>",
+                    "<gray>To remove</gray> <gold>{crate},</gold> <gray>Shift Click Break in Creative to remove.</gray>"
             ));
 
             save();
@@ -204,59 +204,59 @@ public class Locale extends YamlConfiguration {
     }
 
     public String PHYSICAL_CRATE_REMOVED() {
-        return getString("crates.physical-crate.removed", "&7You have removed &6{id}.");
+        return getString("crates.physical-crate.removed", "<gray>You have removed</gray> <gold>{id}.</gold>");
     }
 
     public String OPENED_A_CRATE() {
-        return getString("command.open.opened-a-crate", "&7You have opened the &6{crate} &7crate for &6{player}.");
+        return getString("command.open.opened-a-crate", "<gray>You have opened the</gray> <gold>{crate}</gold> <gray>crate for</gray> <gold>{player}.</gold>");
     }
 
     public String GIVEN_PLAYER_KEYS() {
-        return getString("command.give.given-player-keys", "&7You have given &6{player} {amount} keys.");
+        return getString("command.give.given-player-keys", "<gray>You have given</gray> <gold>{player} {amount} keys.</gold>");
     }
 
     public String CANNOT_GIVE_PLAYER_KEYS() {
-        return getString("command.give.cannot-give-player-keys", "&7You have been given &6{amount} {key} &7virtual keys because your inventory was full.");
+        return getString("command.give.cannot-give-player-keys", "<gray>You have been given</gray> <gold>{amount} {key}</gold> <gray>virtual keys because your inventory was full.</gray>");
     }
 
     public String GIVEN_EVERYONE_KEYS() {
-        return getString("command.give.given-everyone-keys", "&7You have given everyone &6{amount} keys.");
+        return getString("command.give.given-everyone-keys", "<gray>You have given everyone</gray> <gold>{amount} keys.</gold>");
     }
 
     public String TAKE_PLAYER_KEYS() {
-        return getString("command.take.take-player-keys", "&7You have taken &6{amount} key(s) &7from &6{player}.");
+        return getString("command.take.take-player-keys", "<gray>You have taken</gray> <gold>{amount} key(s)</gold> <gray>from</gray> <gold>{player}.</gold>");
     }
 
     public String TAKE_OFFLINE_PLAYER_KEYS() {
-        return getString("command.take.take-offline-player-keys", "&7You have taken &6{amount} key(s) &7from the offline player &6{player}.");
+        return getString("command.take.take-offline-player-keys", "<gray>You have taken</gray> <gold>{amount} key(s)</gold> <gray>from the offline player</gray> <gold>{player}.</gold>");
     }
 
     public String NO_ITEM_IN_HAND() {
-        return getString("command.additem.no-item-in-hand", "&cYou need to have an item in your hand to add it to &6{crate}.");
+        return getString("command.additem.no-item-in-hand", "<red>You need to have an item in your hand to add it to</red> <gold>{crate}.</gold>");
     }
 
     public String ADD_ITEM_FROM_HAND() {
-        return getString("command.additem.add-item-from-hand", "&7The item has been added to &6{crate} &7as &6Prize #{prize}.");
+        return getString("command.additem.add-item-from-hand", "<gray>The item has been added to</gray> <gold>{crate}</gold> <gray>as</gray> <gold>Prize #{prize}.</gold>");
     }
 
     public String RELOAD_PLUGIN() {
-        return getString("command.reload.reload-plugin", "&eYou have reloaded the plugin!");
+        return getString("command.reload.reload-plugin", "<gold>You have reloaded the plugin!</gold>");
     }
 
     public String NOT_ENOUGH_KEYS() {
-        return getString("command.transfer-not-enough-keys", "&cYou do not have enough keys to transfer.");
+        return getString("command.transfer-not-enough-keys", "<red>You do not have enough keys to transfer.</red>");
     }
 
     public String TRANSFERRED_KEYS() {
-        return getString("command.transfer.transferred-keys", "&7You have transferred &c{amount} {crate} &7keys to &c{player}.");
+        return getString("command.transfer.transferred-keys", "<gray>You have transferred</gray> <red>{amount} {crate}</red> <gray>keys to</gray> <red>{player}.</red>");
     }
 
     public String TRANSFERRED_KEYS_RECEIVED() {
-        return getString("command.transfer.transferred-keys-received", "&7You have received &c{amount} {crate} &7keys from &c{player}.");
+        return getString("command.transfer.transferred-keys-received", "<gray>You have received</gray> <red>{amount} {crate}</red> <gray>keys from</gray> <red>{player}.</red>");
     }
 
     public String NO_VIRTUAL_KEYS_PERSONAL() {
-        return getString("command.keys.personal.no-virtual-keys", "&8(&6!&8) &7You currently do not have any virtual keys.");
+        return getString("command.keys.personal.no-virtual-keys", "<dark_gray>(</dark_gray><gold>!</gold><dark_gray>)</dark_gray> <gray>You currently do not have any virtual keys.</gray>");
     }
 
     public List<String> NO_VIRTUAL_KEYS_PERSONAL_HEADER() {
@@ -264,7 +264,7 @@ public class Locale extends YamlConfiguration {
 
         if (get("command.keys.personal.header") == null) {
             set("command.keys.personal.header", List.of(
-                    "&8(&6!&8) &7A list of your current amount of keys."
+                    "<dark_gray>(</dark_gray><gold>!</gold><dark_gray>)</dark_gray> <gray>A list of your current amount of keys.</gray>"
             ));
 
             save();
@@ -276,7 +276,7 @@ public class Locale extends YamlConfiguration {
     }
 
     public String NO_VIRTUAL_KEYS_OTHER() {
-        return getString("command.keys.other-player.no-virtual-keys", "&8(&6!&8) &7The player &c{player} &7does not have any keys.");
+        return getString("command.keys.other-player.no-virtual-keys", "<dark_gray>(</dark_gray><gold>!</gold><dark_gray>)</dark_gray> <gray>The player</gray> <red>{player}</red> <gray>does not have any keys.</gray>");
     }
 
     public List<String> NO_VIRTUAL_KEYS_OTHER_HEADER() {
@@ -284,7 +284,7 @@ public class Locale extends YamlConfiguration {
 
         if (get("command.keys.other-player.header") == null) {
             set("command.keys.other-player.header", List.of(
-                    "&8(&6!&8) &7A list of &c{player}''s &7current amount of keys."
+                    "<dark_gray>(</dark_gray><gold>!</gold><dark_gray>)</dark_gray> <gray>A list of</gray> <red>{player}''s</red> <gray>current amount of keys.</gray>"
             ));
 
             return noVirtualKeysOtherHeader;
@@ -294,6 +294,6 @@ public class Locale extends YamlConfiguration {
     }
 
     public String CRATE_FORMAT() {
-        return getString("keys.crate-format", "{crate} &8» &6{keys} keys.");
+        return getString("keys.crate-format", "{crate} <dark_gray>»</dark_gray> <gold>{keys} keys.</gold>");
     }
 }

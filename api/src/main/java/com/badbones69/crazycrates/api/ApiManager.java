@@ -2,9 +2,6 @@ package com.badbones69.crazycrates.api;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
-import co.aikar.commands.CommandManager;
-import co.aikar.commands.Locales;
-import co.aikar.locales.LocaleManager;
 import com.Zrips.CMI.Modules.ModuleHandling.CMIModule;
 import com.badbones69.crazycrates.api.configs.ConfigBuilder;
 import com.badbones69.crazycrates.api.configs.types.Locale;

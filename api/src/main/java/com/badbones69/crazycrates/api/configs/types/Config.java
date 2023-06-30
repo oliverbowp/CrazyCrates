@@ -41,7 +41,7 @@ public class Config implements SettingsHolder {
     public static final Property<Boolean> LOG_CRATE_ACTIONS_CONSOLE = newProperty(settings + "Crate-Actions.Log-Console", true);
 
     @Comment("The name of the `/cc` inventory.")
-    public static final Property<String> INVENTORY_NAME = newProperty(settings + "InventoryName", "&b&lCrazy &4&lCrates");
+    public static final Property<String> INVENTORY_NAME = newProperty(settings + "InventoryName", "<blue>Crazy <red>Crates</red>");
 
     @Comment("The size of the `/cc` inventory.")
     public static final Property<Integer> INVENTORY_SIZE = newProperty(settings + "InventorySize", 45);
