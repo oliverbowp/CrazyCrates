@@ -1,5 +1,7 @@
 plugins {
     id("paper-plugin")
+
+    id("xyz.jpenilla.run-paper") version "2.1.0"
 }
 
 repositories {
@@ -36,6 +38,10 @@ tasks {
         reloc("de.tr7zw.changeme.nbtapi")
         reloc("org.bstats")
         reloc("ch.jalu")
+    }
+
+    runServer {
+        minecraftVersion("1.20.1")
     }
 
     processResources {

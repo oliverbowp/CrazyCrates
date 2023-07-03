@@ -6,20 +6,26 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import java.util.Collections;
+import java.util.List;
 
-public class CommandInfo implements CommandActor {
+public class CommandContext implements CommandActor {
 
     private final CommandSender sender;
+    private final String alias;
+    private final List<String> args;
+
     private Player player;
 
-    private final String alias;
-
-    public CommandInfo(CommandSender sender, String alias) {
+    public CommandContext(CommandSender sender, String alias, List<String> args) {
         this.sender = sender;
 
-        if (sender instanceof Player) this.player = (Player) sender;
+        if (sender instanceof Player) {
+            this.player = (Player) sender;
+        }
 
         this.alias = alias;
+        this.args = args;
     }
 
     @Override
@@ -57,5 +63,10 @@ public class CommandInfo implements CommandActor {
     @Override
     public String getAlias() {
         return this.alias;
+    }
+
+    @Override
+    public List<String> getArgs() {
+        return Collections.unmodifiableList(this.args);
     }
 }

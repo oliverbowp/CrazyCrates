@@ -26,22 +26,20 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
     private CommandRequirements requirements;
     private String prefix;
 
-    public void run(CommandInfo info) {
-        String alias = info.getAlias();
+    public void execute(CommandContext context) {
+        String alias = context.getAlias();
 
-        if (!requirements.checkRequirements(true, info)) return;
+        if (!requirements.checkRequirements(true, context)) return;
 
-        execute(info);
+        perform(context);
     }
 
+    // Requirements
     public void setRequirements(CommandRequirements requirements) {
         this.requirements = requirements;
     }
 
-    public void addAlias(String alias) {
-        this.aliases.add(alias);
-    }
-
+    // Prefixes
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
@@ -50,12 +48,18 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         return this.prefix;
     }
 
+    // Aliases
+    public void addAlias(String alias) {
+        this.aliases.add(alias);
+    }
+
     public void removeAlias(String alias) {
         this.aliases.remove(alias);
     }
 
+    // Subcommands
     public void addSubCommand(CommandEngine engine) {
-        subCommands.add(engine);
+        this.subCommands.add(engine);
     }
 
     public void removeSubCommand(CommandEngine engine) {
@@ -66,11 +70,18 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         });
     }
 
-    protected abstract boolean execute(CommandInfo info);
+    protected abstract void perform(CommandContext context);
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        run(new CommandInfo(sender, ""));
+        CommandContext context =
+                new CommandContext(
+                        sender,
+                        label,
+                        List.of(args)
+                );
+
+        this.execute(context);
 
         return true;
     }
@@ -88,7 +99,14 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         return null;
     }
 
-    @SuppressWarnings("SameParameterValue")
+    public List<String> getAliases() {
+        return Collections.unmodifiableList(this.aliases);
+    }
+
+    public List<CommandEngine> getSubCommands() {
+        return Collections.unmodifiableList(this.subCommands);
+    }
+
     protected void generateHelp(int page, int maxPage, CommandSender sender, ApiManager apiManager) {
         int start = maxPage * (page - 1);
 
@@ -120,7 +138,7 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
             String format = apiManager.getPluginConfig().getProperty(PluginConfig.HELP_PAGE_FORMAT)
                     .replaceAll("\\{command}", command);
-                    //.replaceAll("\\{description}", desc);
+            //.replaceAll("\\{description}", desc);
 
             //String builtCommand = command.getParameters().length > 0 ? format.replaceAll("\\{args}", command.getParameterSyntax()) : format;
 
@@ -156,13 +174,5 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         } else {
             send(sender, footer.replaceAll("\\{page}", String.valueOf(page)), false, apiManager);
         }
-    }
-
-    public List<String> getAliases() {
-        return Collections.unmodifiableList(this.aliases);
-    }
-
-    public List<CommandEngine> getSubCommands() {
-        return Collections.unmodifiableList(this.subCommands);
     }
 }
