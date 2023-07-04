@@ -4,8 +4,6 @@ import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.CommandContext;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirementsBuilder;
-import com.badbones69.crazycrates.api.commands.sender.args.Argument;
-import com.badbones69.crazycrates.api.commands.sender.args.builder.IntArgument;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 
 public class BaseCommand extends CommandEngine {
@@ -13,13 +11,15 @@ public class BaseCommand extends CommandEngine {
     private final SettingsManager config;
 
     public BaseCommand(SettingsManager config) {
+        super();
+
         this.config = config;
 
         this.prefix = "crazycrates";
 
         this.description = "The base command";
 
-        this.requiredArgs.add(new Argument("page", 0, new IntArgument()));
+        this.ignoreInput = true;
 
         this.requirements = new CommandRequirementsBuilder()
                 .withRawPermission("example.test")
@@ -29,7 +29,8 @@ public class BaseCommand extends CommandEngine {
 
     @Override
     protected void perform(CommandContext context) {
-        generateHelp(1, this.config.getProperty(PluginConfig.MAX_HELP_PAGE_ENTRIES), context);
+        context.reply("This is the base command with 0 args.");
+        //generateHelp(1, this.config.getProperty(PluginConfig.MAX_HELP_PAGE_ENTRIES), context);
     }
 
     private void generateHelp(int page, int maxPage, CommandContext context) {

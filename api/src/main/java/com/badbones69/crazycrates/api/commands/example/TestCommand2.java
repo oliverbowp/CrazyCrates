@@ -1,21 +1,21 @@
 package com.badbones69.crazycrates.api.commands.example;
 
-import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.CommandContext;
+import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirementsBuilder;
 import com.badbones69.crazycrates.api.commands.sender.args.Argument;
-import com.badbones69.crazycrates.api.commands.sender.args.builder.IntArgument;
+import com.badbones69.crazycrates.api.commands.sender.args.builder.BooleanArgument;
 
-public class TestCommand extends CommandEngine {
+public class TestCommand2 extends CommandEngine {
 
-    public TestCommand() {
+    public TestCommand2() {
         super();
 
-        addAlias("test");
+        addAlias("testx2");
 
-        this.requiredArgs.add(new Argument("page", 0, new IntArgument()));
+        this.requiredArgs.add(new Argument("other", 0, new BooleanArgument()));
 
-        this.description = "A test command that normally is hidden.";
+        this.description = "A test command x2 that normally is hidden.";
 
         this.requirements = new CommandRequirementsBuilder()
                 .withRawPermission("test.permission")
@@ -25,6 +25,6 @@ public class TestCommand extends CommandEngine {
 
     @Override
     protected void perform(CommandContext context) {
-        context.reply("<red>Guten Tag!</red>");
+        context.reply("<red>Guten Tag x2!</red>");
     }
 }

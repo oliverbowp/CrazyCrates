@@ -3,11 +3,13 @@ package com.badbones69.crazycrates;
 import com.badbones69.crazycrates.api.*;
 import com.badbones69.crazycrates.api.commands.example.BaseCommand;
 import com.badbones69.crazycrates.api.commands.example.TestCommand;
+import com.badbones69.crazycrates.api.commands.example.TestCommand2;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
 import com.badbones69.crazycrates.support.structures.blocks.ChestStateHandler;
 import com.ryderbelserion.stick.paper.utils.PaperUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,8 +24,6 @@ public class CrazyCrates extends JavaPlugin implements Listener {
     private CrazyManager crazyManager;
     private ChestStateHandler chestStateHandler;
     private EventLogger eventLogger;
-
-    private BaseCommand baseCommand;
 
     private boolean isEnabled;
 
@@ -47,16 +47,17 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         this.apiManager = new ApiManager(this, this.getDataFolder().toPath());
         this.apiManager.load();
 
-        this.baseCommand = new BaseCommand(this.apiManager.getPluginConfig());
+        BaseCommand baseCommand = new BaseCommand(this.apiManager.getPluginConfig());
 
-        this.baseCommand.addSubCommand(new TestCommand());
+        baseCommand.addSubCommand(new TestCommand());
+        baseCommand.addSubCommand(new TestCommand2());
 
-        PluginCommand command = this.getCommand(this.baseCommand.prefix);
+        PluginCommand command = this.getCommand(baseCommand.prefix);
 
         if (command != null) {
-            command.setExecutor(this.baseCommand);
+            command.setExecutor(baseCommand);
 
-            command.setTabCompleter(this.baseCommand);
+            command.setTabCompleter(baseCommand);
         }
 
         getServer().getPluginManager().registerEvents(new DataListener(), this);

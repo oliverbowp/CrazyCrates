@@ -24,6 +24,8 @@ public interface CommandActor {
 
     Player getPlayer();
 
+    void setAlias(String alias);
+
     String getAlias();
 
     List<String> getArgs();

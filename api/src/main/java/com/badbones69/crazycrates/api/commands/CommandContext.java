@@ -15,7 +15,7 @@ import java.util.List;
 public class CommandContext implements CommandActor {
 
     private final CommandSender sender;
-    private final String alias;
+    private String alias;
     private final ArrayList<String> args;
 
     private Player player;
@@ -80,6 +80,11 @@ public class CommandContext implements CommandActor {
     @Override
     public Player getPlayer() {
         return this.player;
+    }
+
+    @Override
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     @Override
