@@ -47,11 +47,11 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         this.apiManager = new ApiManager(this, this.getDataFolder().toPath());
         this.apiManager.load();
 
-        this.baseCommand = new BaseCommand();
+        this.baseCommand = new BaseCommand(this.apiManager.getPluginConfig());
 
         this.baseCommand.addSubCommand(new TestCommand());
 
-        PluginCommand command = this.getCommand(this.baseCommand.getPrefix());
+        PluginCommand command = this.getCommand(this.baseCommand.prefix);
 
         if (command != null) {
             command.setExecutor(this.baseCommand);

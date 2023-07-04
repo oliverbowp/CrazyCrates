@@ -1,37 +1,65 @@
 package com.badbones69.crazycrates.api.commands.example;
 
-import com.badbones69.crazycrates.api.ApiManager;
+import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.CommandContext;
-import com.badbones69.crazycrates.api.commands.CommandHelp;
-import com.badbones69.crazycrates.api.commands.reqs.CommandRequirements;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirementsBuilder;
-import org.bukkit.command.CommandSender;
+import com.badbones69.crazycrates.api.commands.sender.args.Argument;
+import com.badbones69.crazycrates.api.commands.sender.args.builder.IntArgument;
+import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 
 public class BaseCommand extends CommandEngine {
 
-    private final CommandHelp commandHelp;
+    private final SettingsManager config;
 
-    public BaseCommand() {
-        CommandRequirements builder = new CommandRequirementsBuilder()
+    public BaseCommand(SettingsManager config) {
+        this.config = config;
+
+        this.prefix = "crazycrates";
+
+        this.description = "The base command";
+
+        this.requiredArgs.add(new Argument("page", 0, new IntArgument()));
+
+        this.requirements = new CommandRequirementsBuilder()
                 .withRawPermission("example.test")
                 .asPlayer(true)
                 .build();
-
-        setPrefix("crazycrates");
-
-        setRequirements(builder);
-
-        setCommandHelp(this.commandHelp = new CommandHelp(this));
     }
 
     @Override
     protected void perform(CommandContext context) {
-
+        generateHelp(1, this.config.getProperty(PluginConfig.MAX_HELP_PAGE_ENTRIES), context);
     }
 
-    private void generateHelp(int page, int maxPage, CommandSender sender, ApiManager apiManager) {
-        /*int start = maxPage * (page - 1);
+    private void generateHelp(int page, int maxPage, CommandContext context) {
+        int startPage = maxPage * (page - 1);
+
+        if (page <= 0 || startPage >= this.getAliases().size()) {
+            context.reply("<red>Page is invalid</red>");
+            return;
+        }
+
+        context.reply(this.config.getProperty(PluginConfig.HELP_PAGE_HEADER).replaceAll("\\{page}", String.valueOf(page)));
+
+        for (int i = startPage; i < (startPage + maxPage); i++) {
+            if (getAliases().size()-1<i) continue;
+            if (this.isCommandVisible) continue;
+
+            String command = this.getAliases().get(i);
+
+            String name = this.prefix + command;
+            String desc = this.description;
+
+            String format = this.config.getProperty(PluginConfig.HELP_PAGE_FORMAT)
+                    .replaceAll("\\{command}", command)
+                    .replaceAll("\\{description}", desc);
+
+            context.reply("Format:" + format);
+            context.reply("Name: " + name);
+        }
+
+        /*
 
         String invalidPage = apiManager.getPluginConfig().getProperty(PluginConfig.INVALID_HELP_PAGE)
                 .replaceAll("\\{page}", String.valueOf(page));
