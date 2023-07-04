@@ -21,6 +21,5 @@ public class TestCommand extends CommandEngine {
     @Override
     protected void perform(CommandContext context) {
         context.reply("<red>Guten Tag!</red>");
-
     }
 }
