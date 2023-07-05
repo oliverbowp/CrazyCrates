@@ -189,30 +189,20 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
                 ArrayList<String> possibleValues = new ArrayList<>();
 
-                boolean isPresent = arguments.stream().findFirst().isPresent();
-
-                if (isPresent) {
-                    Argument firstArg = arguments.stream().findFirst().get();
-
-                    if (firstArg.order() == argToComplete) {
-                        //String startCommand = argArray.get(argArray.size() - 1);
-
-                        List<String> possibleValuesArgs = firstArg.argumentType().getPossibleValues();
+                for (Argument argument : arguments) {
+                    if (argument.order() == argToComplete) {
+                        List<String> possibleValuesArgs = argument.argumentType().getPossibleValues();
 
                         possibleValues = new ArrayList<>(possibleValuesArgs);
-
-                        /*if (!startCommand.isEmpty()) {
-                            possibleValues = new ArrayList<>(possibleValuesArgs);
-                            possibleValues = new ArrayList<>(possibleValuesArgs.stream().filter(value -> value.startsWith(startCommand)).toList());
-                        }*/
+                        break;
                     }
+                }
 
-                    if (!commandTab.subCommands.isEmpty()) {
-                        for (CommandEngine value : commandTab.subCommands) {
-                            for (String alias : value.aliases) {
-                                if (alias.toLowerCase().startsWith(argArray.get(argToComplete + 1))) {
-                                    possibleValues.add(alias);
-                                }
+                if (!commandTab.subCommands.isEmpty()) {
+                    for (CommandEngine value : commandTab.subCommands) {
+                        for (String alias : value.aliases) {
+                            if (alias.toLowerCase().startsWith(argArray.get(argToComplete + 1))) {
+                                possibleValues.add(alias);
                             }
                         }
                     }
