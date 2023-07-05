@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates.api.commands;
 
 import com.badbones69.crazycrates.api.commands.sender.CommandActor;
+import com.badbones69.crazycrates.api.commands.sender.CommandArgs;
 import com.ryderbelserion.stick.paper.utils.AdventureUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CommandContext implements CommandActor {
+public class CommandContext implements CommandActor, CommandArgs {
 
     private final CommandSender sender;
     private String alias;
@@ -100,5 +101,99 @@ public class CommandContext implements CommandActor {
     @Override
     public void removeArgs(int arg) {
         this.args.remove(arg);
+    }
+
+    @Override
+    public int getArgAsInt(int index, boolean notifySender, String invalidArg) {
+        String argument = this.args.get(index);
+
+        Integer value = null;
+
+        try {
+            value = Integer.parseInt(argument);
+        } catch (NumberFormatException exception) {
+            if (notifySender) reply(invalidArg);
+        }
+
+        if (value != null) return value;
+
+        return 1;
+    }
+
+    @Override
+    public long getArgAsLong(int index, boolean notifySender, String invalidArg) {
+        String argument = this.args.get(index);
+
+        Long value = null;
+
+        try {
+            value = Long.parseLong(argument);
+        } catch (NumberFormatException exception) {
+            if (notifySender) reply(invalidArg);
+        }
+
+        if (value != null) return value;
+
+        return 1L;
+    }
+
+    @Override
+    public double getArgAsDouble(int index, boolean notifySender, String invalidArg) {
+        String argument = this.args.get(index);
+
+        Double value = null;
+
+        try {
+            value = Double.parseDouble(argument);
+        } catch (NumberFormatException exception) {
+            if (notifySender) reply(invalidArg);
+        }
+
+        if (value != null) return value;
+
+        return 0.1;
+    }
+
+    @Override
+    public boolean getArgAsBoolean(int index, boolean notifySender, String invalidArg) {
+        String argument = this.args.get(index);
+
+        if (argument == null) {
+            if (notifySender) reply(invalidArg);
+
+            return false;
+        }
+
+        String lowercase = argument.toLowerCase();
+
+        switch (lowercase) {
+            case "true", "on", "1" -> {
+                return true;
+            }
+            case "false", "off", "0" -> {
+                return false;
+            }
+            default -> {
+                if (notifySender) reply(invalidArg);
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public float getArgAsFloat(int index, boolean notifySender, String invalidArg) {
+        String argument = this.args.get(index);
+
+        Float value = null;
+
+        try {
+            value = Float.parseFloat(argument);
+        } catch (NumberFormatException exception) {
+            if (notifySender) reply(invalidArg);
+        }
+
+        if (value != null) return value;
+
+        return 1F;
     }
 }
