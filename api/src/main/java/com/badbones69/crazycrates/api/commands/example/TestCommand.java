@@ -13,7 +13,9 @@ public class TestCommand extends CommandEngine {
 
         addAlias("test");
 
-        this.requiredArgs.add(new Argument("page", 0, new IntArgument()));
+        addAlias(alias);
+
+        this.requiredArgs.add(new Argument("page", 0, new IntArgument(20)));
 
         this.description = "A test command that normally is hidden.";
 

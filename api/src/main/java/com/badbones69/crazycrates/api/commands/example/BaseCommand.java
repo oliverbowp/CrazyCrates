@@ -26,6 +26,8 @@ public class BaseCommand extends CommandEngine {
                 .asPlayer(true)
                 .build();
 
+        this.optionalArgs.add(new Argument("page", 0, new IntArgument(10)));
+
         this.optionalMsg = "<green>This argument is optional</green>";
         this.requiredMsg = "<red>This argument is not optional</red>";
     }
