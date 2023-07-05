@@ -32,7 +32,6 @@ public class CommandContext implements CommandActor, CommandArgs {
         this.args = args;
     }
 
-    @Override
     public void reply(String message) {
         if (message.isBlank() || message.isEmpty()) return;
 
@@ -42,11 +41,17 @@ public class CommandContext implements CommandActor, CommandArgs {
     }
 
     @Override
+    public void reply(Component component) {
+        this.sender.sendMessage(component);
+    }
+
+    /*@Override
     public void hover(String message, String text, String value, ClickEvent.Action action) {
         if (message.isBlank() || message.isEmpty()) return;
 
         Component component = AdventureUtils.parse(message, false)
-                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false)))
+                .append(AdventureUtils.parse(text, false)
+                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false))))
                 .clickEvent(ClickEvent.clickEvent(action, value));
 
         this.sender.sendMessage(component);
@@ -57,12 +62,12 @@ public class CommandContext implements CommandActor, CommandArgs {
         if (message.isBlank() || message.isEmpty()) return;
 
         Component component = AdventureUtils.parse(message, false)
-                .append(AdventureUtils.parse(button, false))
-                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false)))
+                .append(AdventureUtils.parse(button, false)
+                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false))))
                 .clickEvent(ClickEvent.clickEvent(action, value));
 
         this.sender.sendMessage(component);
-    }
+    }*/
 
     @Override
     public boolean hasPermission(Permission permission) {
