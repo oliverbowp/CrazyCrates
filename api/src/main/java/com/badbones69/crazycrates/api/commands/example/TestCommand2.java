@@ -5,6 +5,9 @@ import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirementsBuilder;
 import com.badbones69.crazycrates.api.commands.sender.args.Argument;
 import com.badbones69.crazycrates.api.commands.sender.args.builder.BooleanArgument;
+import com.badbones69.crazycrates.api.commands.sender.args.builder.DoubleArgument;
+import com.badbones69.crazycrates.api.commands.sender.args.builder.FloatArgument;
+import com.badbones69.crazycrates.api.commands.sender.args.builder.IntArgument;
 
 public class TestCommand2 extends CommandEngine {
 
@@ -13,7 +16,10 @@ public class TestCommand2 extends CommandEngine {
 
         addAlias("testx2");
 
-        this.requiredArgs.add(new Argument("other", 0, new BooleanArgument()));
+        this.requiredArgs.add(new Argument("booleans", 0, new BooleanArgument()));
+        this.requiredArgs.add(new Argument("integers", 1, new IntArgument()));
+        this.requiredArgs.add(new Argument("doubles", 2, new DoubleArgument()));
+        this.requiredArgs.add(new Argument("floats", 3, new FloatArgument()));
 
         this.description = "A test command x2 that normally is hidden.";
 
