@@ -14,7 +14,8 @@ public class TestCommand2 extends CommandEngine {
     public TestCommand2() {
         super();
 
-        addAlias("testx2");
+        String alias = "testx2";
+        addAlias(alias);
 
         this.requiredArgs.add(new Argument("booleans", 0, new BooleanArgument()));
         this.requiredArgs.add(new Argument("integers", 1, new IntArgument(20)));
@@ -25,7 +26,7 @@ public class TestCommand2 extends CommandEngine {
 
         this.requirements = new CommandRequirementsBuilder()
                 .withRawPermission("test.permission")
-                .asPlayer(true)
+                .asPlayer(false)
                 .build();
     }
 

@@ -11,7 +11,7 @@ public class TestCommand extends CommandEngine {
     public TestCommand() {
         super();
 
-        addAlias("test");
+        String alias = "test";
 
         addAlias(alias);
 
@@ -21,7 +21,7 @@ public class TestCommand extends CommandEngine {
 
         this.requirements = new CommandRequirementsBuilder()
                 .withRawPermission("test.permission")
-                .asPlayer(true)
+                .asPlayer(false)
                 .build();
     }
 
