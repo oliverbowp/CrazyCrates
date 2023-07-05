@@ -17,7 +17,7 @@ public class TestCommand extends CommandEngine {
 
         this.requiredArgs.add(new Argument("page", 0, new IntArgument(20)));
 
-        this.description = "A test command that normally is hidden.";
+        addDescription(alias, "A test command that is normally hidden.");
 
         this.requirements = new CommandRequirementsBuilder()
                 .withRawPermission("test.permission")

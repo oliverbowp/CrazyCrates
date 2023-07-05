@@ -21,7 +21,7 @@ public class TestCommand2 extends CommandEngine {
         this.requiredArgs.add(new Argument("doubles", 2, new DoubleArgument(20)));
         this.optionalArgs.add(new Argument("floats", 3, new FloatArgument(20)));
 
-        this.description = "A test command x2 that normally is hidden.";
+        addDescription(alias, "A test command that is also normally hidden.");
 
         this.requirements = new CommandRequirementsBuilder()
                 .withRawPermission("test.permission")

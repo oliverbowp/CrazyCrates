@@ -1,6 +1,7 @@
 package com.badbones69.crazycrates.api.commands;
 
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirements;
+import com.badbones69.crazycrates.api.commands.sender.CommandData;
 import com.badbones69.crazycrates.api.commands.sender.args.Argument;
 import com.ryderbelserion.stick.paper.utils.AdventureUtils;
 import net.kyori.adventure.text.Component;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
@@ -27,6 +30,8 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
     public final LinkedList<Argument> requiredArgs;
     public final LinkedList<Argument> optionalArgs;
+
+    private final HashMap<String, CommandData> commandData;
 
     // i.e. the java classes.
     private final LinkedList<CommandEngine> subCommands;
@@ -50,6 +55,8 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
     public CommandEngine() {
         this.aliases = new LinkedList<>();
+
+        this.commandData = new HashMap<>();
 
         this.subCommands = new LinkedList<>();
 
@@ -86,6 +93,24 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         }
 
         perform(context);
+    }
+
+    public boolean hasDescription(String command) {
+        return this.commandData.containsKey(command);
+    }
+
+    public CommandData getDescription(String command) {
+        if (hasDescription(command)) return this.commandData.get(command);
+
+        return new CommandData("No description provided.");
+    }
+
+    public void addDescription(String command, String newDescription) {
+        if (hasDescription(command)) {
+            this.commandData.get(command).setDescription(newDescription);
+        } else {
+            this.commandData.putIfAbsent(command, new CommandData(description));
+        }
     }
 
     public void addAlias(String alias) {
@@ -285,5 +310,9 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
     public List<CommandEngine> getSubCommands() {
         return Collections.unmodifiableList(this.subCommands);
+    }
+
+    public Map<String, CommandData> getCommandData() {
+        return Collections.unmodifiableMap(this.commandData);
     }
 }

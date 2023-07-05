@@ -17,7 +17,7 @@ public class BaseCommand extends CommandEngine {
 
         this.prefix = "crazycrates";
 
-        this.description = "The base command";
+        addDescription(this.prefix, "The base command.");
 
         this.ignoreInput = true;
 
