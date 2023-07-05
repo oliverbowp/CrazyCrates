@@ -2,7 +2,11 @@ package com.badbones69.crazycrates.api.commands;
 
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirements;
 import com.badbones69.crazycrates.api.commands.sender.args.Argument;
-import org.bukkit.Bukkit;
+import com.ryderbelserion.stick.paper.utils.AdventureUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,6 +44,10 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
     public String prefix;
     public String description;
 
+    public String optionalMsg;
+
+    public String requiredMsg;
+
     public CommandEngine() {
         this.aliases = new LinkedList<>();
 
@@ -59,6 +68,8 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
                     String value = context.getArgs().stream().findFirst().get();
 
                     if (command.aliases.contains(value)) {
+                        aliasUsed += " " + context.getArgs().get(0);
+
                         context.removeArgs(0);
                         context.setAlias(aliasUsed);
                         command.execute(context);
@@ -75,10 +86,6 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         }
 
         perform(context);
-    }
-
-    public void addOptionalArg(Argument argument) {
-        this.optionalArgs.add(argument);
     }
 
     public void addAlias(String alias) {
@@ -98,6 +105,10 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         //}
 
         this.subCommands.add(engine);
+
+        engine.prefix = this.prefix;
+        engine.optionalMsg = this.optionalMsg;
+        engine.requiredMsg = this.requiredMsg;
     }
 
     public void removeSubCommand(CommandEngine engine) {
@@ -113,15 +124,68 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
     private boolean inputValidation(CommandContext context) {
         if (context.getArgs().size() < this.requiredArgs.size()) {
             context.reply("Too few args.");
+            sendValidFormat(context);
             return false;
         }
 
         if (context.getArgs().size() > this.requiredArgs.size() + this.optionalArgs.size()) {
             context.reply("Too many args.");
+            sendValidFormat(context);
             return false;
         }
 
         return true;
+    }
+
+    private void sendValidFormat(CommandContext context) {
+        ArrayList<Argument> arguments = new ArrayList<>();
+
+        arguments.addAll(this.requiredArgs);
+        arguments.addAll(this.optionalArgs);
+
+        arguments.sort(Comparator.comparingInt(Argument::order));
+
+        if (context.isPlayer()) {
+            String format = "/" + this.prefix + context.getAlias();
+
+            Component component = AdventureUtils.parse(format, false);
+            TextComponent.@NotNull Builder emptyComponent = Component.text();
+
+            StringBuilder types = new StringBuilder();
+
+            for (Argument arg : arguments) {
+                String value = this.optionalArgs.contains(arg) ? " (" + arg.name() + ") " : " <" + arg.name() + ">";
+
+                String msg = this.optionalArgs.contains(arg) ? this.optionalMsg : this.requiredMsg;
+
+                Component argComponent = AdventureUtils.parse(value, false).hoverEvent(HoverEvent.showText(AdventureUtils.parse(msg, false))).asComponent();
+
+                emptyComponent.append(argComponent);
+
+                boolean isPresent = arg.argumentType().getPossibleValues().stream().findFirst().isPresent();
+
+                if (isPresent) types.append(" ").append(arg.argumentType().getPossibleValues().stream().findFirst().get());
+            }
+
+            Component finalComponent = component
+                    .hoverEvent(HoverEvent.showText(AdventureUtils.parse("<gold>Click me to insert into chat</gold>", false)))
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, format + types))
+                    .append(emptyComponent.build());
+
+            context.reply(finalComponent);
+
+            return;
+        }
+
+        StringBuilder format = new StringBuilder("/" + this.prefix + context.getAlias());
+
+        for (Argument arg : arguments) {
+            String value = this.optionalArgs.contains(arg) ? "(" + arg.name() + ") " : "<" + arg.name() + "> ";
+
+            format.append(value);
+        }
+
+        context.reply(format.toString());
     }
 
     @Override
@@ -129,7 +193,7 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         CommandContext context =
                 new CommandContext(
                         sender,
-                        label,
+                        "",
                         new ArrayList<>(Arrays.asList(args))
                 );
 

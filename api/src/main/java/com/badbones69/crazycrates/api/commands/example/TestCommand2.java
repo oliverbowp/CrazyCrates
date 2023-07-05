@@ -19,7 +19,7 @@ public class TestCommand2 extends CommandEngine {
         this.requiredArgs.add(new Argument("booleans", 0, new BooleanArgument()));
         this.requiredArgs.add(new Argument("integers", 1, new IntArgument()));
         this.requiredArgs.add(new Argument("doubles", 2, new DoubleArgument()));
-        this.requiredArgs.add(new Argument("floats", 3, new FloatArgument()));
+        this.optionalArgs.add(new Argument("floats", 3, new FloatArgument()));
 
         this.description = "A test command x2 that normally is hidden.";
 

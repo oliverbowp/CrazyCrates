@@ -25,6 +25,9 @@ public class BaseCommand extends CommandEngine {
                 .withRawPermission("example.test")
                 .asPlayer(true)
                 .build();
+
+        this.optionalMsg = "<green>This argument is optional</green>";
+        this.requiredMsg = "<red>This argument is not optional</red>";
     }
 
     @Override
@@ -45,7 +48,7 @@ public class BaseCommand extends CommandEngine {
 
         for (int i = startPage; i < (startPage + maxPage); i++) {
             if (getAliases().size()-1<i) continue;
-            if (this.isCommandVisible) continue;
+            //if (this.isCommandVisible) continue;
 
             String command = this.getAliases().get(i);
 
@@ -55,9 +58,6 @@ public class BaseCommand extends CommandEngine {
             String format = this.config.getProperty(PluginConfig.HELP_PAGE_FORMAT)
                     .replaceAll("\\{command}", command)
                     .replaceAll("\\{description}", desc);
-
-            context.reply("Format:" + format);
-            context.reply("Name: " + name);
         }
 
         /*
