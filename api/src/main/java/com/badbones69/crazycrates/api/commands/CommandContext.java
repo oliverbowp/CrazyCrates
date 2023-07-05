@@ -34,6 +34,8 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public void reply(String message) {
+        if (message.isBlank() || message.isEmpty()) return;
+
         Component component = AdventureUtils.parse(message, false);
 
         this.sender.sendMessage(component);
@@ -41,6 +43,8 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public void hover(String message, String text, String value, ClickEvent.Action action) {
+        if (message.isBlank() || message.isEmpty()) return;
+
         Component component = AdventureUtils.parse(message, false)
                 .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false)))
                 .clickEvent(ClickEvent.clickEvent(action, value));
@@ -50,6 +54,8 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public void hover(String message, String text, String button, String value, ClickEvent.Action action) {
+        if (message.isBlank() || message.isEmpty()) return;
+
         Component component = AdventureUtils.parse(message, false)
                 .append(AdventureUtils.parse(button, false))
                 .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false)))
