@@ -2,6 +2,7 @@ package com.badbones69.crazycrates.api.commands.example;
 
 import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.CommandContext;
+import com.badbones69.crazycrates.api.commands.example.comp.ExampleComponent;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirementsBuilder;
 import com.badbones69.crazycrates.api.commands.sender.args.Argument;
 import com.badbones69.crazycrates.api.commands.sender.args.builder.IntArgument;
@@ -27,6 +28,6 @@ public class TestCommand extends CommandEngine {
 
     @Override
     protected void perform(CommandContext context) {
-        context.reply("<red>Guten Tag!</red>");
+        ExampleComponent.test(context.getPlayer());
     }
 }
