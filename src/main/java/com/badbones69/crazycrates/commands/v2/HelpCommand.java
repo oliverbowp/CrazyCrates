@@ -1,44 +1,42 @@
-package com.badbones69.crazycrates.commands.example;
+package com.badbones69.crazycrates.commands.v2;
 
 import ch.jalu.configme.SettingsManager;
 import com.badbones69.crazycrates.CrazyCrates;
-import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.CommandContext;
+import com.badbones69.crazycrates.api.commands.CommandEngine;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirementsBuilder;
 import com.badbones69.crazycrates.api.commands.sender.args.Argument;
 import com.badbones69.crazycrates.api.commands.sender.args.builder.IntArgument;
+import com.badbones69.crazycrates.api.configs.types.Locale;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BaseCommand extends CommandEngine {
+public class HelpCommand extends CommandEngine {
 
     private final CrazyCrates plugin = JavaPlugin.getPlugin(CrazyCrates.class);
 
     private final SettingsManager config = plugin.getApiManager().getPluginConfig();
+    private final Locale locale = plugin.getApiManager().getLocale();
 
-    public BaseCommand() {
+    public HelpCommand() {
         super();
 
-        this.prefix = "crazycrates";
+        addAlias("help");
 
-        this.ignoreInput = true;
+        this.requiredArgs.add(new Argument("page", 0, new IntArgument(5)));
+
+        this.description = "The help command for crazycrates.";
 
         this.requirements = new CommandRequirementsBuilder()
-                .withRawPermission("example.test")
+                .withRawPermission("crazycrates.command.help")
                 .asPlayer(false)
                 .build();
-
-        this.optionalArgs.add(new Argument("page", 0, new IntArgument(10)));
-
-        this.optionalMsg = "<green>This argument is optional</green>";
-        this.requiredMsg = "<red>This argument is not optional</red>";
-
-        this.tooFewArgs = "<red>Too few args</red>";
-        this.tooManyArgs = "<green>Too many args</green>";
     }
 
     @Override
     protected void perform(CommandContext context) {
-        generateHelp(1, this.config.getProperty(PluginConfig.MAX_HELP_PAGE_ENTRIES), context, this.config);
+        int arg = context.getArgAsInt(0, true, locale.NOT_A_NUMBER(), "{number}");
+
+        plugin.getBaseCommand().generateHelp(arg, this.config.getProperty(PluginConfig.MAX_HELP_PAGE_ENTRIES), context, this.config);
     }
 }
