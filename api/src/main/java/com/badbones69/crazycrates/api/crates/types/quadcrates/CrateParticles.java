@@ -9,18 +9,10 @@ public enum CrateParticles {
     
     private final String name;
 
-    /**
-     * A constructor to build a particle type.
-     *
-     * @param name of the particle
-     */
     CrateParticles(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the particle name
-     */
     public String getName() {
         return name;
     }
