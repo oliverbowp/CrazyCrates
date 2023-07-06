@@ -4,6 +4,7 @@ import com.badbones69.crazycrates.api.*;
 import com.badbones69.crazycrates.api.commands.example.BaseCommand;
 import com.badbones69.crazycrates.api.commands.example.TestCommand;
 import com.badbones69.crazycrates.api.commands.example.TestCommand2;
+import com.badbones69.crazycrates.api.commands.example.comp.ExampleListener;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
@@ -60,6 +61,7 @@ public class CrazyCrates extends JavaPlugin implements Listener {
             command.setTabCompleter(baseCommand);
         }
 
+        getServer().getPluginManager().registerEvents(new ExampleListener(), this);
         getServer().getPluginManager().registerEvents(new DataListener(), this);
 
         this.isEnabled = true;
