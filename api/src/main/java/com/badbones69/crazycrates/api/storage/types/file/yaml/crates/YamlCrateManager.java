@@ -1,5 +1,7 @@
 package com.badbones69.crazycrates.api.storage.types.file.yaml.crates;
 
+import com.badbones69.crazycrates.api.ApiManager;
+import com.badbones69.crazycrates.api.objects.Crate;
 import com.badbones69.crazycrates.api.storage.CrateData;
 import com.badbones69.crazycrates.api.storage.CustomLocation;
 import com.badbones69.crazycrates.api.storage.interfaces.LocationManager;
@@ -21,13 +23,15 @@ public class YamlCrateManager extends YamlConfiguration implements LocationManag
 
     private final File file;
     private final JavaPlugin plugin;
+    private final ApiManager apiManager;
 
     private final ConcurrentHashMap<String, CrateData> crates = new ConcurrentHashMap<>();
 
-    public YamlCrateManager(File file, JavaPlugin plugin) {
+    public YamlCrateManager(File file, JavaPlugin plugin, ApiManager apiManager) {
         this.file = file;
 
         this.plugin = plugin;
+        this.apiManager = apiManager;
     }
 
     @Override
@@ -135,7 +139,18 @@ public class YamlCrateManager extends YamlConfiguration implements LocationManag
 
         crateData.addLocation(customLocation);
 
-        //TODO() Add holograms.
+        if (this.apiManager.getHolograms() != null) {
+            this.apiManager.getCrateManager().getCrates().forEach(crate -> {
+                if (!crate.getCrateHologram().isEnabled()) return;
+
+                this.apiManager.getHolograms().create(
+                        location,
+                        crate.getCrateHologram()
+                );
+            });
+        }
+
+        this.apiManager.getHolograms();
     }
 
     @Override
@@ -166,9 +181,17 @@ public class YamlCrateManager extends YamlConfiguration implements LocationManag
         }
 
         if (customLocation != null) {
-            crateData.removeLocation(customLocation);
+            if (this.apiManager.getHolograms() != null) {
+                for (Crate crate : this.apiManager.getCrateManager().getCrates()) {
+                    if (crate.getCrateName().equals(crateName)) {
+                        this.apiManager.getHolograms().remove(new Location(this.plugin.getServer().getWorld(customLocation.world()), customLocation.x(), customLocation.y(), customLocation.z()));
 
-            //TODO() Remove holograms.
+                        break;
+                    }
+                }
+            }
+
+            crateData.removeLocation(customLocation);
         }
     }
 

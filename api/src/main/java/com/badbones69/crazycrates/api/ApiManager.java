@@ -8,7 +8,7 @@ import com.badbones69.crazycrates.api.configs.types.Locale;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.configs.types.sections.PluginSupportSection;
 import com.badbones69.crazycrates.api.crates.CrateManager;
-import com.badbones69.crazycrates.api.enums.HologramSupport;
+import com.badbones69.crazycrates.api.enums.support.HologramSupport;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;
 import com.badbones69.crazycrates.api.holograms.types.DecentHologramSupport;
@@ -141,7 +141,7 @@ public class ApiManager {
             case yaml -> this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager);
         }*/
 
-        this.locationManager = new YamlCrateManager(new File(this.path.toFile(), "locations.yml"), this.plugin);
+        this.locationManager = new YamlCrateManager(new File(this.path.toFile(), "locations.yml"), this.plugin, this);
         this.locationManager.load();
 
         this.userManager = new YamlUserManager(new File(this.path.toFile(), "users.yml"), this.crateManager, this.plugin, this.pluginConfig.getProperty(PluginConfig.VERBOSE_LOGGING));
