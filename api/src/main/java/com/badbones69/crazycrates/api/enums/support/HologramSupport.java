@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.enums;
+package com.badbones69.crazycrates.api.enums.support;
 
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.api.holograms.types.CMIHologramSupport;

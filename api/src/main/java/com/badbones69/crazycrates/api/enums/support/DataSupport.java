@@ -1,4 +1,4 @@
-package com.badbones69.crazycrates.api.enums;
+package com.badbones69.crazycrates.api.enums.support;
 
 import com.badbones69.crazycrates.api.storage.interfaces.UserManager;
 import com.badbones69.crazycrates.api.storage.types.file.yaml.users.YamlUserManager;
