@@ -34,7 +34,7 @@ public class CommandContext implements CommandActor, CommandArgs {
     public void reply(String message) {
         if (message.isBlank() || message.isEmpty()) return;
 
-        Component component = AdventureUtils.parse(message, false);
+        Component component = AdventureUtils.parse(message);
 
         this.sender.sendMessage(component);
     }

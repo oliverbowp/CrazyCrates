@@ -9,20 +9,20 @@ import net.kyori.adventure.text.event.HoverEvent;
 public class MessageUtils {
 
     public static void send(Audience audience, String component, boolean isEnabled, String prefix) {
-        audience.sendMessage(isEnabled ? AdventureUtils.parse(prefix, false).append(AdventureUtils.parse(component, false)) : AdventureUtils.parse(component, false));
+        audience.sendMessage(isEnabled ? AdventureUtils.parse(prefix).append(AdventureUtils.parse(component)) : AdventureUtils.parse(component));
     }
 
     public static void hover(Audience audience, String message, String text, String value, ClickEvent.Action action) {
-        Component textComponent = AdventureUtils.parse(message, false)
-                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false)))
+        Component textComponent = AdventureUtils.parse(message)
+                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text)))
                 .clickEvent(ClickEvent.clickEvent(action, value));
 
         audience.sendMessage(textComponent);
     }
 
     public static void hover(Audience audience, String message, String text, String button, String value, ClickEvent.Action action) {
-        Component textComponent = AdventureUtils.parse(message, false)
-                .append(AdventureUtils.parse(button, false).hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false))))
+        Component textComponent = AdventureUtils.parse(message)
+                .append(AdventureUtils.parse(button).hoverEvent(HoverEvent.showText(AdventureUtils.parse(text))))
                 .clickEvent(ClickEvent.clickEvent(action, value));
 
         audience.sendMessage(textComponent);

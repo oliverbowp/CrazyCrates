@@ -188,7 +188,7 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         if (context.isPlayer()) {
             String format = "/" + this.prefix + context.getAlias();
 
-            Component component = AdventureUtils.parse(format, false);
+            Component component = AdventureUtils.parse(format);
             TextComponent.@NotNull Builder emptyComponent = Component.text();
 
             StringBuilder types = new StringBuilder();
@@ -198,7 +198,7 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
                 String msg = this.optionalArgs.contains(arg) ? this.optionalMsg : this.requiredMsg;
 
-                Component argComponent = AdventureUtils.parse(value, false).hoverEvent(HoverEvent.showText(AdventureUtils.parse(msg, false))).asComponent();
+                Component argComponent = AdventureUtils.parse(value).hoverEvent(HoverEvent.showText(AdventureUtils.parse(msg))).asComponent();
 
                 emptyComponent.append(argComponent);
 
@@ -208,7 +208,7 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
             }
 
             Component finalComponent = component
-                    .hoverEvent(HoverEvent.showText(AdventureUtils.parse("<gold>Click me to insert into chat</gold>", false)))
+                    .hoverEvent(HoverEvent.showText(AdventureUtils.parse("<gold>Click me to insert into chat</gold>")))
                     .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, format + types))
                     .append(emptyComponent.build());
 

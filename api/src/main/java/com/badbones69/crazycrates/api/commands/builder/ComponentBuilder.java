@@ -30,7 +30,7 @@ public class ComponentBuilder {
     }
 
     public Component parse(String value) {
-        return AdventureUtils.parse(value, false);
+        return AdventureUtils.parse(value);
     }
 
     public ComponentBuilder hover(String hoverText) {
@@ -83,7 +83,7 @@ public class ComponentBuilder {
     }
 
     public @NotNull TextComponent build() {
-        Component message = AdventureUtils.parse(this.message, false);
+        Component message = AdventureUtils.parse(this.message);
 
         if (getPreciseComponent() != null) {
             return this.builder.append(message).append(getPreciseComponent().getPreciseBuilder()).build();
