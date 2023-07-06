@@ -102,6 +102,28 @@ public class Locale extends YamlConfiguration {
         return getString("errors.internal-error", "<red>An internal error has occurred. Please check the console for the full error.</red>");
     }
 
+    public String OPTIONAL_ARGUMENT() {
+        if (get("player.requirements.optional-argument") == null) {
+            set("player.requirements.optional-argument", "<green>This argument is optional</green>");
+
+            save();
+            load();
+        }
+
+        return getString("player.requirements.optional-argument", "<green>This argument is optional</green>");
+    }
+
+    public String REQUIRED_ARGUMENT() {
+        if (get("player.requirements.required-argument") == null) {
+            set("player.requirements.required-argument", "<red>This argument is not optional</red>");
+
+            save();
+            load();
+        }
+
+        return getString("player.requirements.required-argument", "<red>This argument is not optional</red>");
+    }
+
     public String TOO_MANY_ARGS() {
         return getString("player.requirements.too-many-args", "<red>You put more arguments then I can handle.</red>");
     }

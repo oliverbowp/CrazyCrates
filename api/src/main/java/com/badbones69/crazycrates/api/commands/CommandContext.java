@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,13 +91,13 @@ public class CommandContext implements CommandActor, CommandArgs {
     }
 
     @Override
-    public int getArgAsInt(int index, boolean notifySender, String invalidArg) {
+    public int getArgAsInt(int index, boolean notifySender, String invalidArg, String... placeholder) {
         Integer value = null;
 
         try {
             value = Integer.parseInt(this.args.get(index));
         } catch (NumberFormatException exception) {
-            if (notifySender) reply(invalidArg);
+            if (notifySender) reply(invalidArg.replaceAll(Arrays.toString(placeholder), this.args.get(index)));
         }
 
         if (value != null) return value;
@@ -105,13 +106,13 @@ public class CommandContext implements CommandActor, CommandArgs {
     }
 
     @Override
-    public long getArgAsLong(int index, boolean notifySender, String invalidArg) {
+    public long getArgAsLong(int index, boolean notifySender, String invalidArg, String... placeholder) {
         Long value = null;
 
         try {
             value = Long.parseLong(this.args.get(index));
         } catch (NumberFormatException exception) {
-            if (notifySender) reply(invalidArg);
+            if (notifySender) reply(invalidArg.replaceAll(Arrays.toString(placeholder), this.args.get(index)));
         }
 
         if (value != null) return value;
@@ -120,13 +121,13 @@ public class CommandContext implements CommandActor, CommandArgs {
     }
 
     @Override
-    public double getArgAsDouble(int index, boolean notifySender, String invalidArg) {
+    public double getArgAsDouble(int index, boolean notifySender, String invalidArg, String... placeholder) {
         Double value = null;
 
         try {
             value = Double.parseDouble(this.args.get(index));
         } catch (NumberFormatException exception) {
-            if (notifySender) reply(invalidArg);
+            if (notifySender) reply(invalidArg.replaceAll(Arrays.toString(placeholder), this.args.get(index)));
         }
 
         if (value != null) return value;
@@ -135,7 +136,7 @@ public class CommandContext implements CommandActor, CommandArgs {
     }
 
     @Override
-    public boolean getArgAsBoolean(int index, boolean notifySender, String invalidArg) {
+    public boolean getArgAsBoolean(int index, boolean notifySender, String invalidArg, String... placeholder) {
         String lowercase = this.args.get(index).toLowerCase();
 
         switch (lowercase) {
@@ -146,20 +147,20 @@ public class CommandContext implements CommandActor, CommandArgs {
                 return false;
             }
             default -> {
-                if (notifySender) reply(invalidArg);
+                if (notifySender) reply(invalidArg.replaceAll(Arrays.toString(placeholder), this.args.get(index).toLowerCase()));
                 return false;
             }
         }
     }
 
     @Override
-    public float getArgAsFloat(int index, boolean notifySender, String invalidArg) {
+    public float getArgAsFloat(int index, boolean notifySender, String invalidArg, String... placeholder) {
         Float value = null;
 
         try {
             value = Float.parseFloat(this.args.get(index));
         } catch (NumberFormatException exception) {
-            if (notifySender) reply(invalidArg);
+            if (notifySender) reply(invalidArg.replaceAll(Arrays.toString(placeholder), this.args.get(index)));
         }
 
         if (value != null) return value;

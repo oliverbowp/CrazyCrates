@@ -59,10 +59,10 @@ public class PluginConfig extends YamlConfiguration implements SettingsHolder {
     public static final Property<String> HELP_PAGE_GO_TO_PAGE = newProperty("help.go-to-page", "<gray>Go to page</gray> <gold>{page}</gold>");
 
     @Comment("Whether the command prefix should be enabled.")
-    public static final Property<Boolean> COMMAND_PREFIX_TOGGLE = newProperty("prefix.toggle", true);
+    public static final Property<Boolean> COMMAND_PREFIX_TOGGLE = newProperty("commands.prefix.toggle", true);
 
     @Comment("The command prefix that is shown at the beginning of every message.")
-    public static final Property<String> COMMAND_PREFIX = newProperty("prefix.command", "<blue>[</blue><dark_aqua>CrazyCrates</dark_aqua><blue>]</blue> <reset>");
+    public static final Property<String> COMMAND_PREFIX = newProperty("commands.prefix.value", "<blue>[</blue><dark_aqua>CrazyCrates</dark_aqua><blue>]</blue> <reset>");
 
     @Comment("Whether you want to have verbose logging enabled.")
     public static final Property<Boolean> VERBOSE_LOGGING = newProperty("verbose-logging", true);
