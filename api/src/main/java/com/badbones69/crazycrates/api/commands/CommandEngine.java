@@ -1,8 +1,11 @@
 package com.badbones69.crazycrates.api.commands;
 
+import ch.jalu.configme.SettingsManager;
+import com.badbones69.crazycrates.api.commands.builder.ComponentBuilder;
 import com.badbones69.crazycrates.api.commands.reqs.CommandRequirements;
 import com.badbones69.crazycrates.api.commands.sender.CommandData;
 import com.badbones69.crazycrates.api.commands.sender.args.Argument;
+import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.ryderbelserion.stick.paper.utils.AdventureUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -22,6 +25,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import static com.badbones69.crazycrates.api.utils.MessageUtils.hover;
+import static com.badbones69.crazycrates.api.utils.MessageUtils.send;
 
 public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
@@ -31,16 +36,13 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
     public final LinkedList<Argument> requiredArgs;
     public final LinkedList<Argument> optionalArgs;
 
-    private final HashMap<String, CommandData> commandData;
+    private final HashMap<String, CommandData> commandData = new HashMap<>();
 
     // i.e. the java classes.
     private final LinkedList<CommandEngine> subCommands;
 
     // i.e. the command requirements for each class or command.
     public CommandRequirements requirements;
-
-    // i.e. the command should be hidden.
-    public boolean isCommandVisible = true;
 
     public boolean ignoreInput = false;
 
@@ -50,13 +52,12 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
     public String description;
 
     public String optionalMsg;
-
     public String requiredMsg;
+    public String tooFewArgs;
+    public String tooManyArgs;
 
     public CommandEngine() {
         this.aliases = new LinkedList<>();
-
-        this.commandData = new HashMap<>();
 
         this.subCommands = new LinkedList<>();
 
@@ -95,21 +96,31 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         perform(context);
     }
 
-    public boolean hasDescription(String command) {
+    public boolean hasCommand(String command) {
         return this.commandData.containsKey(command);
     }
 
-    public CommandData getDescription(String command) {
-        if (hasDescription(command)) return this.commandData.get(command);
+    public CommandData getCommand(String command) {
+        if (hasCommand(command)) return this.commandData.get(command);
 
-        return new CommandData("No description provided.");
+        return null;
     }
 
-    public void addDescription(String command, String newDescription) {
-        if (hasDescription(command)) {
-            this.commandData.get(command).setDescription(newDescription);
-        } else {
-            this.commandData.putIfAbsent(command, new CommandData(description));
+    public boolean isVisible(String command) {
+        if (hasCommand(command)) {
+            CommandData data = getCommand(command);
+
+            return data.isVisible();
+        }
+
+        return false;
+    }
+
+    public void setVisible(String command) {
+        if (hasCommand(command)) {
+            CommandData data = getCommand(command);
+
+            data.setVisible(!isVisible(command));
         }
     }
 
@@ -130,10 +141,14 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
         //}
 
         this.subCommands.add(engine);
+        this.commandData.put(engine.aliases.getFirst(), new CommandData(engine.description));
 
         engine.prefix = this.prefix;
         engine.optionalMsg = this.optionalMsg;
         engine.requiredMsg = this.requiredMsg;
+        engine.tooFewArgs = this.tooFewArgs;
+        engine.tooManyArgs = this.tooManyArgs;
+        engine.ignoreInput = this.ignoreInput;
     }
 
     public void removeSubCommand(CommandEngine engine) {
@@ -148,13 +163,13 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
     private boolean inputValidation(CommandContext context) {
         if (context.getArgs().size() < this.requiredArgs.size()) {
-            context.reply("Too few args.");
+            context.reply(this.tooFewArgs);
             sendValidFormat(context);
             return false;
         }
 
         if (context.getArgs().size() > this.requiredArgs.size() + this.optionalArgs.size()) {
-            context.reply("Too many args.");
+            context.reply(this.tooManyArgs);
             sendValidFormat(context);
             return false;
         }
@@ -314,5 +329,84 @@ public abstract class CommandEngine implements TabCompleter, CommandExecutor {
 
     public Map<String, CommandData> getCommandData() {
         return Collections.unmodifiableMap(this.commandData);
+    }
+
+    public void generateHelp(int page, int maxPage, CommandContext context, SettingsManager config) {
+        int startPage = maxPage * (page - 1);
+
+        String invalidPage = config.getProperty(PluginConfig.INVALID_HELP_PAGE);
+
+        if (page <= 0 || startPage >= getSubCommands().size()) {
+            context.reply(invalidPage.replaceAll("\\{page}", String.valueOf(page)));
+            return;
+        }
+
+        String hoverFormat = config.getProperty(PluginConfig.HELP_PAGE_HOVER_FORMAT);
+
+        String hoverAction = config.getProperty(PluginConfig.HELP_PAGE_HOVER_ACTION);
+
+        context.reply(config.getProperty(PluginConfig.HELP_PAGE_HEADER).replaceAll("\\{page}", String.valueOf(page)));
+
+        for (int i = startPage; i < (startPage + maxPage); i++) {
+            if (getSubCommands().size() - 1 < i) continue;
+
+            CommandEngine command = this.getSubCommands().get(i);
+
+            CommandData data = this.getCommand(command.getAliases().get(0));
+
+            if (data.isVisible()) continue;
+
+            StringBuilder base = new StringBuilder("/" + command.prefix + " " + command.getAliases().get(0));
+
+            String format = config.getProperty(PluginConfig.HELP_PAGE_FORMAT)
+                    .replaceAll("\\{command}", base.toString())
+                    .replaceAll("\\{description}", data.getDescription());
+
+            ArrayList<Argument> arguments = new ArrayList<>();
+
+            arguments.addAll(command.optionalArgs);
+            arguments.addAll(command.requiredArgs);
+
+            arguments.sort(Comparator.comparingInt(Argument::order));
+
+            if (context.isPlayer()) {
+                StringBuilder types = new StringBuilder();
+
+                ComponentBuilder builder = new ComponentBuilder();
+
+                for (Argument arg : arguments) {
+                    String value = command.optionalArgs.contains(arg) ? " (" + arg.name() + ") " : " <" + arg.name() + ">";
+
+                    types.append(value);
+                }
+
+                builder.setMessage(format.replaceAll("\\{args}", String.valueOf(types)));
+
+                String hoverShit = base.append(types).toString();
+
+                builder.hover(hoverFormat.replaceAll("\\{commands}", hoverShit)).click(hoverShit, ClickEvent.Action.valueOf(hoverAction.toUpperCase()));
+
+                context.reply(builder.build());
+            }
+        }
+
+        String pageTag = config.getProperty(PluginConfig.HELP_PAGE_GO_TO_PAGE);
+        String footer = config.getProperty(PluginConfig.HELP_PAGE_FOOTER);
+        String backButton = config.getProperty(PluginConfig.HELP_PAGE_BACK);
+        String nextButton = config.getProperty(PluginConfig.HELP_PAGE_NEXT);
+
+        if (context.isPlayer()) {
+            if (page > 1) {
+                int number = page-1;
+
+                hover(context.getPlayer(), footer.replaceAll("\\{page}", String.valueOf(page)),  pageTag.replaceAll("\\{page}", String.valueOf(number)), backButton, "/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
+            } else if (page < getSubCommands().size()) {
+                int number = page+1;
+
+                hover(context.getPlayer(), footer.replaceAll("\\{page}", String.valueOf(page)),  pageTag.replaceAll("\\{page}", String.valueOf(number)), nextButton, "/crazycrates help " + number, ClickEvent.Action.RUN_COMMAND);
+            }
+        } else {
+            send(context.getSender(), footer.replaceAll("\\{page}", String.valueOf(page)), false, "");
+        }
     }
 }

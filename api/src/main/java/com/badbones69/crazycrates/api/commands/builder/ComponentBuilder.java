@@ -49,7 +49,14 @@ public class ComponentBuilder {
         private final TextComponent.@NotNull Builder preciseBuilder = Component.text();
 
         public PreciseComponentBuilder text(String text) {
-            this.preciseBuilder.append(AdventureUtils.parse(text, false));
+            this.preciseBuilder.append(parse(text));
+
+            return this;
+        }
+
+        public PreciseComponentBuilder hoverText(String text, String hoverText) {
+            this.preciseBuilder.append(parse(text));
+            this.preciseBuilder.hoverEvent(HoverEvent.showText(parse(hoverText)));
 
             return this;
         }

@@ -4,8 +4,6 @@ import com.badbones69.crazycrates.api.commands.sender.CommandActor;
 import com.badbones69.crazycrates.api.commands.sender.CommandArgs;
 import com.ryderbelserion.stick.paper.utils.AdventureUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -32,6 +30,7 @@ public class CommandContext implements CommandActor, CommandArgs {
         this.args = args;
     }
 
+    @Override
     public void reply(String message) {
         if (message.isBlank() || message.isEmpty()) return;
 
@@ -44,30 +43,6 @@ public class CommandContext implements CommandActor, CommandArgs {
     public void reply(Component component) {
         this.sender.sendMessage(component);
     }
-
-    /*@Override
-    public void hover(String message, String text, String value, ClickEvent.Action action) {
-        if (message.isBlank() || message.isEmpty()) return;
-
-        Component component = AdventureUtils.parse(message, false)
-                .append(AdventureUtils.parse(text, false)
-                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false))))
-                .clickEvent(ClickEvent.clickEvent(action, value));
-
-        this.sender.sendMessage(component);
-    }
-
-    @Override
-    public void hover(String message, String text, String button, String value, ClickEvent.Action action) {
-        if (message.isBlank() || message.isEmpty()) return;
-
-        Component component = AdventureUtils.parse(message, false)
-                .append(AdventureUtils.parse(button, false)
-                .hoverEvent(HoverEvent.showText(AdventureUtils.parse(text, false))))
-                .clickEvent(ClickEvent.clickEvent(action, value));
-
-        this.sender.sendMessage(component);
-    }*/
 
     @Override
     public boolean hasPermission(Permission permission) {
@@ -116,12 +91,10 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public int getArgAsInt(int index, boolean notifySender, String invalidArg) {
-        String argument = this.args.get(index);
-
         Integer value = null;
 
         try {
-            value = Integer.parseInt(argument);
+            value = Integer.parseInt(this.args.get(index));
         } catch (NumberFormatException exception) {
             if (notifySender) reply(invalidArg);
         }
@@ -133,12 +106,10 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public long getArgAsLong(int index, boolean notifySender, String invalidArg) {
-        String argument = this.args.get(index);
-
         Long value = null;
 
         try {
-            value = Long.parseLong(argument);
+            value = Long.parseLong(this.args.get(index));
         } catch (NumberFormatException exception) {
             if (notifySender) reply(invalidArg);
         }
@@ -150,12 +121,10 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public double getArgAsDouble(int index, boolean notifySender, String invalidArg) {
-        String argument = this.args.get(index);
-
         Double value = null;
 
         try {
-            value = Double.parseDouble(argument);
+            value = Double.parseDouble(this.args.get(index));
         } catch (NumberFormatException exception) {
             if (notifySender) reply(invalidArg);
         }
@@ -167,15 +136,7 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public boolean getArgAsBoolean(int index, boolean notifySender, String invalidArg) {
-        String argument = this.args.get(index);
-
-        if (argument == null) {
-            if (notifySender) reply(invalidArg);
-
-            return false;
-        }
-
-        String lowercase = argument.toLowerCase();
+        String lowercase = this.args.get(index).toLowerCase();
 
         switch (lowercase) {
             case "true", "on", "1" -> {
@@ -193,12 +154,10 @@ public class CommandContext implements CommandActor, CommandArgs {
 
     @Override
     public float getArgAsFloat(int index, boolean notifySender, String invalidArg) {
-        String argument = this.args.get(index);
-
         Float value = null;
 
         try {
-            value = Float.parseFloat(argument);
+            value = Float.parseFloat(this.args.get(index));
         } catch (NumberFormatException exception) {
             if (notifySender) reply(invalidArg);
         }

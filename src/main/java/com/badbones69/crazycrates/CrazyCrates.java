@@ -1,25 +1,23 @@
 package com.badbones69.crazycrates;
 
 import com.badbones69.crazycrates.api.*;
-import com.badbones69.crazycrates.api.commands.example.BaseCommand;
-import com.badbones69.crazycrates.api.commands.example.TestCommand;
-import com.badbones69.crazycrates.api.commands.example.TestCommand2;
-import com.badbones69.crazycrates.api.commands.example.comp.ExampleListener;
+import com.badbones69.crazycrates.commands.example.BaseCommand;
+import com.badbones69.crazycrates.commands.example.HelpCommand;
 import com.badbones69.crazycrates.api.configs.types.PluginConfig;
 import com.badbones69.crazycrates.api.holograms.interfaces.HologramManager;
 import com.badbones69.crazycrates.listeners.v2.DataListener;
 import com.badbones69.crazycrates.support.structures.blocks.ChestStateHandler;
 import com.ryderbelserion.stick.paper.utils.PaperUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.List;
 
 public class CrazyCrates extends JavaPlugin implements Listener {
 
     private ApiManager apiManager;
+
+    private BaseCommand baseCommand;
 
     private FileManager fileManager;
     private CrazyManager crazyManager;
@@ -48,20 +46,18 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         this.apiManager = new ApiManager(this, this.getDataFolder().toPath());
         this.apiManager.load();
 
-        BaseCommand baseCommand = new BaseCommand(this.apiManager.getPluginConfig());
+        this.baseCommand = new BaseCommand();
 
-        baseCommand.addSubCommand(new TestCommand());
-        baseCommand.addSubCommand(new TestCommand2());
+        this.baseCommand.addSubCommand(new HelpCommand());
 
-        PluginCommand command = this.getCommand(baseCommand.prefix);
+        PluginCommand command = this.getCommand(this.baseCommand.prefix);
 
         if (command != null) {
-            command.setExecutor(baseCommand);
+            command.setExecutor(this.baseCommand);
 
-            command.setTabCompleter(baseCommand);
+            command.setTabCompleter(this.baseCommand);
         }
 
-        getServer().getPluginManager().registerEvents(new ExampleListener(), this);
         getServer().getPluginManager().registerEvents(new DataListener(), this);
 
         this.isEnabled = true;
@@ -82,6 +78,10 @@ public class CrazyCrates extends JavaPlugin implements Listener {
 
     public ApiManager getApiManager() {
         return this.apiManager;
+    }
+
+    public BaseCommand getBaseCommand() {
+        return this.baseCommand;
     }
 
     public boolean verbose() {

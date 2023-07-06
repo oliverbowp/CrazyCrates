@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CommandActor {
 
+    void reply(String message);
+
     void reply(Component component);
 
     boolean hasPermission(Permission permission);

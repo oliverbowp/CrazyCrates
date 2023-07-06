@@ -35,11 +35,11 @@ public class PluginConfig extends YamlConfiguration implements SettingsHolder {
 
     public static final Property<String> INVALID_HELP_PAGE = newProperty("help.invalid-page", "<red>The page</red> <gold>{page}</gold> <red>does not exist.</red>");
 
-    public static final Property<String> HELP_PAGE_FORMAT = newProperty("help.page-format", "<gold>{command} {args}</gold> <dark_gray>»</dark_gray> <reset>{description}");
+    public static final Property<String> HELP_PAGE_FORMAT = newProperty("help.page-format", "<gold>{command}{args}</gold> <dark_gray>»</dark_gray> <reset>{description}");
 
     public static final Property<String> HELP_PAGE_HEADER = newProperty("help.header", "<dark_gray>────────</dark_gray> <gold>CrazyCrates Help {page}</gold> <dark_gray>────────</dark_gray>");
 
-    public static final Property<String> HELP_PAGE_FOOTER = newProperty("help.footer", "<dark_gray>────────</dark_gray> <gold>CrazyCrates Help {page} {button}");
+    public static final Property<String> HELP_PAGE_FOOTER = newProperty("help.footer", "<dark_gray>────────</dark_gray> <gold>CrazyCrates Help {page}");
 
     @Comment({
             "The only options that work here are run_command, suggest_command, copy_to_clipboard",
