@@ -357,6 +357,7 @@ public class CrazyManager {
             case WHEEL -> Wheel.startWheel(player, crate, keyType, checkHand);
             case WONDER -> Wonder.startWonder(player, crate, keyType, checkHand);
             case WAR -> War.openWarCrate(player, crate, keyType, checkHand);
+            case INSTANT -> Instant.openCrate(player, crate, keyType, checkHand);
             case QUAD_CRATE -> {
                 Location lastLocation = player.getLocation();
                 lastLocation.setPitch(0F);

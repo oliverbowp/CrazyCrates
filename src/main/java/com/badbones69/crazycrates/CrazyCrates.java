@@ -6,15 +6,7 @@ import com.badbones69.crazycrates.api.managers.quadcrates.SessionManager;
 import com.badbones69.crazycrates.api.objects.CrateLocation;
 import com.badbones69.crazycrates.commands.subs.CrateBaseCommand;
 import com.badbones69.crazycrates.commands.subs.player.BaseKeyCommand;
-import com.badbones69.crazycrates.cratetypes.CSGO;
-import com.badbones69.crazycrates.cratetypes.Cosmic;
-import com.badbones69.crazycrates.cratetypes.CrateOnTheGo;
-import com.badbones69.crazycrates.cratetypes.QuadCrate;
-import com.badbones69.crazycrates.cratetypes.QuickCrate;
-import com.badbones69.crazycrates.cratetypes.Roulette;
-import com.badbones69.crazycrates.cratetypes.War;
-import com.badbones69.crazycrates.cratetypes.Wheel;
-import com.badbones69.crazycrates.cratetypes.Wonder;
+import com.badbones69.crazycrates.cratetypes.*;
 import com.badbones69.crazycrates.listeners.BrokeLocationsListener;
 import com.badbones69.crazycrates.listeners.CrateControlListener;
 import com.badbones69.crazycrates.listeners.FireworkDamageListener;
@@ -224,6 +216,7 @@ public class CrazyCrates extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new QuickCrate(), this);
         pluginManager.registerEvents(new CrateOnTheGo(), this);
         pluginManager.registerEvents(new QuadCrate(), this);
+        pluginManager.registerEvents(new Instant(), this);
 
         pluginManager.registerEvents(this, this);
 
